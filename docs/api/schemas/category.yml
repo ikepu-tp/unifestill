@@ -1,0 +1,19 @@
+type: object
+required:
+  - name
+properties:
+  categoryId:
+    type: string
+    description: カテゴリーID
+    example: categoryId
+    readOnly: true
+  name:
+    type: string
+    description: 商品カテゴリー名
+    example: category name
+    maxLength: 30
+  note:
+    type: string
+    description: 商品カテゴリーに関する備考
+    example: This is a example note.
+    maxLength: 100

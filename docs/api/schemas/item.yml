@@ -1,0 +1,29 @@
+type: object
+required:
+  - name
+  - price
+properties:
+  itemId:
+    type: string
+    description: 商品ID
+    example: itemId
+    readOnly: true
+  parent_id:
+    type: string
+    description: 親商品があればその商品ID
+    example: parentItemId
+    nullable: true
+  name:
+    type: string
+    description: 商品名
+    example: item name
+    maxLength: 30
+  note:
+    type: string
+    description: 商品に関する備考
+    example: This is a example note.
+    maxLength: 100
+  price:
+    type: integer
+    description: 単価
+    example: 100
