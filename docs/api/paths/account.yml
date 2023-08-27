@@ -1,0 +1,62 @@
+get:
+  tags:
+    - account
+  summary: お会計一覧
+  description: お会計の一覧を取得します
+  operationId: accountIndex
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/PER"
+    - $ref: "#/components/parameters/PAGE"
+    - $ref: "#/components/parameters/ORDER"
+    - $ref: "#/components/parameters/Project"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: お会計の一覧
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: "#/components/schemas/StatusResource"
+              payloads:
+                type: object
+                properties:
+                  meta:
+                    $ref: "#/components/schemas/MetaResource"
+                  accounts:
+                    type: array
+                    accounts:
+                      $ref: "#/components/schemas/AccountResource"
+post:
+  tags:
+    - account
+  summary: お会計登録
+  description: お会計を登録します
+  operationId: accountStore
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/AccountResource"
+  responses:
+    201:
+      description: お会計登録
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AccountResource"

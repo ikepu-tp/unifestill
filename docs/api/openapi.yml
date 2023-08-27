@@ -92,6 +92,9 @@ tags:
       ## 会計リソース
       <SchemaDefinition schemaRef="#/components/schemas/AccountResource" />
 
+  - name: check
+    x-displayName: レジチェック
+    description: |
       ## レジチェックリソース
       <SchemaDefinition schemaRef="#/components/schemas/CheckResource" />
 
@@ -141,6 +144,10 @@ paths:
     $ref: "./paths/item.yml"
   /v1/project/{project}/item/{item}:
     $ref: "./paths/item-id.yml"
+  /v1/project/{project}/account:
+    $ref: "./paths/account.yml"
+  /v1/project/{project}/account/{account}:
+    $ref: "./paths/account-id.yml"
 
 components:
   parameters:
@@ -229,6 +236,20 @@ components:
       schema:
         type: string
         example: itemId
+      required: true
+    Account:
+      name: account
+      in: path
+      schema:
+        type: string
+        example: accountId
+      required: true
+    Check:
+      name: check
+      in: path
+      schema:
+        type: string
+        example: checkId
       required: true
   schemas:
     $ref: "./schemas/index.yml"
