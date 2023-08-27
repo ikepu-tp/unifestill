@@ -1,0 +1,67 @@
+get:
+  tags:
+    - check
+  summary: レジチェック詳細
+  description: レジチェックの詳細を取得します
+  operationId: checkShow
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Check"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: レジチェックの詳細
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CheckResource"
+put:
+  tags:
+    - check
+  summary: レジチェック更新
+  description: レジチェックを更新します
+  operationId: checkUpdate
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Check"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/CheckResource"
+  responses:
+    200:
+      description: レジチェック更新
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CheckResource"
+delete:
+  tags:
+    - check
+  summary: レジチェック削除
+  description: レジチェックを削除します
+  operationId: checkDelete
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Check"
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: レジチェック削除

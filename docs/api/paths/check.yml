@@ -1,0 +1,62 @@
+get:
+  tags:
+    - check
+  summary: レジチェック一覧
+  description: レジチェックの一覧を取得します
+  operationId: checkIndex
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/PER"
+    - $ref: "#/components/parameters/PAGE"
+    - $ref: "#/components/parameters/ORDER"
+    - $ref: "#/components/parameters/Project"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: レジチェックの一覧
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: "#/components/schemas/StatusResource"
+              payloads:
+                type: object
+                properties:
+                  meta:
+                    $ref: "#/components/schemas/MetaResource"
+                  checks:
+                    type: array
+                    checks:
+                      $ref: "#/components/schemas/CheckResource"
+post:
+  tags:
+    - check
+  summary: レジチェック登録
+  description: レジチェックを登録します
+  operationId: checkStore
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/CheckResource"
+  responses:
+    201:
+      description: レジチェック登録
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CheckResource"

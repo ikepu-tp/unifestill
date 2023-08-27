@@ -122,6 +122,7 @@ x-tagGroups:
     x-displayName: 会計
     tags:
       - account
+      - check
 
 paths:
   /v1/project:
@@ -148,6 +149,10 @@ paths:
     $ref: "./paths/account.yml"
   /v1/project/{project}/account/{account}:
     $ref: "./paths/account-id.yml"
+  /v1/project/{project}/check:
+    $ref: "./paths/check.yml"
+  /v1/project/{project}/check/{check}:
+    $ref: "./paths/check-id.yml"
 
 components:
   parameters:
