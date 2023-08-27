@@ -36,3 +36,5 @@ AccountResource:
   $ref: "./account.yml"
 CheckResource:
   $ref: "./check.yml"
+ReportResource:
+  $ref: "./report.yml"

@@ -1,0 +1,51 @@
+get:
+  tags:
+    - report
+  summary: レポート
+  description: レポートを取得します
+  operationId: reportIndex
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - name: from_date
+      in: query
+      description: 集計開始日
+      schema:
+        type: string
+        format: Y-m-d
+        example: "2023-08-01"
+      required: false
+    - name: to_date
+      in: query
+      description: 集計終了日
+      schema:
+        type: string
+        format: Y-m-d
+        example: "2023-08-01"
+      required: false
+    - name: sales
+      in: query
+      description: |
+        取得売上
+        |key|description|
+        |-|-|
+        |member|メンバー別会計|
+        |payment|支払方法別会計|
+        |category|商品カテゴリー別会計|
+        |item|商品別会計|
+      schema:
+        type: string
+        example: member,item
+      required: false
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: レポート
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ReportResource"

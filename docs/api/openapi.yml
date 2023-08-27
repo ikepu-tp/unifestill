@@ -68,6 +68,12 @@ tags:
       ## プロジェクトメンバーリソース
       <SchemaDefinition schemaRef="#/components/schemas/MemberResource" />
 
+  - name: report
+    x-displayName: レポート
+    description: |
+      ## レポートリソース
+      <SchemaDefinition schemaRef="#/components/schemas/ReportResource" />
+
   - name: payment
     x-displayName: 支払方法
     description: |
@@ -110,6 +116,7 @@ x-tagGroups:
     tags:
       - project
       - member
+      - report
 
   - name: setting
     x-displayName: プロジェクト設定
@@ -153,6 +160,8 @@ paths:
     $ref: "./paths/check.yml"
   /v1/project/{project}/check/{check}:
     $ref: "./paths/check-id.yml"
+  /v1/project/{project}/report:
+    $ref: "./paths/report.yml"
 
 components:
   parameters:
