@@ -1,0 +1,8 @@
+type: object
+properties:
+  status:
+    $ref: 'status.yaml'
+  payloads:
+    type: object
+  error:
+    type: object

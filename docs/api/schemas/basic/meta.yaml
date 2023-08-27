@@ -1,0 +1,18 @@
+type: object
+properties:
+  currentPage:
+    type: integer
+    description: 現在のページ
+    example: 1
+  lastPage:
+    type: integer
+    description: 最後のページ
+    example: 2
+  length:
+    type: integer
+    description: データの合計数
+    example: 200
+  getLength:
+    type: integer
+    description: 取得件数
+    example: 100

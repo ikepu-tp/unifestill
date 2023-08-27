@@ -1,0 +1,160 @@
+openapi: "3.0.3"
+info:
+  title: "口コミサイト API Documentation"
+  version: 1.0.0
+  x-logo:
+    url: "https://app.licsss.jp/storage/logo/logo.png"
+  description: |
+
+  license:
+    name: Apache-2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+
+servers:
+  - url: http://localhost/api
+    description: 開発環境サーバ
+tags:
+  - name: request
+    x-displayName: リクエスト
+    description: |
+      ## リクエストヘッダ
+
+      | キー         | 値     | 説明             |
+      | ------------ | ------ | ---------------- |
+      | Accept       | string | application/json |
+      | Content-Type | string | application/json |
+      | X-XSRF-TOKEN | string |  |
+      | X-NONCE      | string |  |
+
+      ```json
+      {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "X-XSRF-TOKEN": "XSRF-TOKEN",
+        "X-NONCE": "NONCE"
+      }
+      ```
+
+  - name: response
+    x-displayName: レスポンス
+    description: |
+      ## レスポンスリソース
+      <SchemaDefinition schemaRef="#/components/schemas/ResponseResource" />
+
+      ### ステータスリソース
+      <SchemaDefinition schemaRef="#/components/schemas/StatusResource" />
+
+      ## 成功レスポンス
+      <SchemaDefinition schemaRef="#/components/schemas/SuccessResource" />
+
+      ### ページネーションメタリソース
+      <SchemaDefinition schemaRef="#/components/schemas/MetaResource" />
+
+      ## エラーレスポンス
+      <SchemaDefinition schemaRef="#/components/schemas/FailedResource" />
+
+      ### エラーリソース
+      <SchemaDefinition schemaRef="#/components/schemas/ErrorResource" />
+
+  - name: project
+    x-displayName: プロジェクト
+
+x-tagGroups:
+  - name: common
+    x-displayName: 共通
+    tags:
+      - request
+      - response
+
+paths:
+  /v1/project:
+    get:
+      tags:
+        - project
+      summary: プロジェクト一覧
+      description: プロジェクトの一覧を取得します
+      operationId: projectIndex
+      parameters:
+        - $ref: "#/components/parameters/ACCEPT"
+        - $ref: "#/components/parameters/CONTENT-TYPE"
+        - $ref: "#/components/parameters/NONCE"
+        - $ref: "#/components/parameters/TOKEN"
+        - name: per
+          in: query
+          schema:
+            type: number
+            example: 100
+          required: false
+        - name: page
+          in: query
+          schema:
+            type: number
+            example: 1
+          required: false
+        - name: order
+          in: query
+          description: |
+            取得順
+            |key|note|
+            |-|-|
+            |asc|古い順に取得|
+            |desc|新しい順に取得|
+          schema:
+            type: string
+            example: asc
+          required: false
+
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: プロジェクトの一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: "#/components/schemas/StatusResource"
+                  payloads:
+                    type: object
+                    properties:
+                      meta:
+                        $ref: "#/components/schemas/MetaResource"
+                      items:
+                        type: array
+                        items:
+
+components:
+  parameters:
+    ACCEPT:
+      name: Accept
+      in: header
+      schema:
+        type: string
+        example: application/json
+    CONTENT-TYPE:
+      name: Content-Type
+      in: header
+      schema:
+        type: string
+        example: application/json
+    TOKEN:
+      name: X-XSRF-TOKEN
+      in: header
+      schema:
+        type: string
+        example: ey******
+    NONCE:
+      name: X-NONCE
+      in: header
+      schema:
+        type: string
+        example: NONCE
+  schemas:
+    $ref: "./schemas/index.yml"
+  securitySchemes:
+    cookieAuth:
+      name: "X-XSRF-TOKEN"
+      type: "apiKey"
+      in: "cookie"

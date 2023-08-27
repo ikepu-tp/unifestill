@@ -1,0 +1,34 @@
+type: object
+properties:
+  result:
+    type: boolean
+    description: 結果
+    example: false
+  code:
+    type: integer
+    description: |
+      ## レスポンスコード
+
+      HTTPステータスコード
+
+      | 値     | タイトル              | 説明                                 |
+      | ------ | --------------------- | ------------------------------------ |
+      | 正常系 |
+      | 200    | OK                    | 正常に処理完了                       |
+      | 201    | CREATED               | リソースの作成が完了                 |
+      | 204    | NO CONTENT            | 処理完了。送信コンテンツはなし       |
+      | 異常系 |
+      | 400    | BAD REQUEST           | クライアントエラー                   |
+      | 401    | UNAUTHORIEZED         | 認証失敗                             |
+      | 403    | FORBITTEN             | 閲覧権限なし                         |
+      | 404    | NOT FOUND             | 存在しないパス                       |
+      | 405    | METHOD NOT ALLOWED    | 許可されていないメソッド             |
+      | 406    | NOT ACCEPTABLE        | 受付不可能な値，バリデーションエラー |
+      | 409    | CONFLICT              | 他のデータと競合                     |
+      | 500    | INTERNAL SERVER ERROR | サーバエラー，スクリプトエラー       |
+      | 503    | SERVICE UNAVAILABLE   | サービス利用不可                     |
+    example: 400
+  nonce:
+    type: string
+    description: nonce
+    example: NONCE

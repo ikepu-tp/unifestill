@@ -1,0 +1,19 @@
+type: object
+properties:
+  abstract:
+    type: string
+    description: エラー概要
+    example: NOT FOUND
+  title:
+    type: string
+    description: エラータイトル
+    example: 存在しない
+  code:
+    type: integer
+    example: 404000
+  messages:
+    type: array
+    description: エラーメッセージ
+    items:
+      type: string
+      example: 存在しないIDです

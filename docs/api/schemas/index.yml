@@ -1,0 +1,24 @@
+StatusResource:
+  $ref: "./basic/status.yaml"
+StatusFailedResource:
+  $ref: "./basic/statusFailed.yaml"
+ErrorResource:
+  $ref: "./basic/error.yaml"
+SuccessResource:
+  type: object
+  properties:
+    status:
+      $ref: "./basic/status.yaml"
+    payloads:
+      type: object
+FailedResource:
+  type: object
+  properties:
+    status:
+      $ref: "./basic/statusFailed.yaml"
+    error:
+      $ref: "./basic/error.yaml"
+ResponseResource:
+  $ref: "./basic/response.yaml"
+MetaResource:
+  $ref: "./basic/meta.yaml"
