@@ -22,3 +22,19 @@ ResponseResource:
   $ref: "./basic/response.yaml"
 MetaResource:
   $ref: "./basic/meta.yaml"
+ProjectResource:
+  $ref: "./project.yml"
+MemberResource:
+  $ref: "./member.yml"
+PaymentResource:
+  $ref: "./payment.yml"
+CategoryResource:
+  $ref: "./category.yml"
+ItemResource:
+  $ref: "./item.yml"
+AccountResource:
+  $ref: "./account.yml"
+CheckResource:
+  $ref: "./check.yml"
+ReportResource:
+  $ref: "./report.yml"

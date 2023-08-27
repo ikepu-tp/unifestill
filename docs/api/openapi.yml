@@ -3,7 +3,7 @@ info:
   title: "口コミサイト API Documentation"
   version: 1.0.0
   x-logo:
-    url: "https://app.licsss.jp/storage/logo/logo.png"
+    url: "https://avatars.githubusercontent.com/u/98702638"
   description: |
 
   license:
@@ -58,6 +58,51 @@ tags:
 
   - name: project
     x-displayName: プロジェクト
+    description: |
+      ## プロジェクトリソース
+      <SchemaDefinition schemaRef="#/components/schemas/ProjectResource" />
+
+  - name: member
+    x-displayName: プロジェクトメンバー
+    description: |
+      ## プロジェクトメンバーリソース
+      <SchemaDefinition schemaRef="#/components/schemas/MemberResource" />
+
+  - name: report
+    x-displayName: レポート
+    description: |
+      ## レポートリソース
+      <SchemaDefinition schemaRef="#/components/schemas/ReportResource" />
+
+  - name: payment
+    x-displayName: 支払方法
+    description: |
+      ## 支払方法リソース
+      <SchemaDefinition schemaRef="#/components/schemas/PaymentResource" />
+
+  - name: category
+    x-displayName: 商品カテゴリー
+    description: |
+      ## 商品カテゴリーリソース
+      <SchemaDefinition schemaRef="#/components/schemas/CategoryResource" />
+
+  - name: item
+    x-displayName: 商品
+    description: |
+      ## 商品リソース
+      <SchemaDefinition schemaRef="#/components/schemas/ItemResource" />
+
+  - name: account
+    x-displayName: お会計
+    description: |
+      ## 会計リソース
+      <SchemaDefinition schemaRef="#/components/schemas/AccountResource" />
+
+  - name: check
+    x-displayName: レジチェック
+    description: |
+      ## レジチェックリソース
+      <SchemaDefinition schemaRef="#/components/schemas/CheckResource" />
 
 x-tagGroups:
   - name: common
@@ -66,64 +111,57 @@ x-tagGroups:
       - request
       - response
 
+  - name: project
+    x-displayName: プロジェクト
+    tags:
+      - project
+      - member
+      - report
+
+  - name: setting
+    x-displayName: プロジェクト設定
+    tags:
+      - payment
+      - category
+      - item
+
+  - name: account
+    x-displayName: 会計
+    tags:
+      - account
+      - check
+
 paths:
   /v1/project:
-    get:
-      tags:
-        - project
-      summary: プロジェクト一覧
-      description: プロジェクトの一覧を取得します
-      operationId: projectIndex
-      parameters:
-        - $ref: "#/components/parameters/ACCEPT"
-        - $ref: "#/components/parameters/CONTENT-TYPE"
-        - $ref: "#/components/parameters/NONCE"
-        - $ref: "#/components/parameters/TOKEN"
-        - name: per
-          in: query
-          schema:
-            type: number
-            example: 100
-          required: false
-        - name: page
-          in: query
-          schema:
-            type: number
-            example: 1
-          required: false
-        - name: order
-          in: query
-          description: |
-            取得順
-            |key|note|
-            |-|-|
-            |asc|古い順に取得|
-            |desc|新しい順に取得|
-          schema:
-            type: string
-            example: asc
-          required: false
-
-      security:
-        - cookieAuth: []
-      responses:
-        200:
-          description: プロジェクトの一覧
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    $ref: "#/components/schemas/StatusResource"
-                  payloads:
-                    type: object
-                    properties:
-                      meta:
-                        $ref: "#/components/schemas/MetaResource"
-                      items:
-                        type: array
-                        items:
+    $ref: "./paths/project.yml"
+  /v1/project/{project}:
+    $ref: "./paths/project-id.yml"
+  /v1/project/{project}/member:
+    $ref: "./paths/member.yml"
+  /v1/project/{project}/member/{member}:
+    $ref: "./paths/member-id.yml"
+  /v1/project/{project}/payment:
+    $ref: "./paths/payment.yml"
+  /v1/project/{project}/payment/{payment}:
+    $ref: "./paths/payment-id.yml"
+  /v1/project/{project}/category:
+    $ref: "./paths/category.yml"
+  /v1/project/{project}/category/{category}:
+    $ref: "./paths/category-id.yml"
+  /v1/project/{project}/item:
+    $ref: "./paths/item.yml"
+  /v1/project/{project}/item/{item}:
+    $ref: "./paths/item-id.yml"
+  /v1/project/{project}/account:
+    $ref: "./paths/account.yml"
+  /v1/project/{project}/account/{account}:
+    $ref: "./paths/account-id.yml"
+  /v1/project/{project}/check:
+    $ref: "./paths/check.yml"
+  /v1/project/{project}/check/{check}:
+    $ref: "./paths/check-id.yml"
+  /v1/project/{project}/report:
+    $ref: "./paths/report.yml"
 
 components:
   parameters:
@@ -151,6 +189,82 @@ components:
       schema:
         type: string
         example: NONCE
+    PER:
+      name: per
+      in: query
+      schema:
+        type: number
+        example: 100
+      required: false
+    PAGE:
+      name: page
+      in: query
+      schema:
+        type: number
+        example: 1
+      required: false
+    ORDER:
+      name: order
+      in: query
+      description: |
+        取得順
+        |key|note|
+        |-|-|
+        |asc|古い順に取得|
+        |desc|新しい順に取得|
+      schema:
+        type: string
+        example: asc
+      required: false
+    Project:
+      name: project
+      in: path
+      schema:
+        type: string
+        example: projectId
+      required: true
+    Member:
+      name: member
+      in: path
+      schema:
+        type: string
+        example: memberId
+      required: true
+    Payment:
+      name: payment
+      in: path
+      schema:
+        type: string
+        example: paymentId
+      required: true
+    Category:
+      name: category
+      in: path
+      schema:
+        type: string
+        example: categoryId
+      required: true
+    Item:
+      name: item
+      in: path
+      schema:
+        type: string
+        example: itemId
+      required: true
+    Account:
+      name: account
+      in: path
+      schema:
+        type: string
+        example: accountId
+      required: true
+    Check:
+      name: check
+      in: path
+      schema:
+        type: string
+        example: checkId
+      required: true
   schemas:
     $ref: "./schemas/index.yml"
   securitySchemes:

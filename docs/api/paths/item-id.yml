@@ -1,0 +1,67 @@
+get:
+  tags:
+    - item
+  summary: 商品詳細
+  description: 商品の詳細を取得します
+  operationId: itemShow
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Item"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: 商品の詳細
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ItemResource"
+put:
+  tags:
+    - item
+  summary: 商品更新
+  description: 商品を更新します
+  operationId: itemUpdate
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Item"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/ItemResource"
+  responses:
+    200:
+      description: 商品更新
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ItemResource"
+delete:
+  tags:
+    - item
+  summary: 商品削除
+  description: 商品を削除します
+  operationId: itemDelete
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Item"
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: 商品削除

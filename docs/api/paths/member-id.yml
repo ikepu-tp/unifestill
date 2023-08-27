@@ -1,0 +1,67 @@
+get:
+  tags:
+    - member
+  summary: プロジェクトメンバー詳細
+  description: プロジェクトメンバーの詳細を取得します
+  operationId: memberShow
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Member"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: プロジェクトメンバーの詳細
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MemberResource"
+put:
+  tags:
+    - member
+  summary: プロジェクトメンバー更新
+  description: プロジェクトメンバーを更新します
+  operationId: memberUpdate
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Member"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/MemberResource"
+  responses:
+    200:
+      description: プロジェクトメンバー更新
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MemberResource"
+delete:
+  tags:
+    - member
+  summary: プロジェクトメンバー削除
+  description: プロジェクトメンバーを削除します
+  operationId: memberDelete
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Member"
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: プロジェクトメンバー削除

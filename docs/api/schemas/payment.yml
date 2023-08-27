@@ -1,0 +1,19 @@
+type: object
+required:
+  - name
+properties:
+  paymentId:
+    type: string
+    description: 支払方法ID
+    example: paymentId
+    readOnly: true
+  name:
+    type: string
+    description: 支払方法名
+    example: payment name
+    maxLength: 30
+  note:
+    type: string
+    description: 支払方法に関する備考
+    example: This is a example note.
+    maxLength: 100

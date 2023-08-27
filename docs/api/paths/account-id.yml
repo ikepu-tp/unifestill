@@ -1,0 +1,67 @@
+get:
+  tags:
+    - account
+  summary: お会計詳細
+  description: お会計の詳細を取得します
+  operationId: accountShow
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Account"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: お会計の詳細
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AccountResource"
+put:
+  tags:
+    - account
+  summary: お会計更新
+  description: お会計を更新します
+  operationId: accountUpdate
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Account"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/AccountResource"
+  responses:
+    200:
+      description: お会計更新
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AccountResource"
+delete:
+  tags:
+    - account
+  summary: お会計削除
+  description: お会計を削除します
+  operationId: accountDelete
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Account"
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: お会計削除
