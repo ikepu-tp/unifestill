@@ -1,6 +1,7 @@
 type: object
 required:
   - name
+  - category_id
   - price
 properties:
   itemId:
@@ -8,6 +9,15 @@ properties:
     description: 商品ID
     example: itemId
     readOnly: true
+  category_id:
+    type: string
+    description: カテゴリーID
+    example: categoryID
+    writeOnly: true
+  category:
+    readOnly: true
+    allOf:
+      - $ref: "#/components/schemas/CategoryResource"
   parent_id:
     type: string
     description: 親商品があればその商品ID

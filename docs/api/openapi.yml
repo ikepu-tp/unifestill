@@ -137,6 +137,10 @@ paths:
     $ref: "./paths/category.yml"
   /v1/project/{project}/category/{category}:
     $ref: "./paths/category-id.yml"
+  /v1/project/{project}/item:
+    $ref: "./paths/item.yml"
+  /v1/project/{project}/item/{item}:
+    $ref: "./paths/item-id.yml"
 
 components:
   parameters:
@@ -204,6 +208,27 @@ components:
       schema:
         type: string
         example: memberId
+      required: true
+    Payment:
+      name: payment
+      in: path
+      schema:
+        type: string
+        example: paymentId
+      required: true
+    Category:
+      name: category
+      in: path
+      schema:
+        type: string
+        example: categoryId
+      required: true
+    Item:
+      name: item
+      in: path
+      schema:
+        type: string
+        example: itemId
       required: true
   schemas:
     $ref: "./schemas/index.yml"
