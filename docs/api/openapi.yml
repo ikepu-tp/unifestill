@@ -3,7 +3,7 @@ info:
   title: "口コミサイト API Documentation"
   version: 1.0.0
   x-logo:
-    url: "https://app.licsss.jp/storage/logo/logo.png"
+    url: "https://avatars.githubusercontent.com/u/98702638"
   description: |
 
   license:
@@ -58,6 +58,36 @@ tags:
 
   - name: project
     x-displayName: プロジェクト
+    description: |
+      ## プロジェクトリソース
+      <SchemaDefinition schemaRef="#/components/schemas/ProjectResource" />
+
+  - name: member
+    x-displayName: プロジェクトメンバー
+    description: |
+      ## プロジェクトメンバーリソース
+      <SchemaDefinition schemaRef="#/components/schemas/MemberResource" />
+
+  - name: setting
+    x-displayName: プロジェクト設定
+    description: |
+      ## 支払方法リソース
+      <SchemaDefinition schemaRef="#/components/schemas/PaymentResource" />
+
+      ## 商品カテゴリーリソース
+      <SchemaDefinition schemaRef="#/components/schemas/CategoryResource" />
+
+      ## 商品リソース
+      <SchemaDefinition schemaRef="#/components/schemas/ItemResource" />
+
+  - name: account
+    x-displayName: お会計
+    description: |
+      ## 会計リソース
+      <SchemaDefinition schemaRef="#/components/schemas/AccountResource" />
+
+      ## レジチェックリソース
+      <SchemaDefinition schemaRef="#/components/schemas/CheckResource" />
 
 x-tagGroups:
   - name: common
@@ -66,64 +96,28 @@ x-tagGroups:
       - request
       - response
 
+  - name: project
+    x-displayName: プロジェクト
+    tags:
+      - project
+      - member
+
+  - name: setting
+    x-displayName: プロジェクト設定
+    tags:
+      - project
+      - setting
+
+  - name: account
+    x-displayName: 会計
+    tags:
+      - account
+
 paths:
   /v1/project:
-    get:
-      tags:
-        - project
-      summary: プロジェクト一覧
-      description: プロジェクトの一覧を取得します
-      operationId: projectIndex
-      parameters:
-        - $ref: "#/components/parameters/ACCEPT"
-        - $ref: "#/components/parameters/CONTENT-TYPE"
-        - $ref: "#/components/parameters/NONCE"
-        - $ref: "#/components/parameters/TOKEN"
-        - name: per
-          in: query
-          schema:
-            type: number
-            example: 100
-          required: false
-        - name: page
-          in: query
-          schema:
-            type: number
-            example: 1
-          required: false
-        - name: order
-          in: query
-          description: |
-            取得順
-            |key|note|
-            |-|-|
-            |asc|古い順に取得|
-            |desc|新しい順に取得|
-          schema:
-            type: string
-            example: asc
-          required: false
-
-      security:
-        - cookieAuth: []
-      responses:
-        200:
-          description: プロジェクトの一覧
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    $ref: "#/components/schemas/StatusResource"
-                  payloads:
-                    type: object
-                    properties:
-                      meta:
-                        $ref: "#/components/schemas/MetaResource"
-                      items:
-                        type: array
-                        items:
+    $ref: "./paths/project.yml"
+  /v1/project/{project}:
+    $ref: "./paths/project-id.yml"
 
 components:
   parameters:
@@ -151,6 +145,40 @@ components:
       schema:
         type: string
         example: NONCE
+    PER:
+      name: per
+      in: query
+      schema:
+        type: number
+        example: 100
+      required: false
+    PAGE:
+      name: page
+      in: query
+      schema:
+        type: number
+        example: 1
+      required: false
+    ORDER:
+      name: order
+      in: query
+      description: |
+        取得順
+        |key|note|
+        |-|-|
+        |asc|古い順に取得|
+        |desc|新しい順に取得|
+      schema:
+        type: string
+        example: asc
+      required: false
+    Project:
+      name: project
+      in: path
+      schema:
+        type: string
+        example: projectId
+      required: true
   schemas:
     $ref: "./schemas/index.yml"
   securitySchemes:
