@@ -74,12 +74,15 @@ tags:
       ## 支払方法リソース
       <SchemaDefinition schemaRef="#/components/schemas/PaymentResource" />
 
-  - name: setting
-    x-displayName: プロジェクト設定
+  - name: category
+    x-displayName: 商品カテゴリー
     description: |
       ## 商品カテゴリーリソース
       <SchemaDefinition schemaRef="#/components/schemas/CategoryResource" />
 
+  - name: item
+    x-displayName: 商品
+    description: |
       ## 商品リソース
       <SchemaDefinition schemaRef="#/components/schemas/ItemResource" />
 
@@ -104,12 +107,13 @@ x-tagGroups:
     tags:
       - project
       - member
-      - payment
 
   - name: setting
     x-displayName: プロジェクト設定
     tags:
-      - setting
+      - payment
+      - category
+      - item
 
   - name: account
     x-displayName: 会計
@@ -129,6 +133,10 @@ paths:
     $ref: "./paths/payment.yml"
   /v1/project/{project}/payment/{payment}:
     $ref: "./paths/payment-id.yml"
+  /v1/project/{project}/category:
+    $ref: "./paths/category.yml"
+  /v1/project/{project}/category/{category}:
+    $ref: "./paths/category-id.yml"
 
 components:
   parameters:

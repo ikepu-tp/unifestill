@@ -1,0 +1,67 @@
+get:
+  tags:
+    - category
+  summary: 商品カテゴリー詳細
+  description: 商品カテゴリーの詳細を取得します
+  operationId: categoryShow
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Category"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: 商品カテゴリーの詳細
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CategoryResource"
+put:
+  tags:
+    - category
+  summary: 商品カテゴリー更新
+  description: 商品カテゴリーを更新します
+  operationId: categoryUpdate
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Category"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/CategoryResource"
+  responses:
+    200:
+      description: 商品カテゴリー更新
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CategoryResource"
+delete:
+  tags:
+    - category
+  summary: 商品カテゴリー削除
+  description: 商品カテゴリーを削除します
+  operationId: categoryDelete
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Category"
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: 商品カテゴリー削除
