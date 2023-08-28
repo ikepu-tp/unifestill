@@ -29,4 +29,4 @@ Route::get('/react', function () {
     return view('react');
 })->name('react');
 Route::resource("logs", \ikepu_tp\AccessLogger\app\Http\Controllers\LogController::class)->names("accessLogger")->only(["index",]);
-Route::get("activity-log", [ActivityLogController::class, "index"])->middleware(["auth:" . config("activity-log.guard")])->name("activity-log.index");
+Route::get("activity-log", [\ikepu_tp\ActivityLog\app\Http\Controllers\ActivityLogController::class, "index"])->middleware(["auth:" . config("activity-log.guard")])->name("activity-log.index");
