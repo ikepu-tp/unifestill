@@ -30,6 +30,7 @@ class Association extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'associationId',
         'name',
         'email',
         'password',
