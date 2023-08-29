@@ -33,6 +33,11 @@ class Account extends Model
         'member_id' => 'integer',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->accountId;
+    }
+
     /**
      * @return Project
      */

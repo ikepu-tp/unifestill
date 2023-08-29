@@ -33,6 +33,11 @@ class Member extends Model
         'note' => 'string',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->memberId;
+    }
+
     /**
      * @return Project
      */

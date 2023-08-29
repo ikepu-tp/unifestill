@@ -36,6 +36,11 @@ class Association extends Authenticatable implements MustVerifyEmail
         'password',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->associationId;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

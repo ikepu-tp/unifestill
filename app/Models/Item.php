@@ -37,6 +37,11 @@ class Item extends Model
         'parent_id' => 'integer',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->itemId;
+    }
+
     /**
      * @return Category
      */

@@ -33,6 +33,11 @@ class Category extends Model
         'note' => 'string',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->categoryId;
+    }
+
     /**
      * @return Project
      */

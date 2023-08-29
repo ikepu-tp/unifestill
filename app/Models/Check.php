@@ -51,6 +51,11 @@ class Check extends Model
         'coin_1' => 'integer',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->checkId;
+    }
+
     /**
      * @return Project
      */

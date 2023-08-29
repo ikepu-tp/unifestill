@@ -33,6 +33,11 @@ class Payment extends Model
         'note' => 'string',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->paymentId;
+    }
+
     /**
      * @return Project
      */

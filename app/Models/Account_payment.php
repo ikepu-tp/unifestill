@@ -33,6 +33,11 @@ class Account_payment extends Model
         'price' => 'integer',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->accountPaymentId;
+    }
+
     /**
      * @return Account
      */

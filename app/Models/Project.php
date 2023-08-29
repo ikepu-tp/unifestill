@@ -33,6 +33,11 @@ class Project extends Model
         'note' => 'string',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->projectId;
+    }
+
     /**
      * @return Association
      */
