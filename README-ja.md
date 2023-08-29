@@ -1,5 +1,6 @@
 <p align="center">
-<img src="./storage/app/public/logo.png" width="400" alt="Laravel Logo"></p>
+<img src="./public/assets/img/logo.png" width="400" alt="UniFesTill Logo">
+</p>
 
 UniFesTill（ユニフェスティル）は，大学祭の模擬店で使用するためのPOS（Point of Sale）システムです。
 システム名は「Uni（大学）」と「Festi（祭り）」，「Till（レジスター）」を組み合わせたもので，大学祭の模擬店での効率的な取引と運営をサポートします。

@@ -1,5 +1,6 @@
 <p align="center">
-<img src="./storage/app/public/logo.png" width="400" alt="Laravel Logo"></p>
+<img src="./public/assets/img/logo.png" width="400" alt="UniFesTill Logo">
+</p>
 
 [Japanese](./README-ja.md)
 
