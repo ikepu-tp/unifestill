@@ -1,14 +1,14 @@
-openapi: "3.0.3"
+openapi: '3.0.3'
 info:
-  title: "口コミサイト API Documentation"
+  title: '口コミサイト API Documentation'
   version: 1.0.0
   x-logo:
-    url: "https://avatars.githubusercontent.com/u/98702638"
+    url: './api/logo.png'
   description: |
 
   license:
-    name: Apache-2.0
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    name: MIT
+    url: 'https://github.com/ikepu-tp/unifestill/blob/a360d012bc517f9c633f3cf034c13e32dc340150/LICENSE'
 
 servers:
   - url: http://localhost/api
@@ -133,35 +133,35 @@ x-tagGroups:
 
 paths:
   /v1/project:
-    $ref: "./paths/project.yml"
+    $ref: './paths/project.yml'
   /v1/project/{project}:
-    $ref: "./paths/project-id.yml"
+    $ref: './paths/project-id.yml'
   /v1/project/{project}/member:
-    $ref: "./paths/member.yml"
+    $ref: './paths/member.yml'
   /v1/project/{project}/member/{member}:
-    $ref: "./paths/member-id.yml"
+    $ref: './paths/member-id.yml'
   /v1/project/{project}/payment:
-    $ref: "./paths/payment.yml"
+    $ref: './paths/payment.yml'
   /v1/project/{project}/payment/{payment}:
-    $ref: "./paths/payment-id.yml"
+    $ref: './paths/payment-id.yml'
   /v1/project/{project}/category:
-    $ref: "./paths/category.yml"
+    $ref: './paths/category.yml'
   /v1/project/{project}/category/{category}:
-    $ref: "./paths/category-id.yml"
+    $ref: './paths/category-id.yml'
   /v1/project/{project}/item:
-    $ref: "./paths/item.yml"
+    $ref: './paths/item.yml'
   /v1/project/{project}/item/{item}:
-    $ref: "./paths/item-id.yml"
+    $ref: './paths/item-id.yml'
   /v1/project/{project}/account:
-    $ref: "./paths/account.yml"
+    $ref: './paths/account.yml'
   /v1/project/{project}/account/{account}:
-    $ref: "./paths/account-id.yml"
+    $ref: './paths/account-id.yml'
   /v1/project/{project}/check:
-    $ref: "./paths/check.yml"
+    $ref: './paths/check.yml'
   /v1/project/{project}/check/{check}:
-    $ref: "./paths/check-id.yml"
+    $ref: './paths/check-id.yml'
   /v1/project/{project}/report:
-    $ref: "./paths/report.yml"
+    $ref: './paths/report.yml'
 
 components:
   parameters:
@@ -266,9 +266,9 @@ components:
         example: checkId
       required: true
   schemas:
-    $ref: "./schemas/index.yml"
+    $ref: './schemas/index.yml'
   securitySchemes:
     cookieAuth:
-      name: "X-XSRF-TOKEN"
-      type: "apiKey"
-      in: "cookie"
+      name: 'X-XSRF-TOKEN'
+      type: 'apiKey'
+      in: 'cookie'

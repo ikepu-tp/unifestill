@@ -38,7 +38,7 @@ UniFesTill（ユニフェスティル）は，大学祭の模擬店で使用す�
 
 Copyright (c) 2023 [ikepu-tp](https://github.com/ikepu-tp).
 
-このプロジェクトは MIT ライセンスの下で公開されています。詳細については  [MIT license](https://opensource.org/licenses/MIT) をご覧ください。
+このプロジェクトは MIT ライセンスの下で公開されています。詳細については  [MIT license](https://github.com/ikepu-tp/unifestill/blob/a360d012bc517f9c633f3cf034c13e32dc340150/LICENSE) をご覧ください。
 
 ## インストール
 

@@ -42,7 +42,7 @@ We welcome contributions to the project! You can get involved through the follow
 
 Copyright (c) 2023 [ikepu-tp](https://github.com/ikepu-tp).
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://github.com/ikepu-tp/unifestill/blob/a360d012bc517f9c633f3cf034c13e32dc340150/LICENSE).
 
 ## Installing
 
