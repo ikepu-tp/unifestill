@@ -107,6 +107,20 @@ services:
             - ./docs/api:/usr/share/nginx/html/api
         ports:
             - 3032:80
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql:mysql
+        ports:
+            - 8080:80
+        environment:
+            PMA_USER: '${DB_USERNAME}'
+            PMA_PASSWORD: '${DB_PASSWORD}'
+            PMA_HOST: mysql
+        networks:
+            - sail
+        depends_on:
+            - mysql
 networks:
     sail:
         driver: bridge
