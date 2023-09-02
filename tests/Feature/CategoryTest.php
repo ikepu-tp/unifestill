@@ -29,7 +29,7 @@ class CategoryTest extends TestCase
     function setUp(): void
     {
         parent::setUp();
-        $this->project = Project::first() ?: Project::factory()->create();
+        $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
     public function getParameters(array $parameters)
@@ -49,7 +49,7 @@ class CategoryTest extends TestCase
     public function test_get_category()
     {
         $this->requestAsAssociation();
-        $category = Category::first() ?: Category::factory()->create();
+        $category = Category::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->get(route("category.show", $this->getParameters(["category" => $category->categoryId])));
         $this->assertShow();
         $this->assertPayloadId($category->categoryId, "categoryId");
@@ -72,7 +72,7 @@ class CategoryTest extends TestCase
     public function test_update_category()
     {
         $this->requestAsAssociation();
-        $category = Category::first() ?: Category::factory()->create();
+        $category = Category::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("category.update", $this->getParameters(["category" => $category->categoryId])), $this->send_data);
         $this->assertUpdate();
         $this->assertPayloadId($category->categoryId, "categoryId");
@@ -81,7 +81,7 @@ class CategoryTest extends TestCase
     public function test_update_category_with_validationError()
     {
         $this->requestAsAssociation();
-        $category = Category::first() ?: Category::factory()->create();
+        $category = Category::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("category.update", $this->getParameters(["category" => $category->categoryId])), []);
         $this->assertValidationError();
     }

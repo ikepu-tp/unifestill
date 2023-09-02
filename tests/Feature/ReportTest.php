@@ -23,7 +23,7 @@ class ReportTest extends TestCase
     function setUp(): void
     {
         parent::setUp();
-        $this->project = Project::first() ?: Project::factory()->create();
+        $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
     public function getParameters(array $parameters)

@@ -29,7 +29,7 @@ class PaymentTest extends TestCase
     function setUp(): void
     {
         parent::setUp();
-        $this->project = Project::first() ?: Project::factory()->create();
+        $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
     public function getParameters(array $parameters)
@@ -49,7 +49,7 @@ class PaymentTest extends TestCase
     public function test_get_payment()
     {
         $this->requestAsAssociation();
-        $payment = Payment::first() ?: Payment::factory()->create();
+        $payment = Payment::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->get(route("payment.show", $this->getParameters(["payment" => $payment->paymentId])));
         $this->assertShow();
         $this->assertPayloadId($payment->paymentId, "paymentId");
@@ -72,7 +72,7 @@ class PaymentTest extends TestCase
     public function test_update_payment()
     {
         $this->requestAsAssociation();
-        $payment = Payment::first() ?: Payment::factory()->create();
+        $payment = Payment::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("payment.update", $this->getParameters(["payment" => $payment->paymentId])), $this->send_data);
         $this->assertUpdate();
         $this->assertPayloadId($payment->paymentId, "paymentId");
@@ -81,7 +81,7 @@ class PaymentTest extends TestCase
     public function test_update_payment_with_validationError()
     {
         $this->requestAsAssociation();
-        $payment = Payment::first() ?: Payment::factory()->create();
+        $payment = Payment::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("payment.update", $this->getParameters(["payment" => $payment->paymentId])), []);
         $this->assertValidationError();
     }

@@ -29,7 +29,7 @@ class CheckTest extends TestCase
     function setUp(): void
     {
         parent::setUp();
-        $this->project = Project::first() ?: Project::factory()->create();
+        $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
     public function getParameters(array $parameters)
@@ -49,7 +49,7 @@ class CheckTest extends TestCase
     public function test_get_check()
     {
         $this->requestAsAssociation();
-        $check = Check::first() ?: Check::factory()->create();
+        $check = Check::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->get(route("check.show", $this->getParameters(["check" => $check->checkId])));
         $this->assertShow();
         $this->assertPayloadId($check->checkId, "checkId");

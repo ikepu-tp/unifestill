@@ -34,8 +34,8 @@ class ItemTest extends TestCase
     function setUp(): void
     {
         parent::setUp();
-        $this->project = Project::first() ?: Project::factory()->create();
-        $category = Category::first() ?: Category::factory()->create();
+        $this->project = Project::factory()->create(["association_id" => $this->association->id]);
+        $category = Category::factory()->create(["project_id" => $this->project->id]);
         $this->send_data["category_id"] = $category->categoryId;
     }
 
@@ -56,7 +56,7 @@ class ItemTest extends TestCase
     public function test_get_item()
     {
         $this->requestAsAssociation();
-        $item = Item::first() ?: Item::factory()->create();
+        $item =  Item::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->get(route("item.show", $this->getParameters(["item" => $item->itemId])));
         $this->assertShow();
         $this->assertPayloadId($item->itemId, "itemId");
@@ -79,7 +79,7 @@ class ItemTest extends TestCase
     public function test_update_item()
     {
         $this->requestAsAssociation();
-        $item = Item::first() ?: Item::factory()->create();
+        $item =  Item::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("item.update", $this->getParameters(["item" => $item->itemId])), $this->send_data);
         $this->assertUpdate();
         $this->assertPayloadId($item->itemId, "itemId");
@@ -88,7 +88,7 @@ class ItemTest extends TestCase
     public function test_update_item_with_validationError()
     {
         $this->requestAsAssociation();
-        $item = Item::first() ?: Item::factory()->create();
+        $item =  Item::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("item.update", $this->getParameters(["item" => $item->itemId])), []);
         $this->assertValidationError();
     }

@@ -29,7 +29,7 @@ class MemberTest extends TestCase
     function setUp(): void
     {
         parent::setUp();
-        $this->project = Project::first() ?: Project::factory()->create();
+        $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
     public function getParameters(array $parameters)
@@ -49,7 +49,7 @@ class MemberTest extends TestCase
     public function test_get_member()
     {
         $this->requestAsAssociation();
-        $member = Member::first() ?: Member::factory()->create();
+        $member = Member::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->get(route("member.show", $this->getParameters(["member" => $member->memberId])));
         $this->assertShow();
         $this->assertPayloadId($member->memberId, "memberId");
@@ -72,7 +72,7 @@ class MemberTest extends TestCase
     public function test_update_member()
     {
         $this->requestAsAssociation();
-        $member = Member::first() ?: Member::factory()->create();
+        $member = Member::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("member.update", $this->getParameters(["member" => $member->memberId])), $this->send_data);
         $this->assertUpdate();
         $this->assertPayloadId($member->memberId, "memberId");
@@ -81,7 +81,7 @@ class MemberTest extends TestCase
     public function test_update_member_with_validationError()
     {
         $this->requestAsAssociation();
-        $member = Member::first() ?: Member::factory()->create();
+        $member = Member::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->put(route("member.update", $this->getParameters(["member" => $member->memberId])), []);
         $this->assertValidationError();
     }

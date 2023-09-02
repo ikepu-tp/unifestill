@@ -31,22 +31,22 @@ class AccountTest extends TestCase
     function setUp(): void
     {
         parent::setUp();
-        $this->project = Project::first() ?: Project::factory()->create();
+        $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
     public function setSendData()
     {
         $this->send_data = [
-            "member_id" => Member::factory()->create()->memberId,
+            "member_id" => Member::factory()->create(["project_id" => $this->project->id])->memberId,
             "price" => 100,
             "payments" => [
                 [
-                    "payment_id" => Payment::factory()->create()->paymentId,
+                    "payment_id" => Payment::factory()->create(["project_id" => $this->project->id])->paymentId,
                     "price" => 100,
                 ]
             ],
             "items" => [
-                "item_id" => Item::factory()->create()->itemId,
+                "item_id" => Item::factory()->create(["project_id" => $this->project->id])->itemId,
                 "price" => 100,
                 "quantity" => 1,
                 "children" => [],
@@ -71,7 +71,7 @@ class AccountTest extends TestCase
     public function test_get_account()
     {
         $this->requestAsAssociation();
-        $account = Account::first() ?: Account::factory()->create();
+        $account = Account::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->get(route("account.show", $this->getParameters(["account" => $account->accountId])));
         $this->assertShow();
         $this->assertPayloadId($account->accountId, "accountId");
@@ -102,7 +102,7 @@ class AccountTest extends TestCase
     public function test_destroy_account()
     {
         $this->requestAsAssociation();
-        $account = Account::first() ?: Account::factory()->create();
+        $account = Account::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->delete(route("account.destroy", $this->getParameters(["account" => $account->accountId])));
         $this->assertDestroy();
     }

@@ -32,7 +32,7 @@ class ProjectTest extends TestCase
     public function test_get_project()
     {
         $this->requestAsAssociation();
-        $project = Project::factory()->create();
+        $project = Project::factory()->create(["association_id" => $this->association->id]);
         $this->response = $this->get(route("project.show", ["project" => $project->projectId]));
         $this->assertShow();
         $this->assertPayloadId($project->projectId, "projectId");
@@ -55,7 +55,7 @@ class ProjectTest extends TestCase
     public function test_update_project()
     {
         $this->requestAsAssociation();
-        $project = Project::factory()->create();
+        $project = Project::factory()->create(["association_id" => $this->association->id]);
         $this->response = $this->put(route("project.update", ["project" => $project->projectId]), $this->send_data);
         $this->assertUpdate();
         $this->assertPayloadId($project->projectId, "projectId");
@@ -64,7 +64,7 @@ class ProjectTest extends TestCase
     public function test_update_project_with_validationError()
     {
         $this->requestAsAssociation();
-        $project = Project::factory()->create();
+        $project = Project::factory()->create(["association_id" => $this->association->id]);
         $this->response = $this->put(route("project.update", ["project" => $project->projectId]), []);
         $this->assertValidationError();
     }
@@ -72,7 +72,7 @@ class ProjectTest extends TestCase
     public function test_destroy_project()
     {
         $this->requestAsAssociation();
-        $project = Project::factory()->create();
+        $project = Project::factory()->create(["association_id" => $this->association->id]);
         $this->response = $this->delete(route("project.destroy", ["project" => $project->projectId]));
         $this->assertDestroy();
     }
