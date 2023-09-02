@@ -26,7 +26,7 @@ class ItemFactory extends Factory
             "price" => fake()->randomDigit() * 100,
             "parent_id" => fake()->randomElement([
                 null,
-                Item::factory()->create(["parent_id" => null])->id
+                (Item::first()?->id) ?: null
             ])
         ];
     }
