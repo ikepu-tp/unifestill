@@ -30,12 +30,12 @@ class Project extends Model
         'projectId' => 'string',
         'association_id' => 'integer',
         'name' => 'encrypted',
-        'note' => 'string',
+        'note' => 'encrypted',
     ];
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return $this->projectId;
+        return "projectId";
     }
 
     /**

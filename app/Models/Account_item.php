@@ -37,9 +37,9 @@ class Account_item extends Model
         'parent_id' => 'integer',
     ];
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return $this->accountItemId;
+        return "accountItemId";
     }
 
     /**

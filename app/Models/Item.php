@@ -32,14 +32,14 @@ class Item extends Model
         'itemId' => 'string',
         'category_id' => 'integer',
         'name' => 'encrypted',
-        'note' => 'string',
         'price' => 'integer',
         'parent_id' => 'integer',
+        'note' => 'encrypted',
     ];
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return $this->itemId;
+        return "itemId";
     }
 
     /**

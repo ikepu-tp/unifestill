@@ -33,9 +33,9 @@ class Account extends Model
         'member_id' => 'integer',
     ];
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return $this->accountId;
+        return "accountId";
     }
 
     /**

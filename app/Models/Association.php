@@ -36,9 +36,9 @@ class Association extends Authenticatable implements MustVerifyEmail
         'password',
     ];
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return $this->associationId;
+        return "associationId";
     }
 
     /**
@@ -61,7 +61,7 @@ class Association extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
         'id' => 'integer',
         'associationId' => 'string',
-        'name' => 'string',
+        'name' => 'encrypted',
         'email' => 'string',
     ];
 }

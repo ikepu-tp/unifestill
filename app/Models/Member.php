@@ -30,12 +30,12 @@ class Member extends Model
         'memberId' => 'string',
         'project_id' => 'integer',
         'name' => 'encrypted',
-        'note' => 'string',
+        'note' => 'encrypted',
     ];
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return $this->memberId;
+        return "memberId";
     }
 
     /**
