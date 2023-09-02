@@ -1,14 +1,15 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Resources;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Model $resource
+ * @property Category $resource
  */
-class {{ class }} extends JsonResource
+class CategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,6 +25,9 @@ class {{ class }} extends JsonResource
     {
         if (is_null($this->resource)) return null;
         return [
+            "categoryId" => $this->resource->categoryId,
+            "name" => $this->resource->name,
+            "note" => $this->resource->note,
             "created_at" => $this->resource->created_at,
             "updated_at" => $this->resource->updated_at,
         ];

@@ -1,14 +1,15 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Resources;
 
+use App\Models\Account_item;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Model $resource
+ * @property Account_item $resource
  */
-class {{ class }} extends JsonResource
+class AccountItemResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,6 +25,11 @@ class {{ class }} extends JsonResource
     {
         if (is_null($this->resource)) return null;
         return [
+            "accountItemId" => $this->resource->accountItemId,
+            "item" => (new ItemResource($this->resource->item))->createArray(),
+            "price" => $this->resource->price,
+            "quantity" => $this->resource->quantity,
+            "children" => static::collection($this->resource->children),
             "created_at" => $this->resource->created_at,
             "updated_at" => $this->resource->updated_at,
         ];
