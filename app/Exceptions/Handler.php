@@ -67,8 +67,6 @@ class Handler extends ExceptionHandler
      */
     public function renderWeb($request, Throwable $e)
     {
-        if ($e instanceof AuthenticationException) return parent::render($request, $e);
-        $e = $this->convertOriginalError($e);
         return parent::render($request, $e);
     }
 
