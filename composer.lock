@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f92536bc37f017a6cda8404d8071d7f",
+    "content-hash": "d5aee24574bbd490a778074b4f140ba7",
     "packages": [
         {
             "name": "brick/math",
@@ -6171,6 +6171,57 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
+        },
+        {
+            "name": "ikepu-tp/laravel-template",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ikepu-tp/laravel-template.git",
+                "reference": "ac822a3bd037843feb8d5b1b3860c1b6df0f7947"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ikepu-tp/laravel-template/zipball/ac822a3bd037843feb8d5b1b3860c1b6df0f7947",
+                "reference": "ac822a3bd037843feb8d5b1b3860c1b6df0f7947",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.8",
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ikepu_tp\\LaravelTemplate\\LaravelTemplateServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ikepu_tp\\LaravelTemplate\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yuma Ikeda",
+                    "email": "programing@rainbow-patissier.com"
+                }
+            ],
+            "homepage": "https://rainbow-patissier.com",
+            "keywords": [
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/ikepu-tp/laravel-template/issues",
+                "source": "https://github.com/ikepu-tp/laravel-template"
+            },
+            "time": "2023-09-02T09:38:29+00:00"
         },
         {
             "name": "ikepu-tp/laravel-to-react",
