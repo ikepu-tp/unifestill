@@ -20,4 +20,12 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['email', 'max:255', Rule::unique(Association::class)->ignore($this->user()->id)],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'name' => '団体名',
+            'email' => 'メールアドレス',
+        ];
+    }
 }

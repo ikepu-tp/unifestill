@@ -6,11 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ReportRequest extends FormRequest
 {
+    use Project;
+
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
+        $this->getProject();
         return true;
     }
 
@@ -21,6 +24,7 @@ class ReportRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->routeIs("*.index", "*.show", "*.destroy")) return [];
         return [
             //
         ];
