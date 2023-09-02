@@ -14,6 +14,7 @@ use BadMethodCallException;
 use ErrorException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
@@ -122,6 +123,7 @@ class Handler extends ExceptionHandler
         //フレームワークエラー
         if ($e instanceof MethodNotAllowedHttpException) return new MethodNotAllowedException([$e->getMessage()]);
         if ($e instanceof NotFoundHttpException) return new NotFoundException([$e->getMessage()]);
+        if ($e instanceof ModelNotFoundException) return new NotFoundException([$e->getMessage(), "存在しないデータが指定されました"]);
         if ($e instanceof TokenMismatchException) return  new NotMatchCsrf_TokenException([$e->getMessage()]);
         if ($e instanceof ValidationException) return new ValidationErrorException($e->errors());
         if ($e instanceof BadMethodCallException) return new MethodNotAllowedException([$e->getMessage()]);
