@@ -43,11 +43,8 @@ abstract class TestCase extends BaseTestCase
     public function setApi()
     {
         $this->nonce = Str::random();
-        $this->withHeaders([
-            "Accept" => "application/json",
-            "Content-Type" => "application/json",
-            "X-NONCE" => $this->nonce,
-        ]);
+        $this->withHeader("Accept", "application/json");
+        $this->withHeader("X-Nonce", $this->nonce);
     }
 
     public function requestAsAssociation()
@@ -67,7 +64,7 @@ abstract class TestCase extends BaseTestCase
 
     public function assertNonce()
     {
-        if ($this->api) $this->assertEquals($this->nonce, $this->response["result"]["nonce"]);
+        if ($this->api) $this->assertEquals($this->nonce, $this->response["status"]["nonce"]);
     }
 
     public function assertError(int $status)
@@ -84,7 +81,7 @@ abstract class TestCase extends BaseTestCase
                 "abstract",
                 "title",
                 "code",
-                "meesages"
+                "messages"
             ]
         ]);
     }
@@ -114,7 +111,7 @@ abstract class TestCase extends BaseTestCase
                     "getLength",
                 ],
                 "items" => [
-                    $this->getAssertResource($resource),
+                    "*" => $this->getAssertResource($resource),
                 ]
             ],
             $status
