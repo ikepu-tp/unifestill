@@ -54,7 +54,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->association = Association::first();
         if (!$this->association) $this->association = Association::factory()->create();
-        $this->actingAs($this->association);
+        $this->actingAs($this->association, "associations");
     }
 
     public function getAssertResource(array|null $resource)

@@ -19,7 +19,7 @@ trait Project
             $this->project = $this->route()->parameter("project");
             if (!$this->project)
                 throw new NotExistRecordException("存在しないプロジェクトです");
-            if ($this->project->association_id !== $this->user()->id)
+            if ($this->project->association_id !== $this->user('associations')->id)
                 throw new UnauthorizedException("アクセスできないプロジェクトです");
         }
         return $this->project;

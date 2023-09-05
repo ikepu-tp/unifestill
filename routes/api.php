@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum,associations', 'verified'])->group(function () {
     Route::prefix("project")->group(function () {
         Route::apiResource("member", MemberController::class)->names("member")->except(["destroy",]);
         Route::apiResource("report", ReportController::class)->names("report")->only("index");
