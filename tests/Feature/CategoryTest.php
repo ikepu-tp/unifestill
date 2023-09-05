@@ -32,7 +32,7 @@ class CategoryTest extends TestCase
         $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
-    public function getParameters(array $parameters)
+    public function getParameters(array $parameters = [])
     {
         return array_merge([
             "project" => $this->project->projectId,
@@ -42,7 +42,7 @@ class CategoryTest extends TestCase
     public function test_get_categorys()
     {
         $this->requestAsAssociation();
-        $this->response = $this->get(route("category.index"));
+        $this->response = $this->get(route("category.index", $this->getParameters()));
         $this->assertIndex();
     }
 
@@ -58,14 +58,14 @@ class CategoryTest extends TestCase
     public function test_store_category()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("category.store"), $this->send_data);
+        $this->response = $this->post(route("category.store", $this->getParameters()), $this->send_data);
         $this->assertStore();
     }
 
     public function test_store_category_with_validationError()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("category.store"), []);
+        $this->response = $this->post(route("category.store", $this->getParameters()), []);
         $this->assertValidationError();
     }
 
