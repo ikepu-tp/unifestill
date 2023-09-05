@@ -32,7 +32,7 @@ class MemberTest extends TestCase
         $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
-    public function getParameters(array $parameters)
+    public function getParameters(array $parameters = [])
     {
         return array_merge([
             "project" => $this->project->projectId,
@@ -42,7 +42,7 @@ class MemberTest extends TestCase
     public function test_get_members()
     {
         $this->requestAsAssociation();
-        $this->response = $this->get(route("member.index"));
+        $this->response = $this->get(route("member.index", $this->getParameters()));
         $this->assertIndex();
     }
 
@@ -58,14 +58,14 @@ class MemberTest extends TestCase
     public function test_store_member()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("member.store"), $this->send_data);
+        $this->response = $this->post(route("member.store", $this->getParameters()), $this->send_data);
         $this->assertStore();
     }
 
     public function test_store_member_with_validationError()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("member.store"), []);
+        $this->response = $this->post(route("member.store", $this->getParameters()), []);
         $this->assertValidationError();
     }
 
@@ -89,7 +89,7 @@ class MemberTest extends TestCase
     public function test_destroy_member()
     {
         $this->assertThrows(function () {
-            route("member.destroy");
+            route("member.destroy", $this->getParameters());
         }, RouteNotFoundException::class);
     }
 }
