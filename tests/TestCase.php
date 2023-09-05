@@ -37,6 +37,7 @@ abstract class TestCase extends BaseTestCase
     function setUp(): void
     {
         parent::setUp();
+        $this->association = Association::first() ?: Association::factory()->create();
         if ($this->api) $this->setApi();
     }
 
@@ -49,8 +50,7 @@ abstract class TestCase extends BaseTestCase
 
     public function requestAsAssociation()
     {
-        $this->association = Association::first();
-        if (!$this->association) $this->association = Association::factory()->create();
+        if (!$this->association) $this->association = Association::first() ?: Association::factory()->create();
         $this->actingAs($this->association, "associations");
     }
 

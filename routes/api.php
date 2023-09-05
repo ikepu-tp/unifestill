@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum,associations', 'verified'])->group(function () {
-    Route::prefix("project")->group(function () {
+    Route::prefix("project/{project}")->scopeBindings()->group(function () {
         Route::apiResource("member", MemberController::class)->names("member")->except(["destroy",]);
         Route::apiResource("report", ReportController::class)->names("report")->only("index");
         Route::apiResource("payment", PaymentController::class)->names("payment")->except(["destroy",]);
@@ -30,6 +30,6 @@ Route::middleware(['auth:sanctum,associations', 'verified'])->group(function () 
         Route::apiResource("item", ItemController::class)->names("item")->except(["destroy",]);
         Route::apiResource("account", AccountController::class)->names("account")->except(["update"]);
         Route::apiResource("check", CheckController::class)->names("check")->except(["destroy", "update"]);
-        Route::apiResource("", ProjectController::class)->names("project")->parameters(["" => "project"]);
     });
+    Route::apiResource("project", ProjectController::class)->names("project");
 });

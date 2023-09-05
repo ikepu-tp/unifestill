@@ -11,12 +11,20 @@ trait Project
     /**
      * @var ModelsProject
      */
-    protected $project;
+    private $project;
 
+    /**
+     * @return ModelsProject
+     *
+     * @throws NotExistRecordException
+     * @throws UnauthorizedException
+     */
     public function getProject()
     {
         if (!$this->project) {
-            $this->project = $this->route()->parameter("project");
+            $this->project = $this->route("project", "");
+            if (is_string($this->project))
+                $this->project = ModelsProject::where('projectId', $this->project)->first();
             if (!$this->project)
                 throw new NotExistRecordException("存在しないプロジェクトです");
             if ($this->project->association_id !== $this->user('associations')->id)
