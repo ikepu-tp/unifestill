@@ -33,6 +33,13 @@ class Category extends Model
         'note' => 'encrypted',
     ];
 
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ["id", "created_at", "updated_at", "deleted_at"];
+
     public function getRouteKeyName()
     {
         return "categoryId";

@@ -64,4 +64,9 @@ class Association extends Authenticatable implements MustVerifyEmail
         'name' => 'encrypted',
         'email' => 'string',
     ];
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 }
