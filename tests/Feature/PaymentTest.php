@@ -32,7 +32,7 @@ class PaymentTest extends TestCase
         $this->project = Project::factory()->create(["association_id" => $this->association->id]);
     }
 
-    public function getParameters(array $parameters)
+    public function getParameters(array $parameters = [])
     {
         return array_merge([
             "project" => $this->project->projectId,
@@ -42,7 +42,7 @@ class PaymentTest extends TestCase
     public function test_get_payments()
     {
         $this->requestAsAssociation();
-        $this->response = $this->get(route("payment.index"));
+        $this->response = $this->get(route("payment.index", $this->getParameters()));
         $this->assertIndex();
     }
 
@@ -58,14 +58,14 @@ class PaymentTest extends TestCase
     public function test_store_payment()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("payment.store"), $this->send_data);
+        $this->response = $this->post(route("payment.store", $this->getParameters()), $this->send_data);
         $this->assertStore();
     }
 
     public function test_store_payment_with_validationError()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("payment.store"), []);
+        $this->response = $this->post(route("payment.store", $this->getParameters()), []);
         $this->assertValidationError();
     }
 
