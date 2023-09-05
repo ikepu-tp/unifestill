@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Account;
+use App\Models\Account_payment;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -36,11 +38,13 @@ class ReportTest extends TestCase
     public function test_get_report()
     {
         $this->requestAsAssociation();
-        $this->response = $this->get(route("report.index", [
-            "from_date" => "2023-08-01",
-            "to_date" => "2023-08-31",
+        $account = Account::factory()->create(["project_id" => $this->project->id]);
+        Account_payment::factory(5)->create(["account_id" => $account->id, "price" => 1]);
+        $this->response = $this->get(route("report.index", $this->getParameters([
+            "from_date" => "2023-09-01",
+            "to_date" => "2023-09-30",
             "sales" => "member"
-        ]));
+        ])));
         $this->assertResponse(array_merge($this->resource, [
             "member_sales" => [
                 [
