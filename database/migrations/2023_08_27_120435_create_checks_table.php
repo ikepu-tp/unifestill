@@ -23,7 +23,7 @@ return new class extends Migration
             $table->Integer('coin_500')->default(0);
             $table->Integer('coin_100')->default(0);
             $table->Integer('coin_50')->default(0);
-            $table->Integer('con_10')->default(0);
+            $table->Integer('coin_10')->default(0);
             $table->Integer('coin_5')->default(0);
             $table->Integer('coin_1')->default(0);
             $table->timestamps();
