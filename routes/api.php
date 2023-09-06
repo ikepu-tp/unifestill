@@ -27,7 +27,7 @@ Route::middleware(['auth:sanctum,associations', 'verified'])->group(function () 
         Route::apiResource("report", ReportController::class)->names("report")->only("index");
         Route::apiResource("payment", PaymentController::class)->names("payment")->except(["destroy",]);
         Route::apiResource("category", CategoryController::class)->names("category")->except(["destroy",]);
-        Route::apiResource("item", ItemController::class)->names("item")->except(["destroy",]);
+        Route::apiResource("category/{category}/item", ItemController::class)->names("item")->except(["destroy",]);
         Route::apiResource("account", AccountController::class)->names("account")->except(["update"]);
         Route::apiResource("check", CheckController::class)->names("check")->except(["destroy", "update"]);
     });
