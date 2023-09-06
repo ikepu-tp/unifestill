@@ -24,9 +24,11 @@ class ReportController extends Controller
         if (!is_null($request->query("from_date"))) $account_acounts->whereDate("created_at", ">=", $request->query("from_date"));
         if (!is_null($request->query("to_date"))) $account_acounts->whereDate("created_at", "<=", $request->query("to_date"));
         $report["account_count"] = $account_acounts->count();
-        $report["sum_sales"] = (int)Account_payment::whereIn("account_id", $account_acounts->select('id'))->sum("price");
+        $report["sum_sales"] = (int)Account_payment::whereIn("account_id", (clone $account_acounts)->select('id'))->sum("price");
 
         $sales = explode(",", $request->query("sales", ""));
+        if (in_array("member", $sales)) {
+        }
         return Resource::success($report);
     }
 
