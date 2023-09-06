@@ -46,15 +46,24 @@ class AccountTest extends TestCase
                 ]
             ],
             "items" => [
-                "item_id" => Item::factory()->create(["project_id" => $this->project->id])->itemId,
-                "price" => 100,
-                "quantity" => 1,
-                "children" => [],
+                [
+                    "item_id" => Item::factory()->create()->itemId,
+                    "price" => 100,
+                    "quantity" => 1,
+                    "children" => [
+                        [
+                            "item_id" => Item::factory()->create()->itemId,
+                            "price" => 100,
+                            "quantity" => 1,
+                            "children" => [],
+                        ]
+                    ],
+                ]
             ]
         ];
     }
 
-    public function getParameters(array $parameters)
+    public function getParameters(array $parameters = [])
     {
         return array_merge([
             "project" => $this->project->projectId,
@@ -64,7 +73,7 @@ class AccountTest extends TestCase
     public function test_get_accounts()
     {
         $this->requestAsAssociation();
-        $this->response = $this->get(route("account.index"));
+        $this->response = $this->get(route("account.index", $this->getParameters()));
         $this->assertIndex();
     }
 
@@ -81,14 +90,14 @@ class AccountTest extends TestCase
     {
         $this->requestAsAssociation();
         $this->setSendData();
-        $this->response = $this->post(route("account.store"), $this->send_data);
+        $this->response = $this->post(route("account.store", $this->getParameters()), $this->send_data);
         $this->assertStore();
     }
 
     public function test_store_account_with_validationError()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("account.store"), []);
+        $this->response = $this->post(route("account.store", $this->getParameters()), []);
         $this->assertValidationError();
     }
 
