@@ -25,6 +25,8 @@ class ItemTest extends TestCase
 
     public $project;
 
+    public $category;
+
     public $send_data = [
         "name" => "name",
         "note" => "note",
@@ -35,28 +37,29 @@ class ItemTest extends TestCase
     {
         parent::setUp();
         $this->project = Project::factory()->create(["association_id" => $this->association->id]);
-        $category = Category::factory()->create(["project_id" => $this->project->id]);
-        $this->send_data["category_id"] = $category->categoryId;
+        $this->category = Category::factory()->create(["project_id" => $this->project->id]);
+        $this->send_data["category_id"] = $this->category->categoryId;
     }
 
-    public function getParameters(array $parameters)
+    public function getParameters(array $parameters = [])
     {
         return array_merge([
             "project" => $this->project->projectId,
+            "category" => $this->category->categoryId,
         ], $parameters);
     }
 
     public function test_get_items()
     {
         $this->requestAsAssociation();
-        $this->response = $this->get(route("item.index"));
+        $this->response = $this->get(route("item.index", $this->getParameters()));
         $this->assertIndex();
     }
 
     public function test_get_item()
     {
         $this->requestAsAssociation();
-        $item =  Item::factory()->create(["project_id" => $this->project->id]);
+        $item =  Item::factory()->create(["category_id" => $this->category->id]);
         $this->response = $this->get(route("item.show", $this->getParameters(["item" => $item->itemId])));
         $this->assertShow();
         $this->assertPayloadId($item->itemId, "itemId");
@@ -65,21 +68,21 @@ class ItemTest extends TestCase
     public function test_store_item()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("item.store"), $this->send_data);
+        $this->response = $this->post(route("item.store", $this->getParameters()), $this->send_data);
         $this->assertStore();
     }
 
     public function test_store_item_with_validationError()
     {
         $this->requestAsAssociation();
-        $this->response = $this->post(route("item.store"), []);
+        $this->response = $this->post(route("item.store", $this->getParameters()), []);
         $this->assertValidationError();
     }
 
     public function test_update_item()
     {
         $this->requestAsAssociation();
-        $item =  Item::factory()->create(["project_id" => $this->project->id]);
+        $item =  Item::factory()->create(["category_id" => $this->category->id]);
         $this->response = $this->put(route("item.update", $this->getParameters(["item" => $item->itemId])), $this->send_data);
         $this->assertUpdate();
         $this->assertPayloadId($item->itemId, "itemId");
@@ -88,7 +91,7 @@ class ItemTest extends TestCase
     public function test_update_item_with_validationError()
     {
         $this->requestAsAssociation();
-        $item =  Item::factory()->create(["project_id" => $this->project->id]);
+        $item =  Item::factory()->create(["category_id" => $this->category->id]);
         $this->response = $this->put(route("item.update", $this->getParameters(["item" => $item->itemId])), []);
         $this->assertValidationError();
     }

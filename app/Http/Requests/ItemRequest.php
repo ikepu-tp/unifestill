@@ -26,6 +26,7 @@ class ItemRequest extends FormRequest
     {
         if ($this->routeIs("*.index", "*.show", "*.destroy")) return [];
         return [
+            "category_id" => ["required", "string"],
             "parent_id" => ["nullable", "string"],
             "name" => ["required", "string", "max:30"],
             "note" => ["nullable", "string", "max:100"],
