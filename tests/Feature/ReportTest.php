@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ReportTest extends TestCase
 {
-    use RefreshDatabase;
+    //use RefreshDatabase;
 
     public $api = true;
     public $resource = [
@@ -35,11 +35,14 @@ class ReportTest extends TestCase
         ], $parameters);
     }
 
-    public function test_get_report()
+    public function test_get_report_with_member()
     {
         $this->requestAsAssociation();
         $account = Account::factory()->create(["project_id" => $this->project->id]);
         Account_payment::factory(5)->create(["account_id" => $account->id, "price" => 1]);
+
+        $account2 = Account::factory()->create(["project_id" => $this->project->id]);
+        Account_payment::factory(5)->create(["account_id" => $account2->id, "price" => 10]);
         $this->response = $this->get(route("report.index", $this->getParameters([
             "from_date" => "2023-09-01",
             "to_date" => "2023-09-30",
@@ -49,6 +52,30 @@ class ReportTest extends TestCase
             "member_sales" => [
                 [
                     "member",
+                    "count",
+                    "price"
+                ]
+            ]
+        ]), 200);
+    }
+
+    public function test_get_report_with_payment()
+    {
+        $this->requestAsAssociation();
+        $account = Account::factory()->create(["project_id" => $this->project->id]);
+        Account_payment::factory(5)->create(["account_id" => $account->id, "price" => 1]);
+
+        $account2 = Account::factory()->create(["project_id" => $this->project->id]);
+        Account_payment::factory(5)->create(["account_id" => $account2->id, "price" => 10]);
+        $this->response = $this->get(route("report.index", $this->getParameters([
+            "from_date" => "2023-09-01",
+            "to_date" => "2023-09-30",
+            "sales" => "payment"
+        ])));
+        $this->assertResponse(array_merge($this->resource, [
+            "payment_sales" => [
+                [
+                    "payment",
                     "count",
                     "price"
                 ]
