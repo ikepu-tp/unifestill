@@ -1,0 +1,51 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ namespacedRequests }}
+use Illuminate\Http\Request as defaultRequest;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(defaultRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store({{ storeRequest }} $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(defaultRequest $request, {{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(defaultRequest $request, {{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+}

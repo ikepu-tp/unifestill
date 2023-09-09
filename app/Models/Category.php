@@ -30,8 +30,20 @@ class Category extends Model
         'categoryId' => 'string',
         'project_id' => 'integer',
         'name' => 'encrypted',
-        'note' => 'string',
+        'note' => 'encrypted',
     ];
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ["id", "created_at", "updated_at", "deleted_at"];
+
+    public function getRouteKeyName()
+    {
+        return "categoryId";
+    }
 
     /**
      * @return Project

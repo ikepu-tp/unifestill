@@ -148,9 +148,9 @@ paths:
     $ref: './paths/category.yml'
   /v1/project/{project}/category/{category}:
     $ref: './paths/category-id.yml'
-  /v1/project/{project}/item:
+  /v1/project/{project}/category/{category}/item:
     $ref: './paths/item.yml'
-  /v1/project/{project}/item/{item}:
+  /v1/project/{project}/category/{category}/item/{item}:
     $ref: './paths/item-id.yml'
   /v1/project/{project}/account:
     $ref: './paths/account.yml'
