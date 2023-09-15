@@ -103,10 +103,21 @@ export type CheckResource = {
 	coin_1: number;
 };
 
-export type ReportMemberSaleResource = {
-	member: ProjectMemberResource;
+export type ReportSaleResource = {
 	count: number;
 	price: number;
+};
+export type ReportMemberSaleResource = ReportSaleResource & {
+	member: ProjectMemberResource;
+};
+export type ReportPaymentSaleResource = ReportSaleResource & {
+	payment: ProjectPaymentResource;
+};
+export type ReportCategorySaleResource = ReportSaleResource & {
+	category: ProjectCategoryResource;
+};
+export type ReportItemSaleResource = ReportSaleResource & {
+	item: ProjectItemResource;
 };
 export type ReportResource = {
 	from_date: string;
