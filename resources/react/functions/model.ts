@@ -10,7 +10,7 @@ import {
 	sendPut,
 } from 'functions/fetch';
 
-export class Model<T = any> {
+export class Model<T = any, S = any> {
 	protected domain: string = '/api';
 	protected base_route: string = '/test/{testId}';
 	protected default_params: { [s: string]: string | number } = {};
@@ -87,8 +87,8 @@ export class Model<T = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async store(resource: T, param: ParamType = {}): Promise<ResponseType<T>> {
-		return await sendPost<T>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
+	public async store(resource: S, param: ParamType = {}): Promise<ResponseType<S>> {
+		return await sendPost<S>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
 	}
 
 	/**
@@ -98,9 +98,9 @@ export class Model<T = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async update(id: string, resource: T, param: ParamType = {}): Promise<ResponseType<T>> {
+	public async update(id: string, resource: S, param: ParamType = {}): Promise<ResponseType<S>> {
 		param[this.resourceId_key] = id;
-		return await sendPut<T>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
+		return await sendPut<S>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
 	}
 
 	/**
