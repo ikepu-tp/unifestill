@@ -55,14 +55,14 @@ export type ResponseType<T = object> = {
  * 	body = undefined,
  * 	headers = undefined,
  * }
- * @return {*}  {(Promise<ResponseType | false>)}
+ * @return {*}  {(Promise<ResponseType>)}
  */
-export default async function send({
+export default async function send<T = any>({
 	url = '',
 	method = 'GET',
 	body = undefined,
 	headers = undefined,
-}: ApiType): Promise<ResponseType | false> {
+}: ApiType): Promise<ResponseType<T>> {
 	//NONCE
 	const _nonce: string = createKey();
 
@@ -82,14 +82,14 @@ export default async function send({
 		...headers,
 	};
 
-	const _result: ResponseType | string = await fetch(url, _option)
-		.then((res: Response): Promise<ResponseType> => res.json())
-		.then((res: ResponseType): ResponseType => res)
+	const _result: ResponseType<T> | string = await fetch(url, _option)
+		.then((res: Response): Promise<ResponseType<T>> => res.json())
+		.then((res: ResponseType<T>): ResponseType<T> => res)
 		.catch((error: string): string => error);
 
 	if (isString(_result)) throw new Error(_result as string);
 
-	const _response: ResponseType = _result as ResponseType;
+	const _response: ResponseType<T> = _result as ResponseType<T>;
 	if (!_response['status'] || _nonce !== _response['status']['nonce']) throw new Error('NONCEの不一致');
 
 	return _response;
@@ -102,8 +102,8 @@ export default async function send({
  * @param {ApiGetType} { base_url = undefined, endpoint, headers = undefined }
  * @return {*}
  */
-export async function sendGet({ url, headers = undefined }: ApiGetType): Promise<false | ResponseType> {
-	return await send({
+export async function sendGet<T = any>({ url, headers = undefined }: ApiGetType): Promise<ResponseType<T>> {
+	return await send<T>({
 		url: url,
 		method: 'GET',
 		headers: headers,
@@ -117,12 +117,12 @@ export async function sendGet({ url, headers = undefined }: ApiGetType): Promise
  * @param {ApiPostType} { base_url = undefined, endpoint, body = '', headers = undefined }
  * @return {*}
  */
-export async function sendPost({
+export async function sendPost<T = any>({
 	url,
 	body = undefined,
 	headers = undefined,
-}: ApiPostType): Promise<false | ResponseType> {
-	return await send({
+}: ApiPostType): Promise<ResponseType<T>> {
+	return await send<T>({
 		url: url,
 		body: body,
 		method: 'POST',
@@ -137,12 +137,12 @@ export async function sendPost({
  * @param {ApiPostType} { base_url = undefined, endpoint, body = '', headers = undefined }
  * @return {*}
  */
-export async function sendPut({
+export async function sendPut<T = any>({
 	url,
 	body = undefined,
 	headers = undefined,
-}: ApiPostType): Promise<false | ResponseType> {
-	return await send({
+}: ApiPostType): Promise<ResponseType<T>> {
+	return await send<T>({
 		url: url,
 		body: body,
 		method: 'PUT',
@@ -157,15 +157,35 @@ export async function sendPut({
  * @param {ApiPostType} { base_url = undefined, endpoint, body = '', headers = undefined }
  * @return {*}
  */
-export async function sendDelete({
+export async function sendDelete<T = any>({
 	url,
 	body = undefined,
 	headers = undefined,
-}: ApiPostType): Promise<false | ResponseType> {
-	return await send({
+}: ApiPostType): Promise<ResponseType<T>> {
+	return await send<T>({
 		url: url,
 		body: body,
 		method: 'DELETE',
 		headers: headers,
 	});
+}
+
+export type ParamType = {
+	[s: string]: string | number;
+};
+export type ParamIndexType = ParamType & {
+	per: number;
+	page: number;
+	order: 'asc' | 'desc';
+};
+export function createUrl(url: string, param: ParamType = {}): string {
+	return `${url}?${createQuery(param)}`;
+}
+
+export function createQuery(param: ParamType): string {
+	let queries: string[] = [];
+	Object.keys(param).forEach(function (key) {
+		queries.push(`${key}="${param[key]}`);
+	});
+	return queries.join('&');
 }
