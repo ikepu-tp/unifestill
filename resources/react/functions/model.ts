@@ -64,7 +64,7 @@ export class Model<T = any, S = any> {
 	 */
 	public async index(
 		params: ParamIndexType = { page: 1, per: 100, order: 'asc' }
-	): Promise<ResponseType<ResponseIndexType<T>>> {
+	): Promise<ResponseType<ResponseIndexType<T>> | null> {
 		return await sendGet<ResponseIndexType<T>>({ url: this.generateUrl(params) });
 	}
 
@@ -75,7 +75,7 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async show(id: string, param: ParamType = {}): Promise<ResponseType<T>> {
+	public async show(id: string, param: ParamType = {}): Promise<ResponseType<T> | null> {
 		param[this.resourceId_key] = id;
 		return await sendGet<T>({ url: this.generateUrl(param) });
 	}
@@ -87,7 +87,7 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async store(resource: S, param: ParamType = {}): Promise<ResponseType<S>> {
+	public async store(resource: S, param: ParamType = {}): Promise<ResponseType<S> | null> {
 		return await sendPost<S>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
 	}
 
@@ -98,7 +98,7 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async update(id: string, resource: S, param: ParamType = {}): Promise<ResponseType<S>> {
+	public async update(id: string, resource: S, param: ParamType = {}): Promise<ResponseType<S> | null> {
 		param[this.resourceId_key] = id;
 		return await sendPut<S>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
 	}
@@ -110,7 +110,7 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async destroy(id: string, param: ParamType = {}): Promise<ResponseType<T>> {
+	public async destroy(id: string, param: ParamType = {}): Promise<ResponseType<T> | null> {
 		param[this.resourceId_key] = id;
 		return await sendDelete<T>({ url: this.generateUrl(param) });
 	}

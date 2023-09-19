@@ -62,7 +62,7 @@ export default async function send<T = any>({
 	method = 'GET',
 	body = undefined,
 	headers = undefined,
-}: ApiType): Promise<ResponseType<T>> {
+}: ApiType): Promise<ResponseType<T> | null> {
 	//NONCE
 	const _nonce: string = createKey();
 
@@ -82,12 +82,17 @@ export default async function send<T = any>({
 		...headers,
 	};
 
-	const _result: ResponseType<T> | string = await fetch(url, _option)
-		.then((res: Response): Promise<ResponseType<T>> => res.json())
-		.then((res: ResponseType<T>): ResponseType<T> => res)
+	const _result: ResponseType<T> | string | null = await fetch(url, _option)
+		.then((res: Response): Promise<ResponseType<T>> | null => {
+			if (res.status === 204) return null;
+			return res.json();
+		})
+		.then((res: ResponseType<T> | null): ResponseType<T> | null => res)
 		.catch((error: string): string => error);
 
 	if (isString(_result)) throw new Error(_result as string);
+
+	if (_result === null) return null;
 
 	const _response: ResponseType<T> = _result as ResponseType<T>;
 	if (!_response['status'] || _nonce !== _response['status']['nonce']) throw new Error('NONCEの不一致');
@@ -102,7 +107,7 @@ export default async function send<T = any>({
  * @param {ApiGetType} { base_url = undefined, endpoint, headers = undefined }
  * @return {*}
  */
-export async function sendGet<T = any>({ url, headers = undefined }: ApiGetType): Promise<ResponseType<T>> {
+export async function sendGet<T = any>({ url, headers = undefined }: ApiGetType): Promise<ResponseType<T> | null> {
 	return await send<T>({
 		url: url,
 		method: 'GET',
@@ -121,7 +126,7 @@ export async function sendPost<T = any>({
 	url,
 	body = undefined,
 	headers = undefined,
-}: ApiPostType): Promise<ResponseType<T>> {
+}: ApiPostType): Promise<ResponseType<T> | null> {
 	return await send<T>({
 		url: url,
 		body: body,
@@ -141,7 +146,7 @@ export async function sendPut<T = any>({
 	url,
 	body = undefined,
 	headers = undefined,
-}: ApiPostType): Promise<ResponseType<T>> {
+}: ApiPostType): Promise<ResponseType<T> | null> {
 	return await send<T>({
 		url: url,
 		body: body,
@@ -161,7 +166,7 @@ export async function sendDelete<T = any>({
 	url,
 	body = undefined,
 	headers = undefined,
-}: ApiPostType): Promise<ResponseType<T>> {
+}: ApiPostType): Promise<ResponseType<T> | null> {
 	return await send<T>({
 		url: url,
 		body: body,
