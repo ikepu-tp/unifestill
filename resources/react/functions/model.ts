@@ -8,7 +8,7 @@ import {
 	sendGet,
 	sendPost,
 	sendPut,
-} from 'functions/fetch';
+} from '~/functions/fetch';
 
 export class Model<T = any, S = any> {
 	protected domain: string = '/api';

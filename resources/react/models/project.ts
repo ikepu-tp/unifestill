@@ -1,4 +1,4 @@
-import { Model } from 'functions/model';
+import { Model } from '~/functions/model';
 import { ProjectResource, ProjectStoreResource } from './interfaces';
 
 export class Project extends Model<ProjectResource, ProjectStoreResource> {

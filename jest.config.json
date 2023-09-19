@@ -5,5 +5,11 @@
 		"^.+\\.(ts|tsx)$": "ts-jest"
 	},
 	"testEnvironment": "jest-environment-jsdom",
-	"preset": "ts-jest"
+	"preset": "ts-jest",
+	"moduleNameMapper": {
+		"^~/(.+)$": "<rootDir>/resources/react/$1",
+		"^functions/(.+)$": "<rootDir>/resources/react/functions/$1",
+		"^mocks/(.+)$": "<rootDir>/resources/react/mocks/$1",
+		"^models/(.+)$": "<rootDir>/resources/react/models/$1"
+	}
 }
