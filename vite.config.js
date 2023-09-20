@@ -18,11 +18,11 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'~': 'resources/react/',
-			functions: 'resources/react/functions',
-			components: 'resources/react/components',
-			models: 'resources/react/models',
-			mocks: 'resources/react/mocks',
+			'~': '/resources/react',
+			functions: '/resources/react/functions',
+			components: '/resources/react/components',
+			models: '/resources/react/models',
+			mocks: '/resources/react/mocks',
 		},
 	},
 });
