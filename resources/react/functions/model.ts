@@ -47,12 +47,13 @@ export class Model<T = any, S = any> {
 		const url_params_opt: string[] | null = url.match(/{[a-zA-Z]+[?]}/gi);
 		if (url_params_opt !== null)
 			url_params_opt.forEach((paramName: string) => {
-				let paramKey: string = paramName.replace(/{|}|?/gi, '');
+				let paramKey: string = paramName.replace(/[{|}|?]/gi, '');
 				url = url.replace(paramName, param[paramKey] ? `${param[paramKey]}` : '');
 				delete param[paramKey];
 			});
 
-		return createUrl(`${this.domain}/${url}`, param);
+		if (!url.match(/^\/(.+)/)) url = `/${url}`;
+		return createUrl(`${this.domain}${url}`, param);
 	}
 
 	/**
@@ -65,7 +66,15 @@ export class Model<T = any, S = any> {
 	public async index(
 		params: ParamIndexType = { page: 1, per: 100, order: 'asc' }
 	): Promise<ResponseType<ResponseIndexType<T>> | null> {
-		return await sendGet<ResponseIndexType<T>>({ url: this.generateUrl(params) });
+		return await sendGet<ResponseIndexType<T>>({
+			url: this.generateUrl({
+				...{},
+				page: 1,
+				per: 100,
+				order: 'asc',
+				...params,
+			}),
+		});
 	}
 
 	/**

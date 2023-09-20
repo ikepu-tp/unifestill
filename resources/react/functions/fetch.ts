@@ -179,9 +179,9 @@ export type ParamType = {
 	[s: string]: string | number;
 };
 export type ParamIndexType = ParamType & {
-	per: number;
-	page: number;
-	order: 'asc' | 'desc';
+	per?: number;
+	page?: number;
+	order?: 'asc' | 'desc';
 };
 export function createUrl(url: string, param: ParamType = {}): string {
 	return `${url}?${createQuery(param)}`;
@@ -190,7 +190,7 @@ export function createUrl(url: string, param: ParamType = {}): string {
 export function createQuery(param: ParamType): string {
 	let queries: string[] = [];
 	Object.keys(param).forEach(function (key) {
-		queries.push(`${key}="${param[key]}`);
+		queries.push(`${key}=${param[key]}`);
 	});
 	return queries.join('&');
 }
