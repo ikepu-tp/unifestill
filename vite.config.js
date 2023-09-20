@@ -6,7 +6,7 @@ export default defineConfig({
 	plugins: [
 		laravel({
 			input: ['resources/css/app.css', 'resources/js/app.js', 'resources/react/index.tsx'],
-			refresh: [...refreshPaths, 'resources/react'],
+			refresh: [...refreshPaths, 'app/Http/Livewire/**', 'resources/react/**'],
 		}),
 		react(),
 	],

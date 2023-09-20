@@ -39,7 +39,7 @@ export function ResponseResource<T = any>(
 	return {
 		index: () => SuccessResponse<ResponseIndexType<T>>(IndexResponse<T>([resource])),
 		show: () => SuccessResponse<T>(resource),
-		store: () => SuccessResponse<T>(resource),
+		store: () => SuccessResponse<T>(resource, 201),
 		update: () => SuccessResponse<T>(resource),
 		destroy: () => null,
 	};
