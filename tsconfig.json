@@ -21,9 +21,10 @@
 		"jsx": "react-jsx",
 		"paths": {
 			"~/*": ["resources/react/*"],
-			"functions/*": ["resources/functions/*"],
-			"mocks/*": ["resources/mocks/*"],
-			"models/*": ["resources/models/*"]
+			"functions/*": ["resources/react/functions/*"],
+			"models/*": ["resources/react/models/*"],
+			"mocks/*": ["resources/react/mocks/*"],
+			"components/*": ["resources/react/components/*"]
 		}
 	},
 	"include": ["resources/react"],
