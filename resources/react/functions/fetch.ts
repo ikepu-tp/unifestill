@@ -194,3 +194,25 @@ export function createQuery(param: ParamType): string {
 	});
 	return queries.join('&');
 }
+
+export function createUrlWithConvertParameters(url: string, param: { [s: string]: string | number }): string {
+	param = { ...{}, ...param };
+	//パラメータ変換
+	const url_params: string[] | null = url.match(/{[a-zA-Z]+}/gi);
+	if (url_params !== null)
+		url_params.forEach((paramName: string) => {
+			let paramKey: string = paramName.replace(/{|}/gi, '');
+			if (!param[paramKey]) throw new Error('Invalid parameter');
+			url = url.replace(paramName, `${param[paramKey]}`);
+			delete param[paramKey];
+		});
+	//オプションパラメータ変換
+	const url_params_opt: string[] | null = url.match(/{[a-zA-Z]+[?]}/gi);
+	if (url_params_opt !== null)
+		url_params_opt.forEach((paramName: string) => {
+			let paramKey: string = paramName.replace(/[{|}|?]/gi, '');
+			url = url.replace(paramName, param[paramKey] ? `${param[paramKey]}` : '');
+			delete param[paramKey];
+		});
+	return createUrl(url, param);
+}
