@@ -15,9 +15,16 @@ export class Model<T = any, S = any> {
 	protected base_route: string = '/test/{testId}';
 	protected default_params: { [s: string]: string | number } = {};
 	protected resourceId_key: string = 'testId';
+	protected headers: HeadersInit & { [s: string]: string } = {};
 
-	constructor(default_params: { [s: string]: string | number } = {}) {
+	constructor(
+		default_params: { [s: string]: string | number } = {},
+		headers: HeadersInit & { [s: string]: string } = {
+			'Content-Type': 'application/json',
+		}
+	) {
 		this.default_params = { ...{}, ...default_params };
+		this.headers = headers;
 		const api_url = document.getElementById('api_url') as HTMLMetaElement | null | undefined;
 		if (!api_url) return;
 		this.domain = api_url.content;
@@ -74,6 +81,7 @@ export class Model<T = any, S = any> {
 				order: 'asc',
 				...params,
 			}),
+			headers: this.headers,
 		});
 	}
 
@@ -86,7 +94,7 @@ export class Model<T = any, S = any> {
 	 */
 	public async show(id: string, param: ParamType = {}): Promise<ResponseType<T> | null> {
 		param[this.resourceId_key] = id;
-		return await sendGet<T>({ url: this.generateUrl(param) });
+		return await sendGet<T>({ url: this.generateUrl(param), headers: this.headers });
 	}
 
 	/**
@@ -96,8 +104,8 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async store(resource: S, param: ParamType = {}): Promise<ResponseType<S> | null> {
-		return await sendPost<S>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
+	public async store(resource: S, param: ParamType = {}): Promise<ResponseType<T> | null> {
+		return await sendPost<T>({ url: this.generateUrl(param), body: JSON.stringify(resource), headers: this.headers });
 	}
 
 	/**
@@ -107,9 +115,9 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async update(id: string, resource: S, param: ParamType = {}): Promise<ResponseType<S> | null> {
+	public async update(id: string, resource: S, param: ParamType = {}): Promise<ResponseType<T> | null> {
 		param[this.resourceId_key] = id;
-		return await sendPut<S>({ url: this.generateUrl(param), body: JSON.stringify(resource) });
+		return await sendPut<T>({ url: this.generateUrl(param), body: JSON.stringify(resource), headers: this.headers });
 	}
 
 	/**
@@ -121,6 +129,6 @@ export class Model<T = any, S = any> {
 	 */
 	public async destroy(id: string, param: ParamType = {}): Promise<ResponseType<T> | null> {
 		param[this.resourceId_key] = id;
-		return await sendDelete<T>({ url: this.generateUrl(param) });
+		return await sendDelete<T>({ url: this.generateUrl(param), headers: this.headers });
 	}
 }

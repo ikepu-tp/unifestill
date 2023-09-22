@@ -19,7 +19,7 @@ export default function Paginate(props: PaginateType): JSX.Element {
 		props.setPage(props.meta.lastPage);
 	}
 	return (
-		<Pagination>
+		<Pagination className="mt-2">
 			<Pagination.First onClick={toFirst} disabled={props.meta.currentPage === 1} />
 			<Pagination.Prev onClick={toPrev} disabled={props.meta.currentPage === 1} />
 			<Pagination.Item disabled>{props.meta.currentPage}</Pagination.Item>
