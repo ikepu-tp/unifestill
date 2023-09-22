@@ -1,4 +1,4 @@
-import ProjectList from '~/components/lists/project';
+import ProjectList from './list';
 
 export default function ProjectIndexView(): JSX.Element {
 	return (
