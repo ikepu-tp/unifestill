@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ProjectIndexView from './views/project';
 import ProjectStoreView from './views/project/store';
+import ProjectShowView from './views/project/show';
 
 export default function Router(): JSX.Element {
 	return (
@@ -10,6 +11,7 @@ export default function Router(): JSX.Element {
 				<Route path="project">
 					<Route index element={<ProjectIndexView />} />
 					<Route path=":project">
+						<Route index element={<ProjectShowView />} />
 						<Route path="edit" element={<ProjectStoreView />} />
 					</Route>
 				</Route>

@@ -1,6 +1,8 @@
 import { ListGroup } from 'react-bootstrap';
+import Anchor from '~/components/commons/Anchor';
 import ListView from '~/components/commons/ListView';
 import { ParamIndexType, ResponseIndexType, ResponseType } from '~/functions/fetch';
+import route from '~/functions/route';
 import { ProjectResource } from '~/models/interfaces';
 import { Project } from '~/models/project';
 
@@ -16,7 +18,12 @@ export default function ProjectList(): JSX.Element {
 			<ListView
 				getItems={getItems}
 				itemCallback={(item: ProjectResource): JSX.Element => (
-					<ListGroup.Item key={item['projectId']} action>
+					<ListGroup.Item
+						as={Anchor}
+						key={item['projectId']}
+						action
+						href={route('project.show', { project: item['projectId'] })}
+					>
 						{item['name']}
 					</ListGroup.Item>
 				)}

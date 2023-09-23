@@ -12,5 +12,6 @@ export default function route(
 export const routes: { [s: string]: string } = {
 	'project.index': '/project',
 	'project.store': '/project/{project}/edit',
+	'project.show': '/project/{project}',
 };
-export type RouteNameType = 'project.index' | 'project.store';
+export type RouteNameType = 'project.index' | 'project.store' | 'project.show';
