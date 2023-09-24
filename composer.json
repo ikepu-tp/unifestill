@@ -9,6 +9,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "ikepu-tp/laravel-access-logger": "^1.1",
         "ikepu-tp/laravel-activity-log": "^2.0",
+        "ikepu-tp/laravel-versioning": "^1.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8"
