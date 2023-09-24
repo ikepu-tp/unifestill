@@ -1,6 +1,9 @@
+import { Model } from '@ikepu-tp/react-mvc';
+import { IndexParamProps } from '@ikepu-tp/react-mvc/dist/esm/Model';
+import { ParamType } from '@ikepu-tp/react-mvc/dist/esm/Url';
 import {
 	ParamIndexType,
-	ParamType,
+	ResponseErrorType,
 	ResponseIndexType,
 	ResponseType,
 	createUrl,
@@ -10,12 +13,31 @@ import {
 	sendPut,
 } from '~/functions/fetch';
 
-export class Model<T = any, S = any> {
-	protected domain: string = '/api';
-	protected base_route: string = '/test/{testId}';
+export type PathParametersType = {
+	[s: string]: string | number | boolean | any;
+};
+export type IndexParamType = ParamType & ParamIndexType & {};
+export type NormalParamType = ParamType & {};
+export type RequiredParamType = PathParametersType;
+export class M<T = any, S = any, IPT = IndexParamProps, NPT = ParamType, RPT = RequiredParamType> extends Model<
+	ResponseType,
+	PathParametersType,
+	T,
+	S,
+	S,
+	IPT,
+	NPT,
+	NPT,
+	NPT,
+	NPT,
+	RPT,
+	{},
+	ResponseErrorType
+> {
+	protected domain: string | undefined = '/api';
+	protected base_route: string | undefined = '/test/{testId}';
 	protected default_params: { [s: string]: string | number } = {};
 	protected resourceId_key: string = 'testId';
-	protected headers: HeadersInit & { [s: string]: string } = {};
 
 	constructor(
 		default_params: { [s: string]: string | number } = {},
@@ -23,44 +45,9 @@ export class Model<T = any, S = any> {
 			'Content-Type': 'application/json',
 		}
 	) {
-		this.default_params = { ...{}, ...default_params };
-		this.headers = headers;
-		const api_url = document.getElementById('api_url') as HTMLMetaElement | null | undefined;
-		if (!api_url) return;
-		this.domain = api_url.content;
-	}
-
-	/**
-	 * URL生成
-	 *
-	 * @param {ParamType} [param={}]
-	 * @return {*}  {string}
-	 * @memberof Model
-	 */
-	public generateUrl(param: ParamType = {}): string {
-		param = { ...{}, ...this.default_params, ...param };
-		let url: string = this.base_route;
-
-		//パラメータ変換
-		const url_params: string[] | null = url.match(/{[a-zA-Z]+}/gi);
-		if (url_params !== null)
-			url_params.forEach((paramName: string) => {
-				let paramKey: string = paramName.replace(/{|}/gi, '');
-				if (!param[paramKey]) throw new Error('Invalid parameter');
-				url = url.replace(paramName, `${param[paramKey]}`);
-				delete param[paramKey];
-			});
-		//オプションパラメータ変換
-		const url_params_opt: string[] | null = url.match(/{[a-zA-Z]+[?]}/gi);
-		if (url_params_opt !== null)
-			url_params_opt.forEach((paramName: string) => {
-				let paramKey: string = paramName.replace(/[{|}|?]/gi, '');
-				url = url.replace(paramName, param[paramKey] ? `${param[paramKey]}` : '');
-				delete param[paramKey];
-			});
-
-		if (!url.match(/^\/(.+)/)) url = `/${url}`;
-		return createUrl(`${this.domain}${url}`, param);
+		super(default_params, headers);
+		if (this.domain) this.url.setBaseUrl(this.domain);
+		if (this.base_route) this.path = this.base_route;
 	}
 
 	/**
@@ -70,19 +57,10 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<ResponseIndexType<T>>>}
 	 * @memberof Model
 	 */
-	public async index(
-		params: ParamIndexType = { page: 1, per: 100, order: 'asc' }
-	): Promise<ResponseType<ResponseIndexType<T>> | null> {
-		return await sendGet<ResponseIndexType<T>>({
-			url: this.generateUrl({
-				...{},
-				page: 1,
-				per: 100,
-				order: 'asc',
-				...params,
-			}),
-			headers: this.headers,
-		});
+	public async index<P = ResponseType<ResponseIndexType<T>>>(
+		params: (IPT & ParamType & RPT) | undefined = undefined
+	): Promise<P> {
+		return super.index<P>(params);
 	}
 
 	/**
@@ -92,9 +70,14 @@ export class Model<T = any, S = any> {
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async show(id: string, param: ParamType = {}): Promise<ResponseType<T> | null> {
+	public async show<P = ResponseType<T>>(
+		id: string,
+		params: (NPT & PathParametersType & ParamType & RPT) | undefined = undefined
+	): Promise<P> {
+		let param: ParamType & PathParametersType = {};
+		if (params !== undefined) param = { ...params, ...params };
 		param[this.resourceId_key] = id;
-		return await sendGet<T>({ url: this.generateUrl(param), headers: this.headers });
+		return super.show<P>(param as NPT & ParamType & RPT);
 	}
 
 	/**
