@@ -1,0 +1,67 @@
+get:
+  tags:
+    - payment
+  summary: 支払方法詳細
+  description: 支払方法の詳細を取得します
+  operationId: paymentShow
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Payment"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: 支払方法の詳細
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PaymentResource"
+put:
+  tags:
+    - payment
+  summary: 支払方法更新
+  description: 支払方法を更新します
+  operationId: paymentUpdate
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Payment"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/PaymentResource"
+  responses:
+    200:
+      description: 支払方法更新
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PaymentResource"
+delete:
+  tags:
+    - payment
+  summary: 支払方法削除
+  description: 支払方法を削除します
+  operationId: paymentDelete
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/Payment"
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: 支払方法削除

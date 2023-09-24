@@ -1,0 +1,111 @@
+type: object
+required:
+  - member_id
+  - price
+  - payments
+  - items
+properties:
+  accountId:
+    type: string
+    description: 会計ID
+    example: accountId
+    readOnly: true
+  member_id:
+    type: string
+    description: 会計記録者
+    example: memberId
+    writeOnly: true
+  member:
+    readOnly: true
+    allOf:
+      - $ref: "#/components/schemas/MemberResource"
+  price:
+    type: integer
+    description: 合計金額
+    example: 100
+  payments:
+    type: array
+    items:
+      type: object
+      required:
+        - payment_id
+        - price
+      properties:
+        accountPaymentId:
+          type: string
+          description: 会計支払ID
+          example: accountPaymentId
+          readOnly: true
+        payment_id:
+          type: string
+          description: 支払方法ID
+          example: paymentId
+          writeOnly: true
+        payment:
+          readOnly: true
+          allOf:
+            - $ref: "#/components/schemas/PaymentResource"
+        price:
+          type: integer
+          description: 支払額
+          example: 200
+  items:
+    type: array
+    items:
+      type: object
+      required:
+        - item_id
+        - price
+        - quantity
+      properties:
+        accountItemId:
+          type: string
+          description: 会計商品ID
+          readOnly: true
+        item_id:
+          type: string
+          description: 商品ID
+          example: itemId
+          writeOnly: true
+        item:
+          readOnly: true
+          allOf:
+            - $ref: "#/components/schemas/ItemResource"
+        price:
+          type: integer
+          description: 支払額
+          example: 200
+        quantity:
+          type: integer
+          description: 購入数
+          example: 1
+        children:
+          type: array
+          items:
+            type: object
+            required:
+              - item_id
+              - price
+              - quantity
+            properties:
+              accountItemId:
+                type: string
+                description: 会計商品ID
+                readOnly: true
+              item_id:
+                type: string
+                description: 商品ID
+                example: itemId
+                writeOnly: true
+              item:
+                readOnly: true
+                allOf:
+                  - $ref: "#/components/schemas/ItemResource"
+              price:
+                type: integer
+                description: 支払額
+                example: 200
+              quantity:
+                type: integer
+                description: 購入数
+                example: 1

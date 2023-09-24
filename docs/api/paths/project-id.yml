@@ -1,0 +1,64 @@
+get:
+  tags:
+    - project
+  summary: プロジェクト詳細
+  description: プロジェクトの詳細を取得します
+  operationId: projectShow
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: プロジェクトの詳細
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProjectResource"
+put:
+  tags:
+    - project
+  summary: プロジェクト更新
+  description: プロジェクトを更新します
+  operationId: projectUpdate
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/ProjectResource"
+  responses:
+    200:
+      description: プロジェクト更新
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProjectResource"
+delete:
+  tags:
+    - project
+  summary: プロジェクト削除
+  description: プロジェクトを削除します
+  operationId: projectDelete
+  parameters:
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: プロジェクト削除

@@ -1,0 +1,84 @@
+type: object
+properties:
+  from_date:
+    type: string
+    format: Y-m-d
+    description: 集計開始日
+    example: "2023-08-01"
+  to_date:
+    type: string
+    format: Y-m-d
+    description: 集計終了日
+    example: "2023-08-01"
+  account_count:
+    type: integer
+    description: 会計数
+    example: 100
+  sum_sales:
+    type: integer
+    description: 売上金額
+    example: 10000
+  member_sales:
+    type: array
+    description: メンバー別会計数
+    items:
+      type: object
+      properties:
+        member:
+          $ref: "#/components/schemas/MemberResource"
+        count:
+          type: integer
+          description: 会計数
+          example: 10
+        price:
+          type: integer
+          description: 会計金額
+          example: 1000
+  payment_sales:
+    type: array
+    description: 支払方法別会計数
+    items:
+      type: object
+      properties:
+        payment:
+          $ref: "#/components/schemas/PaymentResource"
+        count:
+          type: integer
+          description: 会計数
+          example: 10
+        price:
+          type: integer
+          description: 会計金額
+          example: 1000
+  category_sales:
+    type: array
+    description: カテゴリー別会計数
+    items:
+      type: object
+      properties:
+        category:
+          $ref: "#/components/schemas/CategoryResource"
+        count:
+          type: integer
+          description: 会計数
+          example: 10
+        price:
+          type: integer
+          description: 会計金額
+          example: 1000
+  item_sales:
+    type: array
+    description: 商品別会計数
+    items:
+      type: object
+      properties:
+        item:
+          $ref: "#/components/schemas/ItemResource"
+        count:
+          type: integer
+          description: 会計数
+          example: 10
+        price:
+          type: integer
+          description: 会計金額
+          example: 1000

@@ -1,0 +1,67 @@
+type: object
+required:
+  - member_id
+  - bill_10
+  - bill_5
+  - bill_2
+  - bill_1
+  - coin_500
+  - coin_100
+  - coin_50
+  - coin_5
+  - coin_100
+properties:
+  checkId:
+    type: string
+    description: チェックID
+    example: checkId
+    readOnly: true
+  member_id:
+    type: string
+    description: 会計記録者
+    example: memberId
+    writeOnly: true
+  member:
+    readOnly: true
+    allOf:
+      - $ref: "#/components/schemas/MemberResource"
+  bill_10:
+    type: integer
+    description: 1万円札の枚数
+    example: 0
+  bill_5:
+    type: integer
+    description: 5千円札の枚数
+    example: 0
+  bill_2:
+    type: integer
+    description: 2千円札の枚数
+    example: 0
+  bill_1:
+    type: integer
+    description: 千円札の枚数
+    example: 0
+  coin_500:
+    type: integer
+    description: 500円玉の枚数
+    example: 0
+  coin_100:
+    type: integer
+    description: 100円玉の枚数
+    example: 0
+  coin_50:
+    type: integer
+    description: 50円玉の枚数
+    example: 0
+  coin_10:
+    type: integer
+    description: 10円玉の枚数
+    example: 0
+  coin_5:
+    type: integer
+    description: 5円玉の枚数
+    example: 0
+  coin_1:
+    type: integer
+    description: 1円玉の枚数
+    example: 0
