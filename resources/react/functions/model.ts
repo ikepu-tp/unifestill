@@ -1,39 +1,22 @@
 import { Model } from '@ikepu-tp/react-mvc';
-import { IndexParamProps } from '@ikepu-tp/react-mvc/dist/esm/Model';
-import { ParamType } from '@ikepu-tp/react-mvc/dist/esm/Url';
-import {
-	ParamIndexType,
-	ResponseErrorType,
-	ResponseIndexType,
-	ResponseType,
-	createUrl,
-	sendDelete,
-	sendGet,
-	sendPost,
-	sendPut,
-} from '~/functions/fetch';
+import { IndexParamProps } from '@ikepu-tp/react-mvc/Model';
+import { ParamType } from '@ikepu-tp/react-mvc/Url';
+import { ParamIndexType, ResponseErrorType, ResponseIndexType, ResponseType } from '~/functions/fetch';
 
 export type PathParametersType = {
-	[s: string]: string | number | boolean | any;
+	[s: string]: string | number | boolean;
 };
 export type IndexParamType = ParamType & ParamIndexType & {};
 export type NormalParamType = ParamType & {};
 export type RequiredParamType = PathParametersType;
-export class M<T = any, S = any, IPT = IndexParamProps, NPT = ParamType, RPT = RequiredParamType> extends Model<
-	ResponseType,
-	PathParametersType,
-	T,
-	S,
-	S,
-	IPT,
-	NPT,
-	NPT,
-	NPT,
-	NPT,
-	RPT,
-	{},
-	ResponseErrorType
-> {
+export class M<
+	T = any,
+	S = any,
+	IPT = IndexParamProps,
+	NPT = ParamType,
+	RPT = RequiredParamType,
+	D = any
+> extends Model<ResponseType<T>, PathParametersType, T, S, S, IPT, NPT, NPT, NPT, NPT, RPT, {}, ResponseErrorType> {
 	protected domain: string | undefined = '/api';
 	protected base_route: string | undefined = '/test/{testId}';
 	protected default_params: { [s: string]: string | number } = {};
@@ -74,9 +57,8 @@ export class M<T = any, S = any, IPT = IndexParamProps, NPT = ParamType, RPT = R
 		id: string,
 		params: (NPT & PathParametersType & ParamType & RPT) | undefined = undefined
 	): Promise<P> {
-		let param: ParamType & PathParametersType = {};
-		if (params !== undefined) param = { ...params, ...params };
-		param[this.resourceId_key] = id;
+		if (params === undefined) params = {};
+		params[this.resourceId_key] = id;
 		return super.show<P>(param as NPT & ParamType & RPT);
 	}
 
@@ -87,8 +69,11 @@ export class M<T = any, S = any, IPT = IndexParamProps, NPT = ParamType, RPT = R
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async store(resource: S, param: ParamType = {}): Promise<ResponseType<T> | null> {
-		return await sendPost<T>({ url: this.generateUrl(param), body: JSON.stringify(resource), headers: this.headers });
+	public async store<P = ResponseType<T>>(
+		resource: S,
+		param: (ParamType & PathParametersType & NPT) | undefined = undefined
+	): Promise<P> {
+		return super.store<P>(resource, param);
 	}
 
 	/**
@@ -98,9 +83,14 @@ export class M<T = any, S = any, IPT = IndexParamProps, NPT = ParamType, RPT = R
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async update(id: string, resource: S, param: ParamType = {}): Promise<ResponseType<T> | null> {
-		param[this.resourceId_key] = id;
-		return await sendPut<T>({ url: this.generateUrl(param), body: JSON.stringify(resource), headers: this.headers });
+	public async update<P = ResponseType<T>>(
+		id: string,
+		resource: S,
+		params: (ParamType & PathParametersType & NPT & RPT) | undefined = undefined
+	): Promise<P> {
+		if (params === undefined) params = {};
+		params[this.resourceId_key] = id;
+		return super.update<P>(resource, param);
 	}
 
 	/**
@@ -110,8 +100,13 @@ export class M<T = any, S = any, IPT = IndexParamProps, NPT = ParamType, RPT = R
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async destroy(id: string, param: ParamType = {}): Promise<ResponseType<T> | null> {
-		param[this.resourceId_key] = id;
-		return await sendDelete<T>({ url: this.generateUrl(param), headers: this.headers });
+	public async destroy(
+		id: string,
+		resource: D,
+		params: (PathParametersType & NPT & RPT) | undefined = undefined
+	): Promise<ResponseType<T> | null> {
+		if (params === undefined) params = {};
+		params[this.resourceId_key] = id;
+		return super.destroy(resource, param as ParamType & NPT & RPT);
 	}
 }
