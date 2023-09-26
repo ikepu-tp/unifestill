@@ -1,18 +1,11 @@
 <x-app-layout>
   <!-- Scripts -->
-  @viteReactRefresh
   @vite(['resources/react/index.tsx'])
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      会計
-    </h2>
+    会計
   </x-slot>
 
-  <div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-3 py-4">
-        <div id="root"></div>
-      </div>
-    </div>
+  <div class="bg-white shadow rounded px-3 py-4 mt-2">
+    <div id="root"></div>
   </div>
 </x-app-layout>

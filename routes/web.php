@@ -32,5 +32,5 @@ Route::middleware(['auth:web,associations', 'verified'])->group(function () {
     })->name('react');
     Route::fallback(function () {
         return view("app.app");
-    });
+    })->name("app");
 });
