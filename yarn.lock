@@ -1540,10 +1540,10 @@
     react-bootstrap "^2.8.0"
     react-dom "^18.2.0"
 
-"@ikepu-tp/react-mvc@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-mvc/-/react-mvc-0.8.0.tgz#d6c707c06018ebfaa0ed10c3faf7a4e5dd1891e2"
-  integrity sha512-C/0haMn/0aeGXc2ErhnkcVfre6Rd8BA6hkecuDnbnFX3SO7vK6P7ggY1J5N7ShxtSUPRT52qq8kfKu8y8HjYfA==
+"@ikepu-tp/react-mvc@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-mvc/-/react-mvc-0.8.1.tgz#2bb9ebd2f9f6894c02a80ea3d37fd5aed2e96bcf"
+  integrity sha512-h78CIrG4YwRjteGRK5pP7v6gD807YcNZOpDC+DE37UlR8DvJ4oJDANmkrCXrErURJ2hqMn/SQ29wTnZpSM1n9Q==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
