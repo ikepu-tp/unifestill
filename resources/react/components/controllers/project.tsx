@@ -68,7 +68,9 @@ export function ProjectStoreController(): JSX.Element {
 		if (project === 'new') {
 			return;
 		}
-		const response = await new Project().show(project);
+		const projectModel = new Project();
+		projectModel.setResourceId(project);
+		const response = await projectModel.show();
 		if (!response || !response.payloads) throw new Error('予期せぬエラーが発生');
 		setResource({ ...{}, ...response.payloads });
 	}
