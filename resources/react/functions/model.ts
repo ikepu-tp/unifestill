@@ -1,36 +1,51 @@
-import { Model } from '@ikepu-tp/react-mvc';
-import { IndexParamProps } from '@ikepu-tp/react-mvc/Model';
-import { ParamType } from '@ikepu-tp/react-mvc/Url';
-import { ParamIndexType, ResponseErrorType, ResponseIndexType, ResponseType } from '~/functions/fetch';
+import { ParamIndexType, ResponseIndexType, ResponseType } from 'functions/fetch';
+import { Model as defaultModel } from '@ikepu-tp/react-mvc';
+import { SuccessOrFailedResponseResource } from '@ikepu-tp/react-mvc/dist/esm/Send';
+import { ParamType } from '@ikepu-tp/react-mvc/dist/esm/Url';
 
-export type PathParametersType = {
-	[s: string]: string | number | boolean;
-};
-export type IndexParamType = ParamType & ParamIndexType & {};
-export type NormalParamType = ParamType & {};
-export type RequiredParamType = PathParametersType;
-export class M<
+export class Model<
 	T = any,
 	S = any,
-	IPT = IndexParamProps,
-	NPT = ParamType,
-	RPT = RequiredParamType,
-	D = any
-> extends Model<ResponseType<T>, PathParametersType, T, S, S, IPT, NPT, NPT, NPT, NPT, RPT, {}, ResponseErrorType> {
-	protected domain: string | undefined = '/api';
-	protected base_route: string | undefined = '/test/{testId}';
-	protected default_params: { [s: string]: string | number } = {};
+	PathParamertsType = { [s: string]: any },
+	IndexParamProps = ParamIndexType,
+	NormalParamProps = ParamType,
+	RequiredParameters = { [s: string]: any }
+> extends defaultModel<
+	SuccessOrFailedResponseResource,
+	PathParamertsType,
+	T,
+	S,
+	S,
+	IndexParamProps,
+	NormalParamProps,
+	NormalParamProps,
+	NormalParamProps,
+	NormalParamProps,
+	RequiredParameters
+> {
+	protected base_url: string = '/api';
+	protected default_params: ParamType = {};
 	protected resourceId_key: string = 'testId';
+	protected headers: HeadersInit & { [s: string]: string } = {};
+	protected resourceId_param: ParamType | undefined = undefined;
 
 	constructor(
-		default_params: { [s: string]: string | number } = {},
-		headers: HeadersInit & { [s: string]: string } = {
+		default_params: ParamType = {},
+		default_headers: { [s: string]: string } = {
+			Accept: 'application/json',
 			'Content-Type': 'application/json',
 		}
 	) {
-		super(default_params, headers);
-		if (this.domain) this.url.setBaseUrl(this.domain);
-		if (this.base_route) this.path = this.base_route;
+		super(default_params, default_headers);
+	}
+
+	public convertResponse<P = ResponseType<T>>(response: SuccessOrFailedResponseResource | null): P {
+		if (response === null) {
+			this.convertNullResponse();
+			return response as P;
+		}
+		if (!response) throw new Error('Unexpected response.');
+		return response as P;
 	}
 
 	/**
@@ -40,10 +55,25 @@ export class M<
 	 * @return {*}  {Promise<ResponseType<ResponseIndexType<T>>>}
 	 * @memberof Model
 	 */
-	public async index<P = ResponseType<ResponseIndexType<T>>>(
-		params: (IPT & ParamType & RPT) | undefined = undefined
+	public async index<P = ResponseType<ResponseIndexType<T>>, Param = IndexParamProps>(
+		params: Param | undefined = undefined
 	): Promise<P> {
-		return super.index<P>(params);
+		return super.index<P>({
+			...{},
+			page: 1,
+			per: 100,
+			order: 'asc',
+			...(params || {}),
+		});
+	}
+
+	public setResourceId(id: string): void {
+		if (this.resourceId_param === undefined) this.resourceId_param = {};
+		this.resourceId_param[this.resourceId_key] = id;
+	}
+
+	public revokeResourceId(): void {
+		this.resourceId_param = undefined;
 	}
 
 	/**
@@ -53,13 +83,8 @@ export class M<
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async show<P = ResponseType<T>>(
-		id: string,
-		params: (NPT & PathParametersType & ParamType & RPT) | undefined = undefined
-	): Promise<P> {
-		if (params === undefined) params = {};
-		params[this.resourceId_key] = id;
-		return super.show<P>(param as NPT & ParamType & RPT);
+	public async show<P = ResponseType<T>, Param = NormalParamProps>(param: Param | undefined = undefined): Promise<P> {
+		return super.show<P>({ ...{}, ...(this.resourceId_param || {}), ...(param || {}) });
 	}
 
 	/**
@@ -69,11 +94,14 @@ export class M<
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async store<P = ResponseType<T>>(
+	public async store<P = ResponseType<T>, Param = NormalParamProps>(
 		resource: S,
-		param: (ParamType & PathParametersType & NPT) | undefined = undefined
+		param: Param | undefined = undefined
 	): Promise<P> {
-		return super.store<P>(resource, param);
+		return super.store<P>(resource, {
+			...{},
+			...(param || {}),
+		});
 	}
 
 	/**
@@ -83,14 +111,15 @@ export class M<
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async update<P = ResponseType<T>>(
-		id: string,
+	public async update<P = ResponseType<T>, Param = NormalParamProps>(
 		resource: S,
-		params: (ParamType & PathParametersType & NPT & RPT) | undefined = undefined
+		param: Param | undefined = undefined
 	): Promise<P> {
-		if (params === undefined) params = {};
-		params[this.resourceId_key] = id;
-		return super.update<P>(resource, param);
+		return super.update<P>(resource, {
+			...{},
+			...(this.resourceId_param || {}),
+			...(param || {}),
+		});
 	}
 
 	/**
@@ -100,13 +129,14 @@ export class M<
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async destroy(
-		id: string,
-		resource: D,
-		params: (PathParametersType & NPT & RPT) | undefined = undefined
-	): Promise<ResponseType<T> | null> {
-		if (params === undefined) params = {};
-		params[this.resourceId_key] = id;
-		return super.destroy(resource, param as ParamType & NPT & RPT);
+	public async destroy<P = ResponseType<T>, Param = NormalParamProps>(
+		resource: T | S | undefined | { [s: string]: any },
+		param: Param | undefined = undefined
+	): Promise<P> {
+		return super.destroy<P>(resource, {
+			...{},
+			...(this.resourceId_param || {}),
+			...(param || {}),
+		});
 	}
 }
