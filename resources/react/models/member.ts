@@ -6,3 +6,7 @@ export class Member extends Model<ProjectMemberResource, ProjectMemberStoreResou
 	protected resourceId_key: string = 'member';
 	protected default_params: { [s: string]: string | number } = { project: '' };
 }
+export const ProjectMemberStoreInit: ProjectMemberStoreResource = {
+	name: '',
+	note: null,
+};

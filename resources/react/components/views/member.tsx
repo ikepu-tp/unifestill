@@ -3,17 +3,17 @@ import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Fo
 import { ListGroup, Form, Button, Table } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType } from '~/functions/fetch';
 import route from '~/functions/route';
-import { ProjectResource, ProjectStoreResource } from '~/models/interfaces';
+import { ProjectMemberResource, ProjectMemberStoreResource } from '~/models/interfaces';
 import { FormProps } from '../components/form';
 import Anchor from '../components/Anchor';
 import { useNavigate } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import TextWrapper from '../components/TextWrapper';
 
-export type ProjectIndexProps = {
-	getItems: (params: ParamIndexType) => Promise<ResponseIndexType<ProjectResource>>;
+export type ProjectMemberIndexProps = {
+	getItems: (params: ParamIndexType) => Promise<ResponseIndexType<ProjectMemberResource>>;
 };
-export function ProjectIndexView(props: ProjectIndexProps): JSX.Element {
+export function ProjectMemberIndexView(props: ProjectMemberIndexProps): JSX.Element {
 	const navigate = useNavigate();
 
 	function onClick(e: MouseEvent<HTMLAnchorElement>): void {
@@ -29,11 +29,11 @@ export function ProjectIndexView(props: ProjectIndexProps): JSX.Element {
 			</div>
 			<ListView
 				getItems={props.getItems}
-				itemCallback={(item: ProjectResource): JSX.Element => (
+				itemCallback={(item: ProjectMemberResource): JSX.Element => (
 					<ListGroup.Item
-						key={item['projectId']}
+						key={item['memberId']}
 						action
-						href={route('project.show', { project: item['projectId'] })}
+						href={route('project.show', { project: item['memberId'] })}
 						onClick={onClick}
 					>
 						{item['name']}
@@ -45,10 +45,10 @@ export function ProjectIndexView(props: ProjectIndexProps): JSX.Element {
 	);
 }
 
-export type ProjectShowProps = {
-	resource: ProjectResource;
+export type ProjectMemberShowProps = {
+	resource: ProjectMemberResource;
 };
-export function ProjectShowView(props: ProjectShowProps): JSX.Element {
+export function ProjectMemberShowView(props: ProjectMemberShowProps): JSX.Element {
 	return (
 		<>
 			<Table responsive className="w-auto">
@@ -65,21 +65,11 @@ export function ProjectShowView(props: ProjectShowProps): JSX.Element {
 					</tr>
 				</tbody>
 			</Table>
-			<div>
-				<Anchor
-					as="button"
-					variant="primary"
-					href={route('member.index', { project: props.resource['projectId'] })}
-					className="me-2"
-				>
-					プロジェクトメンバー
-				</Anchor>
-			</div>
 			<div className="text-end">
 				<Anchor
 					as="button"
 					variant="secondary"
-					href={route('project.show', { project: props.resource['projectId'] })}
+					href={route('project.show', { project: props.resource.memberId })}
 					className="ms-2"
 				>
 					編集
@@ -89,10 +79,10 @@ export function ProjectShowView(props: ProjectShowProps): JSX.Element {
 	);
 }
 
-export type ProjectFormProps = FormProps<ProjectStoreResource> & {
+export type ProjectMemberFormProps = FormProps<ProjectMemberStoreResource> & {
 	projectId?: string;
 };
-export default function ProjectForm(props: ProjectFormProps): JSX.Element {
+export default function ProjectMemberForm(props: ProjectMemberFormProps): JSX.Element {
 	return (
 		<FormWrapper onSubmit={props.onSubmit} success={props.success} setButtonDisabled={props.setButtonDisabled}>
 			<InputWrapper label="プロジェクト名" required>
