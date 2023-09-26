@@ -15,7 +15,7 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            {{ Auth::guard('web')->user()->name }}
+            {{ Auth::guard('associations')->user()->name }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
