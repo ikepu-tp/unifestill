@@ -1,6 +1,6 @@
 import { ListView } from '@ikepu-tp/react-bootstrap-extender';
 import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Form';
-import { ListGroup, Form, Button } from 'react-bootstrap';
+import { ListGroup, Form, Button, Table } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType } from '~/functions/fetch';
 import route from '~/functions/route';
 import { ProjectResource, ProjectStoreResource } from '~/models/interfaces';
@@ -8,6 +8,7 @@ import { FormProps } from '../components/form';
 import Anchor from '../components/Anchor';
 import { useNavigate } from 'react-router-dom';
 import { MouseEvent } from 'react';
+import TextWrapper from '../components/TextWrapper';
 
 export type ProjectIndexProps = {
 	getItems: (params: ParamIndexType) => Promise<ResponseIndexType<ProjectResource>>;
@@ -48,7 +49,34 @@ export type ProjectShowProps = {
 	resource: ProjectResource;
 };
 export function ProjectShowView(props: ProjectShowProps): JSX.Element {
-	return <></>;
+	return (
+		<>
+			<Table responsive className="w-auto">
+				<tbody>
+					<tr>
+						<th>プロジェクト名</th>
+						<td>{props.resource.name}</td>
+					</tr>
+					<tr>
+						<th>備考</th>
+						<td>
+							<TextWrapper>{props.resource.note}</TextWrapper>
+						</td>
+					</tr>
+				</tbody>
+			</Table>
+			<div className="text-end">
+				<Anchor
+					as="button"
+					variant="secondary"
+					href={route('project.show', { project: props.resource.projectId })}
+					className="ms-2"
+				>
+					編集
+				</Anchor>
+			</div>
+		</>
+	);
 }
 
 export type ProjectFormProps = FormProps<ProjectStoreResource> & {
