@@ -1,4 +1,3 @@
-import { Anchor } from '@ikepu-tp/react-bootstrap-extender';
 import route from '~/functions/route';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ProjectResource, ProjectStoreResource } from '~/models/interfaces';
@@ -17,11 +16,6 @@ export function ProjectIndexController(): JSX.Element {
 	}
 	return (
 		<PageWrapper title="プロジェクト" breadCrumb={[]}>
-			<div className="mb-2 text-end">
-				<Anchor as="button" href={route('project.store', { project: 'new' })}>
-					新規登録
-				</Anchor>
-			</div>
 			<ProjectIndexView getItems={getItems} />
 		</PageWrapper>
 	);

@@ -1,25 +1,39 @@
-import { Anchor, ListView } from '@ikepu-tp/react-bootstrap-extender';
+import { ListView } from '@ikepu-tp/react-bootstrap-extender';
 import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Form';
 import { ListGroup, Form, Button } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType } from '~/functions/fetch';
 import route from '~/functions/route';
 import { ProjectResource, ProjectStoreResource } from '~/models/interfaces';
 import { FormProps } from '../form';
+import Anchor from '../Anchor';
+import { useNavigate } from 'react-router-dom';
+import { MouseEvent } from 'react';
 
 export type ProjectIndexProps = {
 	getItems: (params: ParamIndexType) => Promise<ResponseIndexType<ProjectResource>>;
 };
 export function ProjectIndexView(props: ProjectIndexProps): JSX.Element {
+	const navigate = useNavigate();
+
+	function onClick(e: MouseEvent<HTMLAnchorElement>): void {
+		e.preventDefault();
+		navigate(e.currentTarget.pathname);
+	}
 	return (
 		<>
+			<div className="mb-2 text-end">
+				<Anchor as="button" href={route('project.store', { project: 'new' })}>
+					新規登録
+				</Anchor>
+			</div>
 			<ListView
 				getItems={props.getItems}
 				itemCallback={(item: ProjectResource): JSX.Element => (
 					<ListGroup.Item
-						as={Anchor}
 						key={item['projectId']}
 						action
 						href={route('project.show', { project: item['projectId'] })}
+						onClick={onClick}
 					>
 						{item['name']}
 					</ListGroup.Item>

@@ -184,7 +184,8 @@ export type ParamIndexType = ParamType & {
 	order?: 'asc' | 'desc';
 };
 export function createUrl(url: string, param: ParamType = {}): string {
-	return `${url}?${createQuery(param)}`;
+	if (Object.keys(param)) url = `${url}?${createQuery(param)}`;
+	return url;
 }
 
 export function createQuery(param: ParamType): string {
