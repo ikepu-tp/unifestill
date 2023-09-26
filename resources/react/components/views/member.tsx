@@ -1,16 +1,16 @@
 import { ListView } from '@ikepu-tp/react-bootstrap-extender';
 import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Form';
-import { ListGroup, Form, Button, Table } from 'react-bootstrap';
+import { ListGroup, Form, Button } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType } from '~/functions/fetch';
 import route from '~/functions/route';
-import { ProjectMemberResource, ProjectMemberStoreResource } from '~/models/interfaces';
+import { ProjectMemberResource, ProjectMemberStoreResource, ProjectResource } from '~/models/interfaces';
 import { FormProps } from '../components/form';
 import Anchor from '../components/Anchor';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { MouseEvent } from 'react';
-import TextWrapper from '../components/TextWrapper';
 
 export type ProjectMemberIndexProps = {
+	project: ProjectResource;
 	getItems: (params: ParamIndexType) => Promise<ResponseIndexType<ProjectMemberResource>>;
 };
 export function ProjectMemberIndexView(props: ProjectMemberIndexProps): JSX.Element {
@@ -23,7 +23,7 @@ export function ProjectMemberIndexView(props: ProjectMemberIndexProps): JSX.Elem
 	return (
 		<>
 			<div className="mb-2 text-end">
-				<Anchor as="button" href={route('project.store', { project: 'new' })}>
+				<Anchor as="button" href={route('member.store', { project: props.project['projectId'], member: 'new' })}>
 					新規登録
 				</Anchor>
 			</div>
@@ -33,7 +33,7 @@ export function ProjectMemberIndexView(props: ProjectMemberIndexProps): JSX.Elem
 					<ListGroup.Item
 						key={item['memberId']}
 						action
-						href={route('project.show', { project: item['memberId'] })}
+						href={route('member.show', { project: props.project['projectId'], member: item['memberId'] })}
 						onClick={onClick}
 					>
 						{item['name']}
@@ -46,35 +46,13 @@ export function ProjectMemberIndexView(props: ProjectMemberIndexProps): JSX.Elem
 }
 
 export type ProjectMemberShowProps = {
+	project: ProjectResource;
 	resource: ProjectMemberResource;
 };
 export function ProjectMemberShowView(props: ProjectMemberShowProps): JSX.Element {
 	return (
 		<>
-			<Table responsive className="w-auto">
-				<tbody>
-					<tr>
-						<th>プロジェクト名</th>
-						<td>{props.resource.name}</td>
-					</tr>
-					<tr>
-						<th>備考</th>
-						<td>
-							<TextWrapper>{props.resource.note}</TextWrapper>
-						</td>
-					</tr>
-				</tbody>
-			</Table>
-			<div className="text-end">
-				<Anchor
-					as="button"
-					variant="secondary"
-					href={route('project.show', { project: props.resource.memberId })}
-					className="ms-2"
-				>
-					編集
-				</Anchor>
-			</div>
+			<Navigate to={route('member.index', { project: props.project['projectId'] })} />
 		</>
 	);
 }
@@ -85,13 +63,13 @@ export type ProjectMemberFormProps = FormProps<ProjectMemberStoreResource> & {
 export default function ProjectMemberForm(props: ProjectMemberFormProps): JSX.Element {
 	return (
 		<FormWrapper onSubmit={props.onSubmit} success={props.success} setButtonDisabled={props.setButtonDisabled}>
-			<InputWrapper label="プロジェクト名" required>
+			<InputWrapper label="メンバー名" required>
 				<Form.Control
 					type="text"
 					name="name"
 					value={props.Resource['name']}
 					onChange={props.changeResourceStr}
-					placeholder="プロジェクト名"
+					placeholder="メンバー名"
 					required
 				/>
 			</InputWrapper>

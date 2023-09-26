@@ -18,7 +18,7 @@ export function ProjectMemberIndexController(): JSX.Element {
 	}, [project]);
 
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectMemberResource>> {
-		const model = new Member();
+		const model = new Member({ project });
 		const items: ResponseType<ResponseIndexType<ProjectMemberResource>> | null = await model.index(params);
 		if (!items || !items.payloads) throw new Error('予期せぬエラーが発生しました');
 		return items.payloads;
@@ -45,7 +45,7 @@ export function ProjectMemberIndexController(): JSX.Element {
 				},
 			]}
 		>
-			<ProjectMemberIndexView getItems={getItems} />
+			<ProjectMemberIndexView getItems={getItems} project={ProjectResource} />
 		</PageWrapper>
 	);
 }
@@ -62,7 +62,7 @@ export function ProjectMemberShowController(): JSX.Element {
 	}, [project, member]);
 
 	async function getItem(): Promise<void> {
-		const model = new Member();
+		const model = new Member({ project });
 		model.setResourceId(member);
 		const response = await model.show();
 		if (!response || !response.payloads) throw new Error('存在しないプロジェクトメンバーです');
@@ -91,7 +91,7 @@ export function ProjectMemberShowController(): JSX.Element {
 				},
 			]}
 		>
-			<ProjectMemberShowView resource={Resource} />
+			<ProjectMemberShowView resource={Resource} project={ProjectResource} />
 		</PageWrapper>
 	);
 }
@@ -107,15 +107,15 @@ export function ProjectMemberStoreController(): JSX.Element {
 	useEffect(() => {
 		getProject();
 		getResource();
-	}, [project]);
+	}, [project, member]);
 
 	async function getResource(): Promise<void> {
-		if (project === 'new') {
+		if (member === 'new') {
 			return;
 		}
-		const model = new Member();
+		const model = new Member({ project });
 		model.setResourceId(member);
-		const response = await new Member().show(project);
+		const response = await model.show();
 		if (!response || !response.payloads) throw new Error('予期せぬエラーが発生');
 		setResource({ ...{}, ...response.payloads });
 	}
@@ -135,7 +135,7 @@ export function ProjectMemberStoreController(): JSX.Element {
 		changeResource(e.currentTarget.name, e.currentTarget.value);
 	}
 	async function onSubmit(): Promise<ResponseType<ProjectMemberResource>> {
-		const model = new Member();
+		const model = new Member({ project });
 		if (member === 'new') return model.store(Resource);
 		model.setResourceId(project);
 		return model.update(Resource);
