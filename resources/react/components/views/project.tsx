@@ -4,8 +4,8 @@ import { ListGroup, Form, Button } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType } from '~/functions/fetch';
 import route from '~/functions/route';
 import { ProjectResource, ProjectStoreResource } from '~/models/interfaces';
-import { FormProps } from '../form';
-import Anchor from '../Anchor';
+import { FormProps } from '../components/form';
+import Anchor from '../components/Anchor';
 import { useNavigate } from 'react-router-dom';
 import { MouseEvent } from 'react';
 

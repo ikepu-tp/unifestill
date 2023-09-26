@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Project, ProjectStoreInit } from '~/models/project';
 import ProjectForm, { ProjectIndexView, ProjectShowView } from '../views/project';
 import { ParamIndexType, ResponseIndexType, ResponseType } from '~/functions/fetch';
-import PageWrapper from '../PageWrapper';
+import PageWrapper from '../components/PageWrapper';
 
 export function ProjectIndexController(): JSX.Element {
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectResource>> {
