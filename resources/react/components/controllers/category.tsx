@@ -23,7 +23,7 @@ export function ProjectCategoryIndexController(): JSX.Element {
 
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectCategoryResource>> {
 		const model = new Category({ project });
-		const items: ResponseType<ResponseIndexType<ProjectCategoryResource>> | null = await model.index(params);
+		const items: ResponseType<ResponseIndexType<ProjectCategoryResource>> = await model.index(params);
 		if (!items || !items.payloads) throw new Error('予期せぬエラーが発生しました');
 		return items.payloads;
 	}

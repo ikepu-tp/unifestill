@@ -19,7 +19,7 @@ export function ProjectPaymentIndexController(): JSX.Element {
 
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectPaymentResource>> {
 		const model = new Payment({ project });
-		const items: ResponseType<ResponseIndexType<ProjectPaymentResource>> | null = await model.index(params);
+		const items: ResponseType<ResponseIndexType<ProjectPaymentResource>> = await model.index(params);
 		if (!items || !items.payloads) throw new Error('予期せぬエラーが発生しました');
 		return items.payloads;
 	}

@@ -11,7 +11,7 @@ export type ProjectParam = { project: string };
 export function ProjectIndexController(): JSX.Element {
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectResource>> {
 		const project = new Project();
-		const items: ResponseType<ResponseIndexType<ProjectResource>> | null = await project.index(params);
+		const items: ResponseType<ResponseIndexType<ProjectResource>> = await project.index(params);
 		if (!items || !items.payloads) throw new Error('予期せぬエラーが発生しました');
 		return items.payloads;
 	}

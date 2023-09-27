@@ -19,7 +19,7 @@ export function ProjectMemberIndexController(): JSX.Element {
 
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectMemberResource>> {
 		const model = new Member({ project });
-		const items: ResponseType<ResponseIndexType<ProjectMemberResource>> | null = await model.index(params);
+		const items: ResponseType<ResponseIndexType<ProjectMemberResource>> = await model.index(params);
 		if (!items || !items.payloads) throw new Error('予期せぬエラーが発生しました');
 		return items.payloads;
 	}
