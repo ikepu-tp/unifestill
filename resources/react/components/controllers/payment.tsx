@@ -137,7 +137,7 @@ export function ProjectPaymentStoreController(): JSX.Element {
 	async function onSubmit(): Promise<ResponseType<ProjectPaymentResource>> {
 		const model = new Payment({ project });
 		if (payment === 'new') return model.store(Resource);
-		model.setResourceId(project);
+		model.setResourceId(payment);
 		return model.update(Resource);
 	}
 	function success(): void {

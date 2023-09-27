@@ -7,6 +7,7 @@ import ProjectForm, { ProjectIndexView, ProjectShowView } from '../views/project
 import { ParamIndexType, ResponseIndexType, ResponseType } from '~/functions/fetch';
 import PageWrapper from '../components/PageWrapper';
 
+export type ProjectParam = { project: string };
 export function ProjectIndexController(): JSX.Element {
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectResource>> {
 		const project = new Project();

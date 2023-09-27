@@ -137,7 +137,7 @@ export function ProjectMemberStoreController(): JSX.Element {
 	async function onSubmit(): Promise<ResponseType<ProjectMemberResource>> {
 		const model = new Member({ project });
 		if (member === 'new') return model.store(Resource);
-		model.setResourceId(project);
+		model.setResourceId(member);
 		return model.update(Resource);
 	}
 	function success(): void {
