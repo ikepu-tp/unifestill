@@ -6,3 +6,7 @@ export class Category extends Model<ProjectCategoryResource, ProjectCategoryStor
 	protected resourceId_key: string = 'category';
 	protected default_params: { [s: string]: string | number } = { project: '' };
 }
+export const ProjectCategoryStoreInit: ProjectCategoryStoreResource = {
+	name: '',
+	note: null,
+};

@@ -10,6 +10,11 @@ import {
 	ProjectPaymentShowController,
 	ProjectPaymentStoreController,
 } from './controllers/payment';
+import {
+	ProjectCategoryIndexController,
+	ProjectCategoryShowController,
+	ProjectCategoryStoreController,
+} from './controllers/category';
 
 export default function Router(): JSX.Element {
 	return (
@@ -33,6 +38,13 @@ export default function Router(): JSX.Element {
 							<Route path=":payment">
 								<Route index element={<ProjectPaymentShowController />} />
 								<Route path="edit" element={<ProjectPaymentStoreController />} />
+							</Route>
+						</Route>
+						<Route path="category">
+							<Route index element={<ProjectCategoryIndexController />} />
+							<Route path=":category">
+								<Route index element={<ProjectCategoryShowController />} />
+								<Route path="edit" element={<ProjectCategoryStoreController />} />
 							</Route>
 						</Route>
 					</Route>
