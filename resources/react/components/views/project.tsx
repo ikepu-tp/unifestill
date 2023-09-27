@@ -74,6 +74,14 @@ export function ProjectShowView(props: ProjectShowProps): JSX.Element {
 				>
 					プロジェクトメンバー
 				</Anchor>
+				<Anchor
+					as="button"
+					variant="primary"
+					href={route('payment.index', { project: props.resource['projectId'] })}
+					className="me-2"
+				>
+					支払い方法
+				</Anchor>
 			</div>
 			<div className="text-end">
 				<Anchor
