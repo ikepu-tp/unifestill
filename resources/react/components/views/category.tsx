@@ -52,7 +52,9 @@ export type ProjectCategoryShowProps = {
 export function ProjectCategoryShowView(props: ProjectCategoryShowProps): JSX.Element {
 	return (
 		<>
-			<Navigate to={route('category.index', { project: props.project['projectId'] })} />
+			<Navigate
+				to={route('category.store', { project: props.project['projectId'], category: props.resource['categoryId'] })}
+			/>
 		</>
 	);
 }

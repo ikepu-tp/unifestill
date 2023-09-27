@@ -52,7 +52,9 @@ export type ProjectMemberShowProps = {
 export function ProjectMemberShowView(props: ProjectMemberShowProps): JSX.Element {
 	return (
 		<>
-			<Navigate to={route('member.index', { project: props.project['projectId'] })} />
+			<Navigate
+				to={route('member.store', { project: props.project['projectId'], member: props.resource['memberId'] })}
+			/>
 		</>
 	);
 }

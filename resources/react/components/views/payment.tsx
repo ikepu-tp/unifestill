@@ -52,7 +52,9 @@ export type ProjectPaymentShowProps = {
 export function ProjectPaymentShowView(props: ProjectPaymentShowProps): JSX.Element {
 	return (
 		<>
-			<Navigate to={route('payment.index', { project: props.project['projectId'] })} />
+			<Navigate
+				to={route('payment.store', { project: props.project['projectId'], payment: props.resource['paymentId'] })}
+			/>
 		</>
 	);
 }
