@@ -157,7 +157,7 @@ export function ProjectPaymentStoreController(): JSX.Element {
 					text: ProjectResource['name'],
 				},
 				{
-					link: route('member.index', { project: project }),
+					link: route('payment.index', { project: project }),
 					text: '支払い方法',
 				},
 			]}
