@@ -1,6 +1,6 @@
 import { ListView, Popup } from '@ikepu-tp/react-bootstrap-extender';
 import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Form';
-import { ListGroup, Form, Button, InputGroup, Modal } from 'react-bootstrap';
+import { ListGroup, Form, Button, InputGroup } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType, ResponseType } from '~/functions/fetch';
 import route from '~/functions/route';
 import {
