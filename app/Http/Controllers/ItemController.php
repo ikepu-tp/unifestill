@@ -22,6 +22,18 @@ class ItemController extends Controller
     {
         $item = $project->items();
 
+        $parent = $request->query("parent", false);
+        if ($parent !== false) {
+            if ($parent === "null" || is_null($parent)) {
+                $item = $item->whereNull("parent_id");
+            } else {
+                $item = $item->whereIn("parent_id", Item::select('id')->whereIn("itemId", explode(",", $parent)));
+            }
+        }
+
+        $except = $request->query("except");
+        if ($except) $item = $item->whereNotIn("parent_id", Item::select("id")->whereIn('itemId', explode(",", $except)));
+
         return Resource::pagination($item, ItemResource::class);
     }
 
