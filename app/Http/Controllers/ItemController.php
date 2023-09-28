@@ -18,9 +18,9 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ItemRequest $request, Project $project, Category $category)
+    public function index(ItemRequest $request, Project $project)
     {
-        $item = $category->items();
+        $item = $project->items();
 
         return Resource::pagination($item, ItemResource::class);
     }
@@ -28,7 +28,7 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ItemRequest $request, Project $project, Category $category)
+    public function store(ItemRequest $request, Project $project)
     {
         $item = new Item();
         $item->fill([
@@ -55,7 +55,7 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ItemRequest $request, Project $project, Category $category, Item $item)
+    public function show(ItemRequest $request, Project $project, Item $item)
     {
         return Resource::success(new ItemResource($item));
     }
@@ -63,7 +63,7 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ItemRequest $request, Project $project, Category $category, Item $item)
+    public function update(ItemRequest $request, Project $project, Item $item)
     {
         $this->setFill($request, $item);
         if (!$item->save()) throw new SaveFailedException();
@@ -73,7 +73,7 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ItemRequest $request, Project $project, Category $category, Item $item)
+    public function destroy(ItemRequest $request, Project $project, Item $item)
     {
         if (!$item->delete()) throw new  DeleteFailedException();
         return Resource::NoContent();
