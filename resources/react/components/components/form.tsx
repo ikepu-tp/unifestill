@@ -3,6 +3,7 @@ import { ResponseType } from '~/functions/fetch';
 
 export type FormProps<Resource = any | { [s: string]: any }, SubmitResponse = ResponseType> = {
 	Resource: Resource;
+	changeResource?: (key: string, value: any) => void;
 	changeResourceStr?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	changeResourceNum?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	ButtonDisabled?: boolean;

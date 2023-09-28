@@ -6,3 +6,10 @@ export class Item extends Model<ProjectItemResource, ProjectItemStoreResource> {
 	protected resourceId_key: string = 'item';
 	protected default_params: { [s: string]: string | number } = { project: '' };
 }
+export const ProjectItemStoreInit: ProjectItemStoreResource = {
+	category_id: '',
+	parent_id: null,
+	name: '',
+	note: null,
+	price: 0,
+};

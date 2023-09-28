@@ -90,6 +90,14 @@ export function ProjectShowView(props: ProjectShowProps): JSX.Element {
 				>
 					商品カテゴリー
 				</Anchor>
+				<Anchor
+					as="button"
+					variant="primary"
+					href={route('item.index', { project: props.resource['projectId'] })}
+					className="me-2"
+				>
+					商品
+				</Anchor>
 			</div>
 			<div className="text-end">
 				<Anchor

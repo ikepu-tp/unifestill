@@ -28,15 +28,16 @@ export type ProjectCategoryResource = ProjectMemberStoreResource & {
 };
 export type ProjectItemStoreResource = {
 	category_id: string;
-	parent_id: string;
+	category?: ProjectCategoryResource;
+	parent_id: string | null;
 	name: string;
 	note: string | null;
-	price: 100;
+	price: number;
 };
 export type ProjectItemResource = {
 	itemId: string;
 	category: ProjectCategoryResource;
-	parent_id: string;
+	parent_id: string | null;
 	name: string;
 	note: string | null;
 	price: number;
