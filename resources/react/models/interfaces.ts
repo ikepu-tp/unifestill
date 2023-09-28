@@ -43,36 +43,42 @@ export type ProjectItemResource = {
 	price: number;
 };
 
+export type AccountItemStoreResource = {
+	item_id: string;
+	item: ProjectItemResource;
+	price: number;
+	quantity: number;
+	children: [];
+};
+export type AccountPaymentStoreResource = {
+	payment_id: string;
+	payment: ProjectPaymentResource;
+	price: number;
+};
 export type AccountStoreResource = {
 	member_id: string;
 	price: number;
-	payments: {
-		payment_id: string;
-		price: number;
-	}[];
-	items: {
-		item_id: string;
-		price: number;
-		quantity: number;
-		children: [];
-	}[];
+	payments: AccountPaymentStoreResource[];
+	items: AccountItemStoreResource[];
+};
+export type AccountPaymentResource = {
+	accountPaymentId: string;
+	payment: ProjectPaymentResource;
+	price: number;
+};
+export type AccountItemResource = {
+	accountItemId: string;
+	item: ProjectItemResource;
+	price: number;
+	quantity: number;
+	children: [];
 };
 export type AccountResource = {
 	accountId: string;
 	member: ProjectMemberResource;
 	price: number;
-	payments: {
-		accountPaymentId: string;
-		payment: ProjectPaymentResource;
-		price: number;
-	}[];
-	items: {
-		accountItemId: string;
-		item: ProjectItemResource;
-		price: number;
-		quantity: number;
-		children: [];
-	}[];
+	payments: AccountPaymentResource[];
+	items: AccountItemResource[];
 };
 
 export type CheckStoreResource = {

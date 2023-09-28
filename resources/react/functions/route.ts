@@ -25,6 +25,9 @@ export const routes = {
 	'item.index': '/project/{project}/item',
 	'item.store': '/project/{project}/item/{item}/edit',
 	'item.show': '/project/{project}/item/{item}',
+	'account.index': '/project/{project}/account',
+	'account.store': '/project/{project}/account/{account}/edit',
+	'account.show': '/project/{project}/account/{account}',
 };
 export type RoutesType = typeof routes;
 export type RouteNameType = 'project.index' | 'project.store' | 'project.show';

@@ -98,6 +98,22 @@ export function ProjectShowView(props: ProjectShowProps): JSX.Element {
 				>
 					商品
 				</Anchor>
+				<Anchor
+					as="button"
+					variant="primary"
+					href={route('account.index', { project: props.resource['projectId'] })}
+					className="me-2"
+				>
+					会計
+				</Anchor>
+				<Anchor
+					as="button"
+					variant="primary"
+					href={route('account.store', { project: props.resource['projectId'], account: 'new' })}
+					className="me-2"
+				>
+					レジ
+				</Anchor>
 			</div>
 			<div className="text-end">
 				<Anchor

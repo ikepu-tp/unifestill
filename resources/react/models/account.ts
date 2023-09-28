@@ -6,3 +6,9 @@ export class Account extends Model<AccountResource, AccountStoreResource> {
 	protected resourceId_key: string = 'account';
 	protected default_params: { [s: string]: string | number } = { project: '' };
 }
+export const AccountStoreInit: AccountStoreResource = {
+	member_id: '',
+	price: 0,
+	payments: [],
+	items: [],
+};
