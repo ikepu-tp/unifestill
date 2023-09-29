@@ -1,0 +1,15 @@
+{
+	"roots": ["<rootDir>/resources/react"],
+	"testMatch": ["**/__tests__/**/*.+(ts|tsx|js)", "**/?(*.)+(spec|test).+(ts|tsx|js)", "**/tests/**/*.+(ts|tsx|js)"],
+	"transform": {
+		"^.+\\.(ts|tsx)$": "ts-jest"
+	},
+	"testEnvironment": "jest-environment-jsdom",
+	"preset": "ts-jest",
+	"moduleNameMapper": {
+		"^functions/(.+)": "<rootDir>/resources/react/functions/$1",
+		"^models/(.+)": "<rootDir>/resources/react/models/$1",
+		"^mocks/(.+)": "<rootDir>/resources/react/mocks/$1",
+		"^~/(.+)": "<rootDir>/resources/react/$1"
+	}
+}

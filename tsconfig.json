@@ -3,7 +3,7 @@
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"baseUrl": "resources/react",
+		"baseUrl": ".",
 		"target": "es6",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
@@ -18,7 +18,14 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "react-jsx"
+		"jsx": "react-jsx",
+		"paths": {
+			"~/*": ["resources/react/*"],
+			"functions/*": ["resources/react/functions/*"],
+			"models/*": ["resources/react/models/*"],
+			"mocks/*": ["resources/react/mocks/*"],
+			"components/*": ["resources/react/components/*"]
+		}
 	},
 	"include": ["resources/react"],
 	"exclude": [],

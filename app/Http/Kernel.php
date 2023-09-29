@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Add\AuthenticatedMiddleware;
+use App\Http\Middleware\AddRequestNonceMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -25,6 +26,7 @@ class Kernel extends HttpKernel
 
         \ikepu_tp\ActivityLog\app\Http\Middleware\ActivityLogMiddleware::class,
         \ikepu_tp\AccessLogger\app\Http\Middleware\AccessLoggerMiddleware::class,
+        AddRequestNonceMiddleware::class,
     ];
 
     /**
