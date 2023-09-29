@@ -16,12 +16,11 @@ import {
 	ProjectResource,
 } from '~/models/interfaces';
 import { FormProps, FormResourceProps } from '../components/form';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import Anchor from '../components/Anchor';
 import { number_format } from '~/functions';
 import { Member } from '~/models/member';
-import { AccountParam } from '../controllers/account';
 import { Item } from '~/models/item';
 import { Payment } from '~/models/payment';
 
@@ -302,7 +301,7 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 		return items.payloads;
 	}
 	function ItemCallback(prop: { item: ProjectItemResource }): JSX.Element {
-		function onClick(e: MouseEvent<HTMLAnchorElement>): void {
+		function onClick(): void {
 			if (!props.changeResource) return;
 			props.Resource['items'] = props.Resource['items'].concat({
 				item_id: prop.item['itemId'],
