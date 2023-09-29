@@ -1,1 +1,20 @@
-[]
+[
+	{
+		"version": "1.0.0",
+		"releaseDate": "2023/09/29",
+		"createdDate": "2023/09/29",
+		"Author": ["ikepu-tp"],
+		"url": null,
+		"description": ["First release."],
+		"newFeatures": [
+			"Ability to manage products and accounting on a per-project basis",
+			"Functionality for product registration and accounting"
+		],
+		"changedFeatures": null,
+		"deletedFeatures": null,
+		"notice": ["This is the first release. If you find some bugs, please report on issues."],
+		"security": null,
+		"futurePlans": null,
+		"note": null
+	}
+]
