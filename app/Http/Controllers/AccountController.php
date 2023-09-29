@@ -103,9 +103,8 @@ class AccountController extends Controller
                     throw new SaveFailedException();
                 }
             }
-
-            return Resource::create(new AccountResource($account));
         }
+        return Resource::create(new AccountResource($account));
     }
 
     /**

@@ -77,4 +77,9 @@ class Project extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function items()
+    {
+        return $this->hasManyThrough(Item::class, Category::class);
+    }
 }
