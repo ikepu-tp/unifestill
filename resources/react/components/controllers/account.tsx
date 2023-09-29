@@ -1,6 +1,6 @@
 import route from '~/functions/route';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { AccountResource, AccountStoreResource, ProjectResource } from '~/models/interfaces';
+import { AccountItemStoreResource, AccountResource, AccountStoreResource, ProjectResource } from '~/models/interfaces';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Account, AccountStoreInit } from '~/models/account';
 import { AccountIndexView, AccountShowView, AccountForm } from '../views/account';
@@ -115,6 +115,15 @@ export function AccountStoreController(): JSX.Element {
 		}
 		getProject();
 	}, [project]);
+
+	useEffect(() => {
+		let price: number = 0;
+		Resource['items'].forEach((item: AccountItemStoreResource): void => {
+			price += item['price'] * item['quantity'];
+		});
+		changeResource('price', price);
+	}, [Resource['items']]);
+
 	async function getProject(): Promise<void> {
 		const model = new Project();
 		model.setResourceId(project);
@@ -160,8 +169,9 @@ export function AccountStoreController(): JSX.Element {
 		>
 			<AccountForm
 				Resource={Resource}
-				projectId={project || undefined}
+				projectId={project}
 				success={success}
+				changeResource={changeResource}
 				changeResourceStr={changeResourceStr}
 				onSubmit={onSubmit}
 				ButtonDisabled={ButtonDisabled}
