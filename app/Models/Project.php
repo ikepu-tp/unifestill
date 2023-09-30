@@ -29,7 +29,7 @@ class Project extends Model
         'id' => 'integer',
         'projectId' => 'string',
         'association_id' => 'integer',
-        'name' => 'encrypted',
+        'name' => 'string',
         'note' => 'encrypted',
     ];
 

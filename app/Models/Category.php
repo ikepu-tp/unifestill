@@ -29,7 +29,7 @@ class Category extends Model
         'id' => 'integer',
         'categoryId' => 'string',
         'project_id' => 'integer',
-        'name' => 'encrypted',
+        'name' => 'string',
         'note' => 'encrypted',
     ];
 
