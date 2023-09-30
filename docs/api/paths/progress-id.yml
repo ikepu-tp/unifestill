@@ -1,0 +1,67 @@
+get:
+  tags:
+    - progress
+  summary: プログレス詳細
+  description: プログレスの詳細を取得します
+  operationId: progressShow
+  parameters:
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/Project'
+    - $ref: '#/components/parameters/Progress'
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: プログレスの詳細
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProgressResource'
+put:
+  tags:
+    - progress
+  summary: プログレス更新
+  description: プログレスを更新します
+  operationId: progressUpdate
+  parameters:
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/Project'
+    - $ref: '#/components/parameters/Progress'
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ProgressResource'
+  responses:
+    200:
+      description: プログレス更新
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProgressResource'
+delete:
+  tags:
+    - progress
+  summary: プログレス削除
+  description: プログレスを削除します
+  operationId: progressDelete
+  parameters:
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/Project'
+    - $ref: '#/components/parameters/Progress'
+  security:
+    - cookieAuth: []
+  responses:
+    204:
+      description: プログレス削除

@@ -1,40 +1,42 @@
 StatusResource:
-  $ref: "./basic/status.yaml"
+  $ref: './basic/status.yaml'
 StatusFailedResource:
-  $ref: "./basic/statusFailed.yaml"
+  $ref: './basic/statusFailed.yaml'
 ErrorResource:
-  $ref: "./basic/error.yaml"
+  $ref: './basic/error.yaml'
 SuccessResource:
   type: object
   properties:
     status:
-      $ref: "./basic/status.yaml"
+      $ref: './basic/status.yaml'
     payloads:
       type: object
 FailedResource:
   type: object
   properties:
     status:
-      $ref: "./basic/statusFailed.yaml"
+      $ref: './basic/statusFailed.yaml'
     error:
-      $ref: "./basic/error.yaml"
+      $ref: './basic/error.yaml'
 ResponseResource:
-  $ref: "./basic/response.yaml"
+  $ref: './basic/response.yaml'
 MetaResource:
-  $ref: "./basic/meta.yaml"
+  $ref: './basic/meta.yaml'
 ProjectResource:
-  $ref: "./project.yml"
+  $ref: './project.yml'
 MemberResource:
-  $ref: "./member.yml"
+  $ref: './member.yml'
 PaymentResource:
-  $ref: "./payment.yml"
+  $ref: './payment.yml'
 CategoryResource:
-  $ref: "./category.yml"
+  $ref: './category.yml'
 ItemResource:
-  $ref: "./item.yml"
+  $ref: './item.yml'
 AccountResource:
-  $ref: "./account.yml"
+  $ref: './account.yml'
+ProgressResource:
+  $ref: './progress.yml'
 CheckResource:
-  $ref: "./check.yml"
+  $ref: './check.yml'
 ReportResource:
-  $ref: "./report.yml"
+  $ref: './report.yml'
