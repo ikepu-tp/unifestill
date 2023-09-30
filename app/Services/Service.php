@@ -18,6 +18,7 @@ class Service
             case "0":
             case "null":
             case "undefined":
+            case "":
                 return false;
             default:
                 return true;
