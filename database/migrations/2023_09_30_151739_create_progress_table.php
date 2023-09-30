@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('progressId')->unique()->index();
             $table->foreignId('project_id')->constrained('projects');
             $table->boolean('need_auth')->default(true);
-            $table->boolean('logged');
+            $table->boolean('logged')->default(false);
             $table->timestamps();
         });
     }
