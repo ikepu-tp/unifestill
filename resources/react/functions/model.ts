@@ -129,14 +129,16 @@ export class Model<
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async destroy<P = ResponseType<T>, Param = NormalParamProps>(
+	public async destroy<P = ResponseType<T> | null, Param = NormalParamProps>(
 		resource: T | S | undefined | { [s: string]: any },
 		param: Param | undefined = undefined
 	): Promise<P> {
-		return super.destroy<P>(resource, {
-			...{},
-			...(this.resourceId_param || {}),
-			...(param || {}),
+		const _response: P | null = await this.send.delete<P, Param>({
+			path: this.path,
+			param: { ...{}, ...(this.resourceId_param || {}), ...(param || {}) } as Param,
+			body: JSON.stringify(resource),
 		});
+		if (_response === null) return null as P;
+		return _response as P;
 	}
 }

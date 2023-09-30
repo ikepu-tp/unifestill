@@ -63,6 +63,7 @@ export function AccountIndexView(props: AccountIndexProps): JSX.Element {
 export type AccountShowProps = {
 	project: ProjectResource;
 	resource: AccountResource;
+	deleteAccount: () => Promise<void>;
 };
 export function AccountShowView(props: AccountShowProps): JSX.Element {
 	return (
@@ -117,6 +118,9 @@ export function AccountShowView(props: AccountShowProps): JSX.Element {
 					</tr>
 				</tbody>
 			</Table>
+			<Button variant={'danger'} type="button" onClick={props.deleteAccount}>
+				削除
+			</Button>
 		</>
 	);
 }
