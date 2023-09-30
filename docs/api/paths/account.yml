@@ -14,6 +14,27 @@ get:
     - $ref: '#/components/parameters/ORDER'
     - $ref: '#/components/parameters/Project'
     - $ref: '#/components/parameters/KEYWORD'
+    - name: order_status
+      in: query
+      description: オーダー状況別に取得
+      schema:
+        type: string
+        example: ordered
+      required: false
+    - name: except
+      in: query
+      description: 除外ID
+      schema:
+        type: string
+        example: accountId
+      required: false
+    - name: sse
+      in: query
+      description: SSEの有無
+      schema:
+        type: boolean
+        example: true
+      required: false
   security:
     - cookieAuth: []
   responses:
