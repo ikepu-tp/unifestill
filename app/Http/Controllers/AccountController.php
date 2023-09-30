@@ -15,7 +15,9 @@ use App\Models\Item;
 use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Services\Service;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AccountController extends Controller
 {
@@ -27,7 +29,45 @@ class AccountController extends Controller
     {
         $account = $project->accounts();
 
+        Service::searchKeyword($account, "account_id", $request->query("keyword"));
+
+        $except = $request->query("except");
+        if ($except) $account = $account->whereNotIn(
+            "accountId",
+            explode(",", str_replace(" ", ",", Service::convertFullSpaceToHalfSpace($except)))
+        );
+
+        $order_status = $request->query("order_status");
+        if ($order_status) $account = $account->where("order_status", $order_status);
+
+        if (Service::convertQueryToBoolean($request->query("sse"))) return $this->indexSSE($account);
+
         return Resource::pagination($account, AccountResource::class);
+    }
+
+    public function indexSSE(mixed $account)
+    {
+        $response = new StreamedResponse(function () use ($account) {
+            $model = clone $account;
+            $sent = [];
+            while (true) {
+                $model = $model->whereNotIn('id', $sent);
+                /**
+                 * @var Account
+                 */
+                $resource = $model->first();
+                if (!$resource) continue;
+                $sent[] = $resource->id;
+                echo "data: " . json_encode((new AccountResource($resource))->createArray()) . "\n";
+                ob_flush();
+                flush();
+                sleep(1);
+            }
+        });
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('X-Accel-Buffering', 'no');
+        $response->headers->set('Cache-Control', 'no-cache');
+        return $response;
     }
 
     /**
