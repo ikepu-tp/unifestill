@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Progress;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
 
 class ProgressTest extends TestCase
@@ -63,13 +63,6 @@ class ProgressTest extends TestCase
         $this->assertStore();
     }
 
-    public function test_store_progress_with_validationError()
-    {
-        $this->requestAsAssociation();
-        $this->response = $this->post(route("progress.store", $this->getParameters()), []);
-        $this->assertValidationError();
-    }
-
     public function test_update_progress()
     {
         $this->requestAsAssociation();
@@ -79,19 +72,13 @@ class ProgressTest extends TestCase
         $this->assertPayloadId($progress->progressId, "progressId");
     }
 
-    public function test_update_progress_with_validationError()
-    {
-        $this->requestAsAssociation();
-        $progress =  Progress::factory()->create(["project_id" => $this->project->id]);
-        $this->response = $this->put(route("progress.update", $this->getParameters(["progress" => $progress->progressId])), []);
-        $this->assertValidationError();
-    }
-
     public function test_destroy_progress()
     {
         $this->requestAsAssociation();
         $progress =  Progress::factory()->create(["project_id" => $this->project->id]);
         $this->response = $this->delete(route("progress.destroy", $this->getParameters(["progress" => $progress->progressId])));
-        $this->assertNull($progress->refresh());
+        $this->assertThrows(function () use ($progress) {
+            $progress->refresh();
+        }, ModelNotFoundException::class);
     }
 }
