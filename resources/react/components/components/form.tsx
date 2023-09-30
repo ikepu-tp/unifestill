@@ -11,6 +11,8 @@ export type FormProps<
 > = FormResourceProps<Resource> & {
 	changeResourceStr?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	changeResourceNum?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+	changeResourceBool?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+	changeResourceCheck?: (e: ChangeEvent<HTMLInputElement>) => void;
 	ButtonDisabled?: boolean;
 	setButtonDisabled?: React.Dispatch<React.SetStateAction<boolean>>;
 	onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<ResponseType<Resource> | SubmitResponse>;

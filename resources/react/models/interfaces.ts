@@ -80,6 +80,14 @@ export type AccountResource = {
 	payments: AccountPaymentResource[];
 	items: AccountItemResource[];
 };
+export type ProgressStoreResource = {
+	need_auth: boolean;
+	logged: boolean;
+};
+export type ProgressResource = ProgressStoreResource & {
+	progressId: string;
+	project: ProgressResource;
+};
 
 export type CheckStoreResource = {
 	member_id: string;
