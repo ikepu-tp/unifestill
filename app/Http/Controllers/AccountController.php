@@ -15,7 +15,10 @@ use App\Models\Item;
 use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Services\Service;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AccountController extends Controller
 {
@@ -27,7 +30,58 @@ class AccountController extends Controller
     {
         $account = $project->accounts();
 
+        Service::searchKeyword($account, "account_id", $request->query("keyword"));
+
+        $except = $request->query("except");
+        if ($except) $account = $account->whereNotIn(
+            "accountId",
+            explode(",", str_replace(" ", ",", Service::convertFullSpaceToHalfSpace($except)))
+        );
+
+        $order_status = $request->query("order_status");
+        if ($order_status) $account = $account->where("order_status", $order_status);
+
+        if (Service::convertQueryToBoolean($request->query("sse"))) return $this->indexSSE($request, $account);
+
         return Resource::pagination($account, AccountResource::class);
+    }
+
+    public function indexSSE(Request $request, mixed $account)
+    {
+        $response = new StreamedResponse(function () use ($account, $request) {
+            $last_event_id = $request->header("Last-Event-Id", 0);
+            for ($i = 0; $i < 5; ++$i) {
+                $model = clone $account;
+                $model = $model->orderBy('id');
+                $model = $model->where("id", ">", $last_event_id);
+                if ($model->count() === 0) {
+                    echo "event: ping\n";
+                    echo "data: " . $i . "\n";
+                    echo "\n";
+                }
+                $model = $model->get();
+                foreach ($model as $resource) {
+                    if (!$resource) continue;
+                    $last_event_id = $resource->id;
+                    echo "event: message\n";
+                    echo "data: " . json_encode((new AccountResource($resource))->createArray()) . "\n";
+                    echo "id: " . $resource->id . "\n";
+                    echo "\n";
+                }
+                ob_flush();
+                flush();
+
+                if (connection_aborted()) break;
+
+                sleep(1);
+            }
+        });
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('X-Accel-Buffering', 'no');
+        $response->headers->set('Cache-Control', 'no-cache');
+        $response->headers->remove("Connection");
+        $response->headers->set("Connection", "keep-alive");
+        return $response;
     }
 
     /**

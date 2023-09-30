@@ -25,7 +25,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
         \ikepu_tp\ActivityLog\app\Http\Middleware\ActivityLogMiddleware::class,
-        \ikepu_tp\AccessLogger\app\Http\Middleware\AccessLoggerMiddleware::class,
+        // \ikepu_tp\AccessLogger\app\Http\Middleware\AccessLoggerMiddleware::class,
         AddRequestNonceMiddleware::class,
     ];
 

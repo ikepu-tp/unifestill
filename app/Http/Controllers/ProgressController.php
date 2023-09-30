@@ -68,4 +68,9 @@ class ProgressController extends Controller
         if (!$progress->delete()) throw new DeleteFailedException();
         return Resource::NoContent();
     }
+
+    public function progress(Request $request)
+    {
+        return view("app.app", ["source" => 'resources/react/components/views/progress.tsx']);
+    }
 }
