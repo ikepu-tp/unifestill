@@ -9,6 +9,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\Resource;
 use App\Models\Project;
+use App\Services\Service;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -19,6 +20,8 @@ class CategoryController extends Controller
     public function index(CategoryRequest $request, Project $project)
     {
         $category = $project->categories();
+
+        Service::searchKeyword($category, "name", $request->query("keyword"));
 
         return Resource::pagination($category, CategoryResource::class);
     }

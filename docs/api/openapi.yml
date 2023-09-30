@@ -216,6 +216,14 @@ components:
         type: string
         example: asc
       required: false
+    KEYWORD:
+      name: keyword
+      in: query
+      description: キーワード検索
+      schema:
+        type: string
+        example: keyword
+      required: false
     Project:
       name: project
       in: path
