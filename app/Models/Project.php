@@ -82,4 +82,9 @@ class Project extends Model
     {
         return $this->hasManyThrough(Item::class, Category::class);
     }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
+    }
 }
