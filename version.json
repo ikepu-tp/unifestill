@@ -1,20 +1,28 @@
 [
 	{
 		"version": "1.0.0",
-		"releaseDate": "2023/09/29",
-		"createdDate": "2023/09/29",
+		"releaseDate": "2023/09/30",
+		"createdDate": "2023/09/30",
 		"Author": ["ikepu-tp"],
-		"url": null,
+		"url": [
+			"https://github.com/ikepu-tp/unifestill/tree/release-v1.0.0",
+			"https://github.com/ikepu-tp/unifestill/releases/tag/v1.0.0"
+		],
 		"description": ["First release."],
 		"newFeatures": [
-			"Ability to manage products and accounting on a per-project basis",
-			"Functionality for product registration and accounting"
+			"ユーザー登録，ログイン",
+			"プロジェクト作成・管理",
+			"プロジェクトメンバー登録・管理",
+			"支払い方法登録・管理",
+			"商品カテゴリー登録・管理",
+			"商品登録・管理",
+			"会計登録・閲覧"
 		],
 		"changedFeatures": null,
 		"deletedFeatures": null,
-		"notice": ["This is the first release. If you find some bugs, please report on issues."],
+		"notice": null,
 		"security": null,
 		"futurePlans": null,
-		"note": null
+		"note": ["初めのリリースです。もしバグがあればイシューからご報告ください。"]
 	}
 ]
