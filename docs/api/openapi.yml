@@ -98,6 +98,12 @@ tags:
       ## 会計リソース
       <SchemaDefinition schemaRef="#/components/schemas/AccountResource" />
 
+  - name: progress
+    x-displayName: プログレス
+    description: |
+      ## プログレスリソース
+      <SchemaDefinition schemaRef="#/components/schemas/ProgressResource" />
+
   - name: check
     x-displayName: レジチェック
     description: |
@@ -129,6 +135,7 @@ x-tagGroups:
     x-displayName: 会計
     tags:
       - account
+      - progress
       - check
 
 paths:
@@ -156,6 +163,10 @@ paths:
     $ref: './paths/account.yml'
   /v1/project/{project}/account/{account}:
     $ref: './paths/account-id.yml'
+  /v1/project/{project}/progress:
+    $ref: './paths/progress.yml'
+  /v1/project/{project}/progress/{progress}:
+    $ref: './paths/progress-id.yml'
   /v1/project/{project}/check:
     $ref: './paths/check.yml'
   /v1/project/{project}/check/{check}:
@@ -265,6 +276,13 @@ components:
       schema:
         type: string
         example: accountId
+      required: true
+    Progress:
+      name: progress
+      in: path
+      schema:
+        type: string
+        example: hashId
       required: true
     Check:
       name: check
