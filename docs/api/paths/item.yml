@@ -5,15 +5,16 @@ get:
   description: 商品の一覧を取得します
   operationId: itemIndex
   parameters:
-    - $ref: "#/components/parameters/ACCEPT"
-    - $ref: "#/components/parameters/CONTENT-TYPE"
-    - $ref: "#/components/parameters/NONCE"
-    - $ref: "#/components/parameters/TOKEN"
-    - $ref: "#/components/parameters/PER"
-    - $ref: "#/components/parameters/PAGE"
-    - $ref: "#/components/parameters/ORDER"
-    - $ref: "#/components/parameters/Project"
-    - $ref: "#/components/parameters/Category"
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/PER'
+    - $ref: '#/components/parameters/PAGE'
+    - $ref: '#/components/parameters/ORDER'
+    - $ref: '#/components/parameters/Project'
+    - $ref: '#/components/parameters/Category'
+    - $ref: '#/components/parameters/KEYWORD'
     - name: parent
       description: |
         `parent_id`を指定
@@ -41,16 +42,16 @@ get:
             type: object
             properties:
               status:
-                $ref: "#/components/schemas/StatusResource"
+                $ref: '#/components/schemas/StatusResource'
               payloads:
                 type: object
                 properties:
                   meta:
-                    $ref: "#/components/schemas/MetaResource"
+                    $ref: '#/components/schemas/MetaResource'
                   items:
                     type: array
                     items:
-                      $ref: "#/components/schemas/ItemResource"
+                      $ref: '#/components/schemas/ItemResource'
 post:
   tags:
     - item
@@ -58,23 +59,23 @@ post:
   description: 商品を登録します
   operationId: itemStore
   parameters:
-    - $ref: "#/components/parameters/ACCEPT"
-    - $ref: "#/components/parameters/CONTENT-TYPE"
-    - $ref: "#/components/parameters/NONCE"
-    - $ref: "#/components/parameters/TOKEN"
-    - $ref: "#/components/parameters/Project"
-    - $ref: "#/components/parameters/Category"
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/Project'
+    - $ref: '#/components/parameters/Category'
   security:
     - cookieAuth: []
   requestBody:
     content:
       application/json:
         schema:
-          $ref: "#/components/schemas/ItemResource"
+          $ref: '#/components/schemas/ItemResource'
   responses:
     201:
       description: 商品登録
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ItemResource"
+            $ref: '#/components/schemas/ItemResource'
