@@ -31,7 +31,7 @@ class Item extends Model
         'id' => 'integer',
         'itemId' => 'string',
         'category_id' => 'integer',
-        'name' => 'encrypted',
+        'name' => 'string',
         'price' => 'integer',
         'parent_id' => 'integer',
         'note' => 'encrypted',

@@ -29,7 +29,7 @@ class Payment extends Model
         'id' => 'integer',
         'paymentId' => 'string',
         'project_id' => 'integer',
-        'name' => 'encrypted',
+        'name' => 'string',
         'note' => 'encrypted',
     ];
 
