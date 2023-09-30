@@ -1,6 +1,7 @@
 type: object
 properties:
   progressId:
+    readOnly: true
     type: string
     example: hashId
   project:
@@ -8,5 +9,8 @@ properties:
     allOf:
       - $ref: '#/components/schemas/ProjectResource'
   need_auth:
+    type: boolean
+    example: true
+  logged:
     type: boolean
     example: true
