@@ -1,6 +1,6 @@
 <x-app-layout>
   <!-- Scripts -->
-  @vite(['resources/react/index.tsx'])
+  @vite([$source])
   <x-slot name="header">
     会計
   </x-slot>
