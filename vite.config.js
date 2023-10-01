@@ -35,6 +35,6 @@ export default defineConfig({
         },
     },
     build: {
-        outDir: "./public/assets/build"
+        manifest: true,
     }
 });

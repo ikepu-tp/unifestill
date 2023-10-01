@@ -1,7 +1,7 @@
 <header class="d-block d-print-none navbar navbar-expand-lg navbar-light bg-light p-0">
   <div class="container-fluid p-0">
     <a href="{{ route('app', ['fallbackPlaceholder' => '/']) }}" class="navbar-brand p-0">
-      <img src="{{ asset('img/logo.png') }}" alt="UniFesTill" style="height: 70px;" />
+      <img src="/assets/img/logo.png" alt="UniFesTill" style="height: 70px;" />
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#_header-nav"
       aria-controls="_header-nav" aria-expanded="false" aria-label="Toggle navigation">

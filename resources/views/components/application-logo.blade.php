@@ -1,1 +1,1 @@
-<img src="{{ asset('img/logo.png') }}" alt="UniFesTill" width="150" />
+<img src="/assets/img/logo.png" alt="UniFesTill" width="150" />
