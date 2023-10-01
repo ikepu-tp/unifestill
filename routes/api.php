@@ -6,6 +6,7 @@ use App\Http\Controllers\CheckController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,8 @@ Route::middleware(['auth:sanctum,associations', 'verified'])->prefix("v1")->grou
         Route::apiResource("payment", PaymentController::class)->names("payment")->except(["destroy",]);
         Route::apiResource("category", CategoryController::class)->names("category")->except(["destroy",]);
         Route::apiResource("item", ItemController::class)->names("item")->except(["destroy",]);
-        Route::apiResource("account", AccountController::class)->names("account")->except(["update"]);
+        Route::apiResource("account", AccountController::class)->names("account");
+        Route::apiResource("progress", ProgressController::class)->names("progress");
         Route::apiResource("check", CheckController::class)->names("check")->except(["destroy", "update"]);
     });
     Route::apiResource("project", ProjectController::class)->names("project");

@@ -9,6 +9,7 @@ use App\Http\Requests\PaymentRequest;
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\Resource;
 use App\Models\Project;
+use App\Services\Service;
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
@@ -19,6 +20,8 @@ class PaymentController extends Controller
     public function index(PaymentRequest $request, Project $project)
     {
         $payment = $project->payments();
+
+        Service::searchKeyword($payment, "name", $request->query("keyword"));
 
         return Resource::pagination($payment, PaymentResource::class);
     }

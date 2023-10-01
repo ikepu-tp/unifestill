@@ -6,6 +6,7 @@ import { ParamType } from '@ikepu-tp/react-mvc/dist/esm/Url';
 export class Model<
 	T = any,
 	S = any,
+	U = any,
 	PathParamertsType = { [s: string]: any },
 	IndexParamProps = ParamIndexType,
 	NormalParamProps = ParamType,
@@ -15,7 +16,7 @@ export class Model<
 	PathParamertsType,
 	T,
 	S,
-	S,
+	U,
 	IndexParamProps,
 	NormalParamProps,
 	NormalParamProps,
@@ -112,7 +113,7 @@ export class Model<
 	 * @memberof Model
 	 */
 	public async update<P = ResponseType<T>, Param = NormalParamProps>(
-		resource: S,
+		resource: U,
 		param: Param | undefined = undefined
 	): Promise<P> {
 		return super.update<P>(resource, {
@@ -129,14 +130,16 @@ export class Model<
 	 * @return {*}  {Promise<ResponseType<T>>}
 	 * @memberof Model
 	 */
-	public async destroy<P = ResponseType<T>, Param = NormalParamProps>(
+	public async destroy<P = ResponseType<T> | null, Param = NormalParamProps>(
 		resource: T | S | undefined | { [s: string]: any },
 		param: Param | undefined = undefined
 	): Promise<P> {
-		return super.destroy<P>(resource, {
-			...{},
-			...(this.resourceId_param || {}),
-			...(param || {}),
+		const _response: P | null = await this.send.delete<P, Param>({
+			path: this.path,
+			param: { ...{}, ...(this.resourceId_param || {}), ...(param || {}) } as Param,
+			body: JSON.stringify(resource),
 		});
+		if (_response === null) return null as P;
+		return _response as P;
 	}
 }

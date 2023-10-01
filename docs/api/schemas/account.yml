@@ -18,11 +18,20 @@ properties:
   member:
     readOnly: true
     allOf:
-      - $ref: "#/components/schemas/MemberResource"
+      - $ref: '#/components/schemas/MemberResource'
   price:
     type: integer
     description: 合計金額
     example: 100
+  order_status:
+    type: string
+    description: |
+      |key|description|
+      |---|-----------|
+      |ordered|注文済み|
+      |progress|作業中，準備中|
+      |completed|完了，引渡し済み|
+    example: ordered
   payments:
     type: array
     items:
@@ -44,7 +53,7 @@ properties:
         payment:
           readOnly: true
           allOf:
-            - $ref: "#/components/schemas/PaymentResource"
+            - $ref: '#/components/schemas/PaymentResource'
         price:
           type: integer
           description: 支払額
@@ -70,7 +79,7 @@ properties:
         item:
           readOnly: true
           allOf:
-            - $ref: "#/components/schemas/ItemResource"
+            - $ref: '#/components/schemas/ItemResource'
         price:
           type: integer
           description: 支払額
@@ -100,7 +109,7 @@ properties:
               item:
                 readOnly: true
                 allOf:
-                  - $ref: "#/components/schemas/ItemResource"
+                  - $ref: '#/components/schemas/ItemResource'
               price:
                 type: integer
                 description: 支払額

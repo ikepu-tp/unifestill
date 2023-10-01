@@ -55,11 +55,16 @@ export type AccountPaymentStoreResource = {
 	payment: ProjectPaymentResource;
 	price: number;
 };
+export type AccountOrderStatusType = 'ordered' | 'progress' | 'completed';
 export type AccountStoreResource = {
 	member_id: string;
 	price: number;
 	payments: AccountPaymentStoreResource[];
 	items: AccountItemStoreResource[];
+	order_status: AccountOrderStatusType;
+};
+export type AccountUpdateResource = {
+	order_status: AccountOrderStatusType;
 };
 export type AccountPaymentResource = {
 	accountPaymentId: string;
@@ -79,6 +84,15 @@ export type AccountResource = {
 	price: number;
 	payments: AccountPaymentResource[];
 	items: AccountItemResource[];
+	order_status: AccountOrderStatusType;
+};
+export type ProgressStoreResource = {
+	need_auth: boolean;
+	logged: boolean;
+};
+export type ProgressResource = ProgressStoreResource & {
+	progressId: string;
+	project: ProgressResource;
 };
 
 export type CheckStoreResource = {

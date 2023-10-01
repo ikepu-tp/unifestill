@@ -11,6 +11,7 @@ use App\Http\Resources\ItemResource;
 use App\Http\Resources\Resource;
 use App\Models\Category;
 use App\Models\Project;
+use App\Services\Service;
 use Illuminate\Support\Str;
 
 class ItemController extends Controller
@@ -21,6 +22,8 @@ class ItemController extends Controller
     public function index(ItemRequest $request, Project $project)
     {
         $item = $project->items();
+
+        Service::searchKeyword($item, "name", $request->query("keyword"));
 
         $parent = $request->query("parent", false);
         if ($parent !== false) {

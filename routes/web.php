@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProgressController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,14 +23,12 @@ Route::middleware('auth:web,associations')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+Route::get("progress/{progress}", [ProgressController::class, "progress"])->name("progress.order");
 
 Route::middleware(['auth:web,associations', 'verified'])->group(function () {
     Route::resource("logs", \ikepu_tp\AccessLogger\app\Http\Controllers\LogController::class)->names("accessLogger")->only(["index",]);
     Route::get("activity-log", [\ikepu_tp\ActivityLog\app\Http\Controllers\ActivityLogController::class, "index"])->middleware(["auth:" . config("activity-log.guard")])->name("activity-log.index");
-    Route::get('/react', function () {
-        return view('react');
-    })->name('react');
     Route::fallback(function () {
-        return view("app.app");
+        return view("app.app", ["source" => 'resources/react/index.tsx']);
     })->name("app");
 });

@@ -29,7 +29,7 @@ class Project extends Model
         'id' => 'integer',
         'projectId' => 'string',
         'association_id' => 'integer',
-        'name' => 'encrypted',
+        'name' => 'string',
         'note' => 'encrypted',
     ];
 
@@ -81,5 +81,10 @@ class Project extends Model
     public function items()
     {
         return $this->hasManyThrough(Item::class, Category::class);
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
     }
 }

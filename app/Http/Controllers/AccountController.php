@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Error\DeleteFailedException;
+use App\Exceptions\Error\ForbittenException;
 use App\Exceptions\Error\NotExistRecordException;
 use App\Exceptions\Error\SaveFailedException;
 use App\Models\Account;
@@ -14,8 +15,12 @@ use App\Models\Account_payment;
 use App\Models\Item;
 use App\Models\Member;
 use App\Models\Payment;
+use App\Models\Progress;
 use App\Models\Project;
+use App\Services\Service;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AccountController extends Controller
 {
@@ -27,7 +32,90 @@ class AccountController extends Controller
     {
         $account = $project->accounts();
 
+        Service::searchKeyword($account, "account_id", $request->query("keyword"));
+
+        $except = $request->query("except");
+        if ($except) $account = $account->whereNotIn(
+            "accountId",
+            explode(",", str_replace(" ", ",", Service::convertFullSpaceToHalfSpace($except)))
+        );
+
+        if (Service::convertQueryToBoolean($request->query("sse"))) return $this->indexSSE($request, $account);
+
+        $order_status = $request->query("order_status");
+        if ($order_status) $account = $account->where("order_status", $order_status);
+
         return Resource::pagination($account, AccountResource::class);
+    }
+
+    public function indexSSE(Request $request, mixed $account)
+    {
+        //check progress
+        $progress = Progress::where('progressId', $request->query("progress", ""))->first();
+        if (!$progress) throw new NotExistRecordException();
+        //if (!$progress->logged) throw new ForbittenException();
+
+        //create response
+        $response = new StreamedResponse(function () use ($account, $request) {
+            $last_event_id = $request->header("Last-Event-Id", 0);
+            $account = $account->orderBy("id");
+            $max = config("unifestill.sse_sec");
+            $now = now();
+            $now->subMinute();
+
+            $model = clone $account;
+            $order_status = $request->query("order_status");
+            if ($order_status) $model = $model->where("order_status", $order_status);
+            $model = $model->where('id', ">", $last_event_id);
+            if ($model->count() === 0) $this->printPing($now->format("Y-m-d H:i:s"));
+            $model = $model->get();
+            foreach ($model as $resource) {
+                if (!$resource) continue;
+                $last_event_id = $resource->id;
+                $this->printResource($resource);
+            }
+            sleep(1);
+
+            for ($i = 0; $i < $max; ++$i) {
+                $model = clone $account;
+                $model = $model->whereDate("updated_at", ">=", $now->format('Y-m-d'));
+                $model = $model->whereTime("updated_at", ">=", $now->format('H:i:s'));
+                if ($model->count() === 0) $this->printPing($now->format("Y-m-d H:i:s"));
+                $model = $model->get();
+                foreach ($model as $resource) {
+                    if (!$resource) continue;
+                    $last_event_id = $resource->id;
+                    $this->printResource($resource);
+                }
+                ob_flush();
+                flush();
+
+                if (connection_aborted()) break;
+
+                //$now->addMinute();
+                sleep(1);
+            }
+        });
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('X-Accel-Buffering', 'no');
+        $response->headers->set('Cache-Control', 'no-cache');
+        $response->headers->set("Connection", "keep-alive");
+        return $response;
+    }
+
+    public function printPing(string|int $i = "")
+    {
+        echo "event: ping\n";
+        echo "data: " . $i . "\n";
+        echo "\n";
+    }
+
+    public function printResource(Account $account)
+    {
+        echo "event: message\n";
+        echo "data: " . json_encode((new AccountResource($account))->createArray()) . "\n";
+        echo "id: " . $account->id . "\n";
+        echo "\n";
     }
 
     /**
@@ -134,7 +222,9 @@ class AccountController extends Controller
      */
     public function update(AccountRequest $request, Project $project, Account $account)
     {
-        //
+        $account->fill($request->safe(["order_status"]));
+        if (!$account->save()) throw new SaveFailedException();
+        return Resource::success(new AccountResource($account));
     }
 
     /**

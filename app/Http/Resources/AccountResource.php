@@ -30,6 +30,7 @@ class AccountResource extends JsonResource
             "price" => $this->resource->price,
             "payments" => AccountPaymentResource::collection($this->resource->account_payments),
             "items" => AccountItemResource::collection($this->resource->account_items),
+            "order_status" => $this->resource->order_status,
             "created_at" => $this->resource->created_at,
             "updated_at" => $this->resource->updated_at,
         ];

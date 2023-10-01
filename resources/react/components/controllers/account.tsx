@@ -59,6 +59,7 @@ export function AccountShowController(): JSX.Element {
 	const [Resource, setResource] = useState<AccountResource | undefined>(undefined);
 
 	const { project, account } = useParams() as AccountParam;
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		getProject();
@@ -79,6 +80,12 @@ export function AccountShowController(): JSX.Element {
 		if (!response || !response.payloads) throw new Error('存在しないプロジェクトです');
 		setProjectResource({ ...{}, ...response.payloads });
 	}
+	async function deleteAccout(): Promise<void> {
+		const model = new Account({ project });
+		model.setResourceId(account);
+		await model.destroy(Resource);
+		navigate(route('account.index', { project: project }));
+	}
 
 	if (Resource === undefined || ProjectResource === undefined) return <></>;
 	return (
@@ -95,7 +102,7 @@ export function AccountShowController(): JSX.Element {
 				},
 			]}
 		>
-			<AccountShowView resource={Resource} project={ProjectResource} />
+			<AccountShowView resource={Resource} project={ProjectResource} deleteAccount={deleteAccout} />
 		</PageWrapper>
 	);
 }

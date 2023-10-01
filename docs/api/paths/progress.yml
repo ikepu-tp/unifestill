@@ -1,0 +1,63 @@
+get:
+  tags:
+    - progress
+  summary: プログレス一覧
+  description: プログレスの一覧を取得します
+  operationId: progressIndex
+  parameters:
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/PER'
+    - $ref: '#/components/parameters/PAGE'
+    - $ref: '#/components/parameters/ORDER'
+    - $ref: '#/components/parameters/Project'
+    - $ref: '#/components/parameters/KEYWORD'
+  security:
+    - cookieAuth: []
+  responses:
+    200:
+      description: プログレスの一覧
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: '#/components/schemas/StatusResource'
+              payloads:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/MetaResource'
+                  progresss:
+                    type: array
+                    progresss:
+                      $ref: '#/components/schemas/ProgressResource'
+post:
+  tags:
+    - progress
+  summary: プログレス登録
+  description: プログレスを登録します
+  operationId: progressStore
+  parameters:
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/Project'
+  security:
+    - cookieAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ProgressResource'
+  responses:
+    201:
+      description: プログレス登録
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProgressResource'

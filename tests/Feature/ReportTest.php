@@ -50,7 +50,7 @@ class ReportTest extends TestCase
         ])));
         $this->assertResponse(array_merge($this->resource, [
             "member_sales" => [
-                [
+                "*" => [
                     "member",
                     "count",
                     "price"
@@ -74,7 +74,7 @@ class ReportTest extends TestCase
         ])));
         $this->assertResponse(array_merge($this->resource, [
             "payment_sales" => [
-                [
+                "*" => [
                     "payment",
                     "count",
                     "price"

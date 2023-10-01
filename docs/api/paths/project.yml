@@ -5,13 +5,14 @@ get:
   description: プロジェクトの一覧を取得します
   operationId: projectIndex
   parameters:
-    - $ref: "#/components/parameters/ACCEPT"
-    - $ref: "#/components/parameters/CONTENT-TYPE"
-    - $ref: "#/components/parameters/NONCE"
-    - $ref: "#/components/parameters/TOKEN"
-    - $ref: "#/components/parameters/PER"
-    - $ref: "#/components/parameters/PAGE"
-    - $ref: "#/components/parameters/ORDER"
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/PER'
+    - $ref: '#/components/parameters/PAGE'
+    - $ref: '#/components/parameters/ORDER'
+    - $ref: '#/components/parameters/KEYWORD'
   security:
     - cookieAuth: []
   responses:
@@ -23,16 +24,16 @@ get:
             type: object
             properties:
               status:
-                $ref: "#/components/schemas/StatusResource"
+                $ref: '#/components/schemas/StatusResource'
               payloads:
                 type: object
                 properties:
                   meta:
-                    $ref: "#/components/schemas/MetaResource"
+                    $ref: '#/components/schemas/MetaResource'
                   items:
                     type: array
                     items:
-                      $ref: "#/components/schemas/ProjectResource"
+                      $ref: '#/components/schemas/ProjectResource'
 post:
   tags:
     - project
@@ -40,21 +41,21 @@ post:
   description: プロジェクトを登録します
   operationId: projectStore
   parameters:
-    - $ref: "#/components/parameters/ACCEPT"
-    - $ref: "#/components/parameters/CONTENT-TYPE"
-    - $ref: "#/components/parameters/NONCE"
-    - $ref: "#/components/parameters/TOKEN"
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
   security:
     - cookieAuth: []
   requestBody:
     content:
       application/json:
         schema:
-          $ref: "#/components/schemas/ProjectResource"
+          $ref: '#/components/schemas/ProjectResource'
   responses:
     201:
       description: プロジェクト登録
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ProjectResource"
+            $ref: '#/components/schemas/ProjectResource'

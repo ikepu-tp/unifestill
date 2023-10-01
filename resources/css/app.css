@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+[type='checkbox']:checked,
+[type='radio']:checked {
+	background-size: contain;
+}

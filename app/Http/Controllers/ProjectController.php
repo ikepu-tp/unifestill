@@ -9,6 +9,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\Resource;
 use App\Models\Association;
+use App\Services\Service;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -24,6 +25,8 @@ class ProjectController extends Controller
          */
         $association = $request->user("associations");
         $project = $association->projects();
+
+        Service::searchKeyword($project, "name", $request->query("keyword"));
 
         return Resource::pagination($project, ProjectResource::class);
     }

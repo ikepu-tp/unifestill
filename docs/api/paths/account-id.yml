@@ -39,7 +39,17 @@ put:
     content:
       application/json:
         schema:
-          $ref: "#/components/schemas/AccountResource"
+          type: object
+          properties:
+            order_status:
+              type: string
+              description: |
+                |key|description|
+                |---|-----------|
+                |ordered|注文済み|
+                |progress|作業中，準備中|
+                |completed|完了，引渡し済み|
+              example: ordered
   responses:
     200:
       description: お会計更新
