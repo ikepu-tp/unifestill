@@ -9,8 +9,9 @@ export function ProgressView(): JSX.Element {
 		const project = document.getElementById('project') as HTMLInputElement;
 		const progress = document.getElementById('progress') as HTMLInputElement;
 		if (!project || !progress) return;
+		//return;
 		openES(
-			`/api/v1/project/${project.value}/account?sse=true&order_status=ordered`,
+			`/api/v1/project/${project.value}/account?sse=true&order_status=ordered&progress=${progress.value}`,
 			(account: AccountResource): void => {
 				Accounts[account['accountId']] = account;
 				setAccounts({ ...{}, ...Accounts });
@@ -22,7 +23,6 @@ export function ProgressView(): JSX.Element {
 	}, []);
 	return (
 		<>
-			<pre>{JSON.stringify(Accounts, null, 2)}</pre>
 			<button type="button" className="btn btn-primary d-block" onClick={closeES}>
 				close
 			</button>
