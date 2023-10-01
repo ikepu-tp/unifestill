@@ -39,5 +39,5 @@ jobs:
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d "{ \"tag_name\": \"${{ env.RELEASED_VERSION }}\", \"name\": \"${{ env.RELEASED_VERSION }}\", \"generate_release_notes\": true }" \
+            -d "{ \"tag_name\": \"v${{ env.RELEASED_VERSION }}\", \"name\": \"${{ env.RELEASED_VERSION }}\", \"generate_release_notes\": true }" \
             https://api.github.com/repos/${GITHUB_REPOSITORY}/releases
