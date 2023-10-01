@@ -30,7 +30,7 @@
     "src": "resources/react/index.tsx"
   },
   "resources/react/progress.tsx": {
-    "file": "assets/progress-5ba48851.js",
+    "file": "assets/progress-a1d549eb.js",
     "imports": [
       "resources/react/index.tsx"
     ],
