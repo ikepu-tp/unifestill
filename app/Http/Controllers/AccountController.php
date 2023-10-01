@@ -50,9 +50,10 @@ class AccountController extends Controller
     {
         $response = new StreamedResponse(function () use ($account, $request) {
             $last_event_id = $request->header("Last-Event-Id", 0);
-            for ($i = 0; $i < 5; ++$i) {
+            $account = $account->orderBy("id");
+            $max = config("unifestill.sse_sec");
+            for ($i = 0; $i < $max; ++$i) {
                 $model = clone $account;
-                $model = $model->orderBy('id');
                 $model = $model->where("id", ">", $last_event_id);
                 if ($model->count() === 0) {
                     echo "event: ping\n";
@@ -79,7 +80,6 @@ class AccountController extends Controller
         $response->headers->set('Content-Type', 'text/event-stream');
         $response->headers->set('X-Accel-Buffering', 'no');
         $response->headers->set('Cache-Control', 'no-cache');
-        $response->headers->remove("Connection");
         $response->headers->set("Connection", "keep-alive");
         return $response;
     }

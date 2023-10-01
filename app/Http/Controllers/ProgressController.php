@@ -69,8 +69,14 @@ class ProgressController extends Controller
         return Resource::NoContent();
     }
 
-    public function progress(Request $request)
+    public function progress(Request $request, Progress $progress)
     {
-        return view("app.app", ["source" => 'resources/react/components/views/progress.tsx']);
+        return view("app.app", [
+            "source" => 'resources/react/components/views/progress-ev.tsx',
+            "contents" => [
+                "project" => $progress->project->projectId,
+                "progress" => $progress->progressId,
+            ]
+        ]);
     }
 }

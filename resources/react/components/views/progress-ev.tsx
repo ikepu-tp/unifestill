@@ -1,17 +1,28 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { render } from '~/index';
+import { AccountResource } from '~/models/interfaces';
 
 export function ProgressView(): JSX.Element {
-	const { openES, closeES } = useES();
+	const [Accounts, setAccounts] = useState<{ [s: string]: AccountResource }>({});
+	const { openES, closeES } = useES<AccountResource>();
 	useEffect(() => {
-		openES('');
+		const project = document.getElementById('project') as HTMLInputElement;
+		const progress = document.getElementById('progress') as HTMLInputElement;
+		if (!project || !progress) return;
+		openES(
+			`/api/v1/project/${project.value}/account?sse=true&order_status=ordered`,
+			(account: AccountResource): void => {
+				Accounts[account['accountId']] = account;
+				setAccounts({ ...{}, ...Accounts });
+			}
+		);
 		return () => {
 			closeES();
 		};
 	}, []);
 	return (
 		<>
-			Progress View
+			<pre>{JSON.stringify(Accounts, null, 2)}</pre>
 			<button type="button" className="btn btn-primary d-block" onClick={closeES}>
 				close
 			</button>
@@ -19,9 +30,13 @@ export function ProgressView(): JSX.Element {
 	);
 }
 
-export function useES<T = any>() {
+export function useES<T = any>(): {
+	openES: (esUrl: string, onMessage?: (props: T) => void, onError?: (ev: Event) => void) => void;
+	closeES: () => void;
+	ESRef: React.MutableRefObject<EventSource | null>;
+} {
 	const ESRef = useRef<EventSource | null>(null);
-	const openES = useCallback((esUrl: string, onMessage?: (props: T) => void, onError?: (ev: Event) => void) => {
+	const openES = useCallback((esUrl: string, onMessage?: (props: T) => void, onError?: (ev: Event) => void): void => {
 		if (ESRef.current !== null || esUrl === '') return;
 		const es = new EventSource(esUrl);
 		es.onopen = function () {
@@ -37,7 +52,7 @@ export function useES<T = any>() {
 		ESRef.current = es;
 	}, []);
 
-	const closeES = useCallback(() => {
+	const closeES = useCallback((): void => {
 		if (ESRef.current === null) return;
 		ESRef.current.close();
 		ESRef.current = null;

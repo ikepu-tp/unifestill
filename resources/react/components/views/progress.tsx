@@ -36,7 +36,7 @@ export function ProgressIndexView(props: ProgressIndexProps): JSX.Element {
 						href={route('progress.show', { project: props.project['projectId'], progress: item['progressId'] })}
 						onClick={onClick}
 					>
-						{item['progressId']}
+						/progress/{item['progressId']}
 					</ListGroup.Item>
 				)}
 				itemWrapper={ListGroup}
