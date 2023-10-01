@@ -21,7 +21,7 @@
 
 <body class="font-sans antialiased" style="min-height: 100vh;">
   <div class="position-relative pb-5" style="min-height: 100vh;">
-    <main class="container" class="width: 100vw;">
+    <main class="container-fluid" class="width: 100vw;">
       @isset($contents)
         @foreach ($contents as $key => $value)
           <input type="hidden" id="{{ $key }}" value="{{ $value }}">

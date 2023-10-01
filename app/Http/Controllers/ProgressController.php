@@ -79,7 +79,7 @@ class ProgressController extends Controller
         if ($progress->logged) throw new ForbittenException();
         $progress->fill(["logged" => true])->save();
         return view("app.progress", [
-            "source" => 'resources/react/components/views/progress-ev.tsx',
+            "source" => 'resources/react/progress.tsx',
             "contents" => [
                 "project" => $progress->project->projectId,
                 "progress" => $progress->progressId,
