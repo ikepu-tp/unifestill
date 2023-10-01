@@ -71,7 +71,7 @@ class ProgressController extends Controller
 
     public function progress(Request $request, Progress $progress)
     {
-        return view("app.app", [
+        return view("app.progress", [
             "source" => 'resources/react/components/views/progress-ev.tsx',
             "contents" => [
                 "project" => $progress->project->projectId,
