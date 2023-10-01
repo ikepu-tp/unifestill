@@ -124,6 +124,7 @@ export function ProgressStoreController(): JSX.Element {
 	}
 
 	async function getProgress(): Promise<void> {
+		if (progress === 'new') return;
 		const model = new Progress({ project });
 		model.setResourceId(progress);
 		const response = await model.show();
