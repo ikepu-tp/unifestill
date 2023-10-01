@@ -94,6 +94,14 @@ export function ProgressForm(props: ProgressFormProps): JSX.Element {
 					onChange={props.changeResourceCheck}
 				/>
 			</InputWrapper>
+			<InputWrapper label="利用中" required>
+				<Form.Check
+					type="switch"
+					name="logged"
+					checked={props.Resource['logged']}
+					onChange={props.changeResourceCheck}
+				/>
+			</InputWrapper>
 			<Button variant="primary" type="submit" disabled={props.ButtonDisabled} className="mt-4">
 				登録
 			</Button>
