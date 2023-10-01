@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $project_id
  * @property int $price
  * @property int $member_id
+ * @property string $order_status
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
@@ -31,6 +32,7 @@ class Account extends Model
         'project_id' => 'integer',
         'price' => 'integer',
         'member_id' => 'integer',
+        "order_status" => "string",
     ];
 
     /**

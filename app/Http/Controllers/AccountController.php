@@ -196,7 +196,9 @@ class AccountController extends Controller
      */
     public function update(AccountRequest $request, Project $project, Account $account)
     {
-        //
+        $account->fill($request->safe(["order_status"]));
+        if (!$account->save()) throw new SaveFailedException();
+        return Resource::success(new AccountResource($account));
     }
 
     /**

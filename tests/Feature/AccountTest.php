@@ -59,7 +59,8 @@ class AccountTest extends TestCase
                         ]
                     ],
                 ]
-            ]
+            ],
+            "order_status" => "ordered",
         ];
     }
 
@@ -103,9 +104,12 @@ class AccountTest extends TestCase
 
     public function test_update_account()
     {
-        $this->assertThrows(function () {
-            route("account.update");
-        }, RouteNotFoundException::class);
+        $this->requestAsAssociation();
+        $account = Account::factory()->create(["project_id" => $this->project->id]);
+        $this->response = $this->put(route("account.update", $this->getParameters(["account" => $account->accountId])), ["order_status" => "progress"]);
+        $this->assertUpdate();
+        $this->assertPayloadId($account->accountId, "accountId");
+        $this->assertEquals("progress", $account->refresh()->order_status);
     }
 
     public function test_destroy_account()

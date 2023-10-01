@@ -38,6 +38,7 @@ class ReportController extends Controller
             $account_by_member->select('member_id');
             $account_by_member->distinct("member_id");
             $members = array_column($account_by_member->get()->toArray(), "member_id");
+            $report["member_sales"] = [];
             foreach ($members as $member) {
                 $account_cnt = clone $account_acounts;
                 $account_cnt->where('member_id', $member);
@@ -58,6 +59,7 @@ class ReportController extends Controller
             $account_payments->distinct("payment_id");
             $account_cnt = $account_payments->count();
             $payments = array_column($account_payments->get()->toArray(), "payment_id");
+            $report["payment_sales"] = [];
             foreach ($payments as $payment) {
                 $account_price = Account_payment::where("payment_id", $payment);
                 $report["payment_sales"][] = [

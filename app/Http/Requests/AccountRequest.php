@@ -25,6 +25,7 @@ class AccountRequest extends FormRequest
     public function rules(): array
     {
         if ($this->routeIs("*.index", "*.show", "*.destroy")) return [];
+        if ($this->routeIs("*.update")) return ["order_status" => ["string"],];
         return [
             "member_id" => ["required", "string"],
             "price" => ["required", "numeric"],
@@ -38,6 +39,7 @@ class AccountRequest extends FormRequest
             "items.*.children.*.item_id" => ["required", "string"],
             "items.*.children.*.price" => ["required", "numeric"],
             "items.*.children.*.quantity" => ["required", "numeric"],
+            "order_status" => ["string"],
         ];
     }
 
