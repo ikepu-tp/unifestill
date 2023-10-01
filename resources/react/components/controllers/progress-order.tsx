@@ -25,7 +25,11 @@ export function ProgressOrderController(): JSX.Element {
 	}, []);
 
 	function onMessage(me: MessageEvent<AccountResource>): void {
-		if (me.data.order_status === 'completed') return;
+		if (me.data.order_status === 'completed') {
+			if (Accounts[me.data.accountId]) delete Accounts[me.data.accountId];
+			setAccounts({ ...{}, ...Accounts });
+			return;
+		}
 		Accounts[me.data.accountId] = me.data;
 		setAccounts({ ...{}, ...Accounts });
 		//setTimeout(closeES, 2000);
