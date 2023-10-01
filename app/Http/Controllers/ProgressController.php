@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Error\DeleteFailedException;
+use App\Exceptions\Error\ForbittenException;
 use App\Exceptions\Error\SaveFailedException;
 use App\Models\Progress;
 use App\Models\Project;
@@ -69,8 +70,20 @@ class ProgressController extends Controller
         return Resource::NoContent();
     }
 
-    public function progress(Request $request)
+    public function progress(Request $request, Progress $progress)
     {
-        return view("app.app", ["source" => 'resources/react/components/views/progress.tsx']);
+        if ($progress->need_auth) {
+            $this->middleware(['auth:web,associations', 'verified']);
+            if (!$request->user("associations")) throw new ForbittenException();
+        }
+        if ($progress->logged) throw new ForbittenException();
+        //$progress->fill(["logged" => true])->save();
+        return view("app.progress", [
+            "source" => 'resources/react/progress.tsx',
+            "contents" => [
+                "project" => $progress->project->projectId,
+                "progress" => $progress->progressId,
+            ]
+        ]);
     }
 }

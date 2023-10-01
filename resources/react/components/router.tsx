@@ -17,6 +17,7 @@ import {
 } from './controllers/category';
 import { ProjectItemIndexController, ProjectItemShowController, ProjectItemStoreController } from './controllers/item';
 import { AccountIndexController, AccountShowController, AccountStoreController } from './controllers/account';
+import { ProgressIndexController, ProgressShowController, ProgressStoreController } from './controllers/progress';
 
 export default function Router(): JSX.Element {
 	return (
@@ -61,6 +62,13 @@ export default function Router(): JSX.Element {
 							<Route path=":account">
 								<Route index element={<AccountShowController />} />
 								<Route path="edit" element={<AccountStoreController />} />
+							</Route>
+						</Route>
+						<Route path="progress">
+							<Route index element={<ProgressIndexController />} />
+							<Route path=":progress">
+								<Route index element={<ProgressShowController />} />
+								<Route path="edit" element={<ProgressStoreController />} />
 							</Route>
 						</Route>
 					</Route>

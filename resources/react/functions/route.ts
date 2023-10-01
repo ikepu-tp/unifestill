@@ -28,6 +28,9 @@ export const routes = {
 	'account.index': '/project/{project}/account',
 	'account.store': '/project/{project}/account/{account}/edit',
 	'account.show': '/project/{project}/account/{account}',
+	'progress.index': '/project/{project}/progress',
+	'progress.store': '/project/{project}/progress/{progress}/edit',
+	'progress.show': '/project/{project}/progress/{progress}',
 };
 export type RoutesType = typeof routes;
 export type RouteNameType = 'project.index' | 'project.store' | 'project.show';
