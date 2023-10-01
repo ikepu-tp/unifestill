@@ -6,6 +6,7 @@ import { ParamType } from '@ikepu-tp/react-mvc/dist/esm/Url';
 export class Model<
 	T = any,
 	S = any,
+	U = any,
 	PathParamertsType = { [s: string]: any },
 	IndexParamProps = ParamIndexType,
 	NormalParamProps = ParamType,
@@ -15,7 +16,7 @@ export class Model<
 	PathParamertsType,
 	T,
 	S,
-	S,
+	U,
 	IndexParamProps,
 	NormalParamProps,
 	NormalParamProps,
@@ -112,7 +113,7 @@ export class Model<
 	 * @memberof Model
 	 */
 	public async update<P = ResponseType<T>, Param = NormalParamProps>(
-		resource: S,
+		resource: U,
 		param: Param | undefined = undefined
 	): Promise<P> {
 		return super.update<P>(resource, {
