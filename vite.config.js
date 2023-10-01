@@ -34,4 +34,7 @@ export default defineConfig({
             mocks: '/resources/react/mocks',
         },
     },
+    build: {
+        outDir: "./public/assets/build"
+    }
 });
