@@ -5,15 +5,15 @@ get:
   description: お会計の一覧を取得します
   operationId: accountIndex
   parameters:
-    - $ref: '#/components/parameters/ACCEPT'
-    - $ref: '#/components/parameters/CONTENT-TYPE'
-    - $ref: '#/components/parameters/NONCE'
-    - $ref: '#/components/parameters/TOKEN'
-    - $ref: '#/components/parameters/PER'
-    - $ref: '#/components/parameters/PAGE'
-    - $ref: '#/components/parameters/ORDER'
-    - $ref: '#/components/parameters/Project'
-    - $ref: '#/components/parameters/KEYWORD'
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/PER"
+    - $ref: "#/components/parameters/PAGE"
+    - $ref: "#/components/parameters/ORDER"
+    - $ref: "#/components/parameters/Project"
+    - $ref: "#/components/parameters/KEYWORD"
     - name: order_status
       in: query
       description: オーダー状況別に取得
@@ -35,6 +35,13 @@ get:
         type: boolean
         example: true
       required: false
+    - name: progress
+      in: query
+      description: SSEを利用する際は必要
+      schema:
+        type: string
+        example: hashId
+      required: false
   security:
     - cookieAuth: []
   responses:
@@ -46,16 +53,16 @@ get:
             type: object
             properties:
               status:
-                $ref: '#/components/schemas/StatusResource'
+                $ref: "#/components/schemas/StatusResource"
               payloads:
                 type: object
                 properties:
                   meta:
-                    $ref: '#/components/schemas/MetaResource'
+                    $ref: "#/components/schemas/MetaResource"
                   accounts:
                     type: array
                     accounts:
-                      $ref: '#/components/schemas/AccountResource'
+                      $ref: "#/components/schemas/AccountResource"
 post:
   tags:
     - account
@@ -63,22 +70,22 @@ post:
   description: お会計を登録します
   operationId: accountStore
   parameters:
-    - $ref: '#/components/parameters/ACCEPT'
-    - $ref: '#/components/parameters/CONTENT-TYPE'
-    - $ref: '#/components/parameters/NONCE'
-    - $ref: '#/components/parameters/TOKEN'
-    - $ref: '#/components/parameters/Project'
+    - $ref: "#/components/parameters/ACCEPT"
+    - $ref: "#/components/parameters/CONTENT-TYPE"
+    - $ref: "#/components/parameters/NONCE"
+    - $ref: "#/components/parameters/TOKEN"
+    - $ref: "#/components/parameters/Project"
   security:
     - cookieAuth: []
   requestBody:
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/AccountResource'
+          $ref: "#/components/schemas/AccountResource"
   responses:
     201:
       description: お会計登録
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AccountResource'
+            $ref: "#/components/schemas/AccountResource"

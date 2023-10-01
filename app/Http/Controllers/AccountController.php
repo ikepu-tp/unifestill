@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Error\DeleteFailedException;
+use App\Exceptions\Error\ForbittenException;
 use App\Exceptions\Error\NotExistRecordException;
 use App\Exceptions\Error\SaveFailedException;
 use App\Models\Account;
@@ -14,6 +15,7 @@ use App\Models\Account_payment;
 use App\Models\Item;
 use App\Models\Member;
 use App\Models\Payment;
+use App\Models\Progress;
 use App\Models\Project;
 use App\Services\Service;
 use Illuminate\Http\Request;
@@ -48,6 +50,12 @@ class AccountController extends Controller
 
     public function indexSSE(Request $request, mixed $account)
     {
+        //check progress
+        $progress = Progress::where('progressId', $request->query("progress", ""))->first();
+        if (!$progress) throw new NotExistRecordException();
+        if (!$progress->logged) throw new ForbittenException();
+
+        //create response
         $response = new StreamedResponse(function () use ($account, $request) {
             $last_event_id = $request->header("Last-Event-Id", 0);
             $account = $account->orderBy("id");
