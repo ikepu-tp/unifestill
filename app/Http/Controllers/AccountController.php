@@ -40,10 +40,10 @@ class AccountController extends Controller
             explode(",", str_replace(" ", ",", Service::convertFullSpaceToHalfSpace($except)))
         );
 
+        if (Service::convertQueryToBoolean($request->query("sse"))) return $this->indexSSE($request, $account);
+
         $order_status = $request->query("order_status");
         if ($order_status) $account = $account->where("order_status", $order_status);
-
-        if (Service::convertQueryToBoolean($request->query("sse"))) return $this->indexSSE($request, $account);
 
         return Resource::pagination($account, AccountResource::class);
     }
@@ -53,35 +53,46 @@ class AccountController extends Controller
         //check progress
         $progress = Progress::where('progressId', $request->query("progress", ""))->first();
         if (!$progress) throw new NotExistRecordException();
-        if (!$progress->logged) throw new ForbittenException();
+        //if (!$progress->logged) throw new ForbittenException();
 
         //create response
         $response = new StreamedResponse(function () use ($account, $request) {
             $last_event_id = $request->header("Last-Event-Id", 0);
             $account = $account->orderBy("id");
             $max = config("unifestill.sse_sec");
+            $now = now();
+            $now->subMinute();
+
+            $model = clone $account;
+            $order_status = $request->query("order_status");
+            if ($order_status) $model = $model->where("order_status", $order_status);
+            $model = $model->where('id', ">", $last_event_id);
+            if ($model->count() === 0) $this->printPing($now->format("Y-m-d H:i:s"));
+            $model = $model->get();
+            foreach ($model as $resource) {
+                if (!$resource) continue;
+                $last_event_id = $resource->id;
+                $this->printResource($resource);
+            }
+            sleep(1);
+
             for ($i = 0; $i < $max; ++$i) {
                 $model = clone $account;
-                $model = $model->where("id", ">", $last_event_id);
-                if ($model->count() === 0) {
-                    echo "event: ping\n";
-                    echo "data: " . $i . "\n";
-                    echo "\n";
-                }
+                $model = $model->whereDate("updated_at", ">=", $now->format('Y-m-d'));
+                $model = $model->whereTime("updated_at", ">=", $now->format('H:i:s'));
+                if ($model->count() === 0) $this->printPing($now->format("Y-m-d H:i:s"));
                 $model = $model->get();
                 foreach ($model as $resource) {
                     if (!$resource) continue;
                     $last_event_id = $resource->id;
-                    echo "event: message\n";
-                    echo "data: " . json_encode((new AccountResource($resource))->createArray()) . "\n";
-                    echo "id: " . $resource->id . "\n";
-                    echo "\n";
+                    $this->printResource($resource);
                 }
                 ob_flush();
                 flush();
 
                 if (connection_aborted()) break;
 
+                //$now->addMinute();
                 sleep(1);
             }
         });
@@ -90,6 +101,21 @@ class AccountController extends Controller
         $response->headers->set('Cache-Control', 'no-cache');
         $response->headers->set("Connection", "keep-alive");
         return $response;
+    }
+
+    public function printPing(string|int $i = "")
+    {
+        echo "event: ping\n";
+        echo "data: " . $i . "\n";
+        echo "\n";
+    }
+
+    public function printResource(Account $account)
+    {
+        echo "event: message\n";
+        echo "data: " . json_encode((new AccountResource($account))->createArray()) . "\n";
+        echo "id: " . $account->id . "\n";
+        echo "\n";
     }
 
     /**

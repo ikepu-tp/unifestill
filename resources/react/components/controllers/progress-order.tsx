@@ -25,9 +25,10 @@ export function ProgressOrderController(): JSX.Element {
 	}, []);
 
 	function onMessage(me: MessageEvent<AccountResource>): void {
+		if (me.data.order_status === 'completed') return;
 		Accounts[me.data.accountId] = me.data;
 		setAccounts({ ...{}, ...Accounts });
-		setTimeout(closeES, 2000);
+		//setTimeout(closeES, 2000);
 	}
 	async function changeOrderStatus(accountId: string, order_status: AccountOrderStatusType): Promise<void> {
 		if (!project.current || !progress.current) return;

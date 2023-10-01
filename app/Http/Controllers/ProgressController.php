@@ -77,7 +77,7 @@ class ProgressController extends Controller
             if (!$request->user("associations")) throw new ForbittenException();
         }
         if ($progress->logged) throw new ForbittenException();
-        $progress->fill(["logged" => true])->save();
+        //$progress->fill(["logged" => true])->save();
         return view("app.progress", [
             "source" => 'resources/react/progress.tsx',
             "contents" => [
