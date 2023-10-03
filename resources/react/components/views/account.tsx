@@ -252,9 +252,11 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 			<Col>
 				<Table striped responsive>
 					<thead>
-						<th>支払い方法</th>
-						<th>金額</th>
-						<th></th>
+						<tr>
+							<th>支払い方法</th>
+							<th>金額</th>
+							<th></th>
+						</tr>
 					</thead>
 					<tbody>
 						{props.Resource.payments.map(
