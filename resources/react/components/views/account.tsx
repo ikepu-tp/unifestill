@@ -292,15 +292,17 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 			props.changeResource('items', props.Resource['items']);
 			calculate();
 		}
+		function deleteItem(): void {
+			if (!props.changeResource) return;
+			props.Resource['items'].splice(prop.idx, 1);
+			props.changeResource('items', props.Resource['items']);
+			calculate();
+		}
 		return (
-			<Accordion.Item eventKey={`${ItemResource['item_id']}-${prop.idx}`}>
-				<Accordion.Header>
-					{ItemResource['item']['name']}({ItemResource['price']}円＊{ItemResource['quantity']}=
-					{ItemResource['price'] * ItemResource['quantity']}円)
-				</Accordion.Header>
-				<Accordion.Body className="visible">
+			<tr>
+				<td>{ItemResource['item']['name']}</td>
+				<td>
 					<InputGroup>
-						<InputGroup.Text>{ItemResource['item']['name']}：</InputGroup.Text>
 						<Form.Control
 							type="number"
 							name="price"
@@ -309,9 +311,13 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 							onChange={onChange}
 							onBlur={onBlur}
 							required
+							style={{ minWidth: '70px' }}
 						/>
 						<InputGroup.Text>円</InputGroup.Text>
-						<InputGroup.Text>＊</InputGroup.Text>
+					</InputGroup>
+				</td>
+				<td>
+					<InputGroup>
 						<Form.Control
 							type="number"
 							name="quantity"
@@ -323,8 +329,13 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 						/>
 						<InputGroup.Text>個</InputGroup.Text>
 					</InputGroup>
-				</Accordion.Body>
-			</Accordion.Item>
+				</td>
+				<td>
+					<Button variant="danger" type="button" onClick={deleteItem}>
+						削除
+					</Button>
+				</td>
+			</tr>
 		);
 	}
 	function calculate(): void {
@@ -344,13 +355,23 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 				/>
 			</Col>
 			<Col>
-				<Accordion className="w-100">
-					{props.Resource.items.map(
-						(item: AccountItemStoreResource, idx: number): JSX.Element => (
-							<ItemSettingCallback key={`${item['item_id']}${idx}`} item={item} idx={idx} />
-						)
-					)}
-				</Accordion>
+				<Table striped responsive>
+					<thead>
+						<tr>
+							<th>商品名</th>
+							<th>単価</th>
+							<th>個数</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{props.Resource.items.map(
+							(item: AccountItemStoreResource, idx: number): JSX.Element => (
+								<ItemSettingCallback key={`${item['item_id']}${idx}`} item={item} idx={idx} />
+							)
+						)}
+					</tbody>
+				</Table>
 			</Col>
 		</>
 	);
