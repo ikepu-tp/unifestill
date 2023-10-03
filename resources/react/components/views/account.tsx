@@ -141,22 +141,7 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 			</InputWrapper>
 			<InputWrapper label="支払" required>
 				<Row>
-					<Col xs="auto">
-						<SelectPayments
-							Resource={props.Resource}
-							changeResource={props.changeResource}
-							projectId={props.projectId}
-						/>
-					</Col>
-					<Col>
-						{props.Resource['payments'].map(
-							(payment: AccountPaymentStoreResource, idx: number): JSX.Element => (
-								<li key={payment['payment_id'] + idx}>
-									{payment['payment']['name']}：{number_format(payment['price'])}円
-								</li>
-							)
-						)}
-					</Col>
+					<SelectPayments Resource={props.Resource} changeResource={props.changeResource} projectId={props.projectId} />
 				</Row>
 			</InputWrapper>
 			<Row>
@@ -186,11 +171,6 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 }
 
 function SelectPayments(props: FormResourceProps<AccountStoreResource> & { projectId: string }): JSX.Element {
-	const [Show, setShow] = useState<boolean>(false);
-
-	function changeShow() {
-		setShow(!Show);
-	}
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectPaymentResource>> {
 		const model = new Payment({ project: props.projectId });
 		const items: ResponseType<ResponseIndexType<ProjectPaymentResource>> = await model.index(params);
@@ -209,7 +189,7 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 			props.changeResource('payments', props.Resource.payments);
 		}
 		return (
-			<ListGroup.Item action href="#" onClick={onClick}>
+			<ListGroup.Item action onClick={onClick}>
 				{prop.item['name']}
 			</ListGroup.Item>
 		);
@@ -253,31 +233,24 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 	}
 	return (
 		<>
-			<Button variant="outline-secondary" type="button" onClick={changeShow} className="ms-2">
-				支払い方法を選択
-			</Button>
-			<Popup show={Show} onHide={changeShow} size="lg" header={'支払い方法選択'}>
-				<Row>
-					<Col xs="auto">
-						<ListView
-							getItems={getItems}
-							itemWrapper={ListGroup}
-							itemCallback={(item: ProjectPaymentResource): JSX.Element => (
-								<ItemCallback key={item['paymentId']} item={item} />
-							)}
-						/>
-					</Col>
-					<Col>
-						<Accordion className="w-100">
-							{props.Resource.payments.map(
-								(item: AccountPaymentStoreResource, idx: number): JSX.Element => (
-									<ItemSettingCallback key={`${item['payment_id']}-${idx}`} item={item} idx={idx} />
-								)
-							)}
-						</Accordion>
-					</Col>
-				</Row>
-			</Popup>
+			<Col xs="auto">
+				<ListView
+					getItems={getItems}
+					itemWrapper={ListGroup}
+					itemCallback={(item: ProjectPaymentResource): JSX.Element => (
+						<ItemCallback key={item['paymentId']} item={item} />
+					)}
+				/>
+			</Col>
+			<Col>
+				<Accordion className="w-100">
+					{props.Resource.payments.map(
+						(item: AccountPaymentStoreResource, idx: number): JSX.Element => (
+							<ItemSettingCallback key={`${item['payment_id']}-${idx}`} item={item} idx={idx} />
+						)
+					)}
+				</Accordion>
+			</Col>
 		</>
 	);
 }
