@@ -136,18 +136,7 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 			</InputWrapper>
 			<InputWrapper label="商品" required>
 				<Row>
-					<Col xs="auto">
-						<SelectItems Resource={props.Resource} changeResource={props.changeResource} projectId={props.projectId} />
-					</Col>
-					<Col>
-						{props.Resource['items'].map(
-							(item: AccountItemStoreResource, idx: number): JSX.Element => (
-								<li key={item['item_id'] + idx}>
-									{item['item']['name']}：{number_format(item['price'])}円＊{number_format(item['quantity'])}個
-								</li>
-							)
-						)}
-					</Col>
+					<SelectItems Resource={props.Resource} changeResource={props.changeResource} projectId={props.projectId} />
 				</Row>
 			</InputWrapper>
 			<InputWrapper label="支払" required>
@@ -293,11 +282,6 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 	);
 }
 function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectId: string }): JSX.Element {
-	const [Show, setShow] = useState<boolean>(false);
-
-	function changeShow() {
-		setShow(!Show);
-	}
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectItemResource>> {
 		const model = new Item({ project: props.projectId });
 		const items: ResponseType<ResponseIndexType<ProjectItemResource>> = await model.index(params);
@@ -317,7 +301,7 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 			props.changeResource('items', props.Resource.items);
 		}
 		return (
-			<ListGroup.Item action href="#" onClick={onClick}>
+			<ListGroup.Item action onClick={onClick}>
 				{prop.item['name']}
 			</ListGroup.Item>
 		);
@@ -333,6 +317,7 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 			if (!props.changeResource) return;
 			props.Resource['items'][prop.idx] = ItemResource;
 			props.changeResource('items', props.Resource['items']);
+			calculate();
 		}
 		return (
 			<Accordion.Item eventKey={`${ItemResource['item_id']}-${prop.idx}`}>
@@ -369,33 +354,31 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 			</Accordion.Item>
 		);
 	}
+	function calculate(): void {
+		let price: number = 0;
+		props.Resource['items'].forEach((item: AccountItemStoreResource): void => {
+			price += item['price'] * item['quantity'];
+		});
+		if (props.changeResource) props.changeResource('price', price);
+	}
 	return (
 		<>
-			<Button variant="outline-secondary" type="button" onClick={changeShow} className="ms-2">
-				商品を選択
-			</Button>
-			<Popup show={Show} onHide={changeShow} size="lg" header={'商品選択'}>
-				<Row>
-					<Col xs="auto">
-						<ListView
-							getItems={getItems}
-							itemWrapper={ListGroup}
-							itemCallback={(item: ProjectItemResource): JSX.Element => (
-								<ItemCallback key={item['itemId']} item={item} />
-							)}
-						/>
-					</Col>
-					<Col>
-						<Accordion className="w-100">
-							{props.Resource.items.map(
-								(item: AccountItemStoreResource, idx: number): JSX.Element => (
-									<ItemSettingCallback key={`${item['item_id']}${idx}`} item={item} idx={idx} />
-								)
-							)}
-						</Accordion>
-					</Col>
-				</Row>
-			</Popup>
+			<Col xs="auto">
+				<ListView
+					getItems={getItems}
+					itemWrapper={ListGroup}
+					itemCallback={(item: ProjectItemResource): JSX.Element => <ItemCallback key={item['itemId']} item={item} />}
+				/>
+			</Col>
+			<Col>
+				<Accordion className="w-100">
+					{props.Resource.items.map(
+						(item: AccountItemStoreResource, idx: number): JSX.Element => (
+							<ItemSettingCallback key={`${item['item_id']}${idx}`} item={item} idx={idx} />
+						)
+					)}
+				</Accordion>
+			</Col>
 		</>
 	);
 }
