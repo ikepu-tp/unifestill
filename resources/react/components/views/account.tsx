@@ -410,7 +410,7 @@ function SelectMember(props: FormResourceProps<AccountStoreResource> & { project
 	}
 	return (
 		<>
-			{Mem && Mem['name']}
+			{Mem ? Mem['name'] : <span className="text-danger">担当者を選択してください</span>}
 			<Button variant="outline-secondary" type="button" onClick={changeShow} className="ms-2">
 				担当者を選択
 			</Button>
