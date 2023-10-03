@@ -129,6 +129,16 @@ export type AccountFormProps = FormProps<AccountStoreResource> & {
 	projectId: string;
 };
 export function AccountForm(props: AccountFormProps): JSX.Element {
+	const [PaymentPrice, setPaymentPrice] = useState<number>(0);
+
+	function calculatePrice(): void {
+		let price = 0;
+		props.Resource['payments'].forEach((payment: AccountPaymentStoreResource) => {
+			price += payment['price'];
+			console.log(price, payment);
+		});
+		setPaymentPrice(price);
+	}
 	return (
 		<FormWrapper onSubmit={props.onSubmit} success={props.success} setButtonDisabled={props.setButtonDisabled}>
 			<InputWrapper label="担当者" required>
@@ -141,7 +151,12 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 			</InputWrapper>
 			<InputWrapper label="支払" required>
 				<Row>
-					<SelectPayments Resource={props.Resource} changeResource={props.changeResource} projectId={props.projectId} />
+					<SelectPayments
+						Resource={props.Resource}
+						changeResource={props.changeResource}
+						projectId={props.projectId}
+						calculatePrice={calculatePrice}
+					/>
 				</Row>
 			</InputWrapper>
 			<Row>
@@ -160,6 +175,11 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 						</InputGroup>
 					</InputWrapper>
 				</Col>
+				<Col>
+					{PaymentPrice < props.Resource['price'] && (
+						<span className="text-danger">支払い金額が合計金額より小さいです。</span>
+					)}
+				</Col>
 				<Col sm="auto">
 					<Button variant="primary" type="submit" disabled={props.ButtonDisabled} className="mt-4">
 						会計
@@ -170,7 +190,9 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 	);
 }
 
-function SelectPayments(props: FormResourceProps<AccountStoreResource> & { projectId: string }): JSX.Element {
+function SelectPayments(
+	props: FormResourceProps<AccountStoreResource> & { projectId: string; calculatePrice: () => void }
+): JSX.Element {
 	async function getItems(params: ParamIndexType): Promise<ResponseIndexType<ProjectPaymentResource>> {
 		const model = new Payment({ project: props.projectId });
 		const items: ResponseType<ResponseIndexType<ProjectPaymentResource>> = await model.index(params);
@@ -207,6 +229,7 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 		}
 		function onBlur(): void {
 			changePayment(ItemResource, prop.idx);
+			props.calculatePrice();
 		}
 		function deletePayment(): void {
 			if (!props.changeResource) return;
