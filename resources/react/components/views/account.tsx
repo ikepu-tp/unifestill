@@ -1,6 +1,6 @@
 import { ListView, Popup } from '@ikepu-tp/react-bootstrap-extender';
 import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Form';
-import { ListGroup, Form, Button, Table, InputGroup, Row, Col, Accordion } from 'react-bootstrap';
+import { ListGroup, Form, Button, Table, InputGroup, Row, Col } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType, ResponseType } from '~/functions/fetch';
 import route from '~/functions/route';
 import {
@@ -208,14 +208,16 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 		function onBlur(): void {
 			changePayment(ItemResource, prop.idx);
 		}
+		function deletePayment(): void {
+			if (!props.changeResource) return;
+			props.Resource['payments'].splice(prop.idx, 1);
+			props.changeResource('payments', props.Resource['payments']);
+		}
 		return (
-			<Accordion.Item eventKey={`${ItemResource['payment_id']}-${prop.idx}`}>
-				<Accordion.Header>
-					{ItemResource['payment']['name']}({ItemResource['price']}円)
-				</Accordion.Header>
-				<Accordion.Body className="visible">
+			<tr>
+				<td>{ItemResource['payment']['name']}</td>
+				<td>
 					<InputGroup>
-						<InputGroup.Text>{ItemResource['payment']['name']}：</InputGroup.Text>
 						<Form.Control
 							type="number"
 							name="price"
@@ -227,8 +229,13 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 						/>
 						<InputGroup.Text>円</InputGroup.Text>
 					</InputGroup>
-				</Accordion.Body>
-			</Accordion.Item>
+				</td>
+				<td>
+					<Button variant="danger" type="button" onClick={deletePayment}>
+						削除
+					</Button>
+				</td>
+			</tr>
 		);
 	}
 	return (
@@ -243,13 +250,20 @@ function SelectPayments(props: FormResourceProps<AccountStoreResource> & { proje
 				/>
 			</Col>
 			<Col>
-				<Accordion className="w-100">
-					{props.Resource.payments.map(
-						(item: AccountPaymentStoreResource, idx: number): JSX.Element => (
-							<ItemSettingCallback key={`${item['payment_id']}-${idx}`} item={item} idx={idx} />
-						)
-					)}
-				</Accordion>
+				<Table striped responsive>
+					<thead>
+						<th>支払い方法</th>
+						<th>金額</th>
+						<th></th>
+					</thead>
+					<tbody>
+						{props.Resource.payments.map(
+							(item: AccountPaymentStoreResource, idx: number): JSX.Element => (
+								<ItemSettingCallback key={`${item['payment_id']}-${idx}`} item={item} idx={idx} />
+							)
+						)}
+					</tbody>
+				</Table>
 			</Col>
 		</>
 	);
