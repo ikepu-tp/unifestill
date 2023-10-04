@@ -1,0 +1,24 @@
+put:
+  tags:
+    - progress
+  summary: プログレス更新
+  description: プログレスを更新します
+  operationId: progressOrderUpdate
+  parameters:
+    - $ref: '#/components/parameters/ACCEPT'
+    - $ref: '#/components/parameters/CONTENT-TYPE'
+    - $ref: '#/components/parameters/NONCE'
+    - $ref: '#/components/parameters/TOKEN'
+    - $ref: '#/components/parameters/Progress'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            logged:
+              type: boolean
+              example: true
+  responses:
+    204:
+      description: プログレス更新
