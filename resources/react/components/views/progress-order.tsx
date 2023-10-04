@@ -7,10 +7,16 @@ export type ProgressOrderProps = {
 	changeToOrdered: (e: MouseEvent<HTMLButtonElement>) => void;
 	changeToProgress: (e: MouseEvent<HTMLButtonElement>) => void;
 	changeToCompleted: (e: MouseEvent<HTMLButtonElement>) => void | Promise<void>;
+	logout: () => void;
 };
 export function ProgressOrderView(props: ProgressOrderProps): JSX.Element {
 	return (
 		<>
+			<div>
+				<Button type="button" onClick={props.logout}>
+					ログアウト
+				</Button>
+			</div>
 			<Row>
 				{Object.keys(props.Accounts).map(
 					(accountId: string): JSX.Element => (

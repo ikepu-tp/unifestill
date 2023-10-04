@@ -3,6 +3,7 @@ import { ProgressOrderView } from '../views/progress-order';
 import { AccountOrderStatusType, AccountResource } from '~/models/interfaces';
 import useES from '../components/EventSourse';
 import { Account } from '~/models/account';
+import { ProgressOrder } from '~/models/progress-order';
 
 export function ProgressOrderController(): JSX.Element {
 	const [Accounts, setAccounts] = useState<{ [s: string]: AccountResource }>({});
@@ -24,6 +25,13 @@ export function ProgressOrderController(): JSX.Element {
 		};
 	}, []);
 
+	async function logout(): Promise<void> {
+		const model = new ProgressOrder({ progress: progress.current?.value });
+		const response = await model.update({ logged: false });
+		if (!response || !response.payloads) throw new Error('Unexpected response.');
+		closeES();
+		setAccounts({ ...{}, ...{} });
+	}
 	function onMessage(me: MessageEvent<AccountResource>): void {
 		if (me.data.order_status === 'completed') {
 			if (Accounts[me.data.accountId]) delete Accounts[me.data.accountId];
@@ -61,6 +69,7 @@ export function ProgressOrderController(): JSX.Element {
 				changeToCompleted={changeToCompleted}
 				changeToOrdered={changeToOrdered}
 				changeToProgress={changeToProgress}
+				logout={logout}
 			/>
 		</>
 	);
