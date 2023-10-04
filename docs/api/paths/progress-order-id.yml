@@ -20,5 +20,9 @@ put:
               type: boolean
               example: true
   responses:
-    204:
+    200:
       description: プログレス更新
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProjectResource'
