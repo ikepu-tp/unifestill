@@ -35,3 +35,4 @@ Route::middleware(['auth:sanctum,associations', 'verified'])->prefix("v1")->grou
     });
     Route::apiResource("project", ProjectController::class)->names("project");
 });
+Route::put("progress/{progress}", [ProgressController::class, "update"])->name("progress.guest.update");
