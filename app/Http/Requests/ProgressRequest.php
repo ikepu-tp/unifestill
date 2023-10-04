@@ -22,6 +22,9 @@ class ProgressRequest extends FormRequest
     public function rules(): array
     {
         if ($this->routeIs(["*.index", "*.show", "*.destroy"])) return [];
+        if ($this->routeIs("progress.guest.update")) return [
+            "logged" => ["boolean"],
+        ];
         return [
             "need_auth" => ["boolean"],
             "logged" => ["boolean"],

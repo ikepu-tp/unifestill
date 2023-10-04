@@ -72,6 +72,14 @@ class ProgressTest extends TestCase
         $this->assertPayloadId($progress->progressId, "progressId");
     }
 
+    public function test_update_progress_with_guest()
+    {
+        $progress =  Progress::factory()->create(["project_id" => $this->project->id]);
+        $this->response = $this->put(route("progress.guest.update", $this->getParameters(["progress" => $progress->progressId])), $this->send_data);
+        $this->assertUpdate();
+        $this->assertPayloadId($progress->progressId, "progressId");
+    }
+
     public function test_destroy_progress()
     {
         $this->requestAsAssociation();

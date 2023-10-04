@@ -173,6 +173,8 @@ paths:
     $ref: './paths/check-id.yml'
   /v1/project/{project}/report:
     $ref: './paths/report.yml'
+  /v1/progress/{progress}:
+    $ref: './paths/progress-order-id.yml'
 
 components:
   parameters:
