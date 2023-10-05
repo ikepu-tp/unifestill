@@ -1,6 +1,6 @@
 import { ListView, Popup } from '@ikepu-tp/react-bootstrap-extender';
 import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Form';
-import { ListGroup, Form, Button, Table, InputGroup, Row, Col } from 'react-bootstrap';
+import { ListGroup, Form, Button, Table, InputGroup, Row, Col, Popover, OverlayTrigger } from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType, ResponseType } from '~/functions/fetch';
 import route from '~/functions/route';
 import {
@@ -17,12 +17,13 @@ import {
 } from '~/models/interfaces';
 import { FormProps, FormResourceProps } from '../components/form';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
 import Anchor from '../components/Anchor';
 import { number_format } from '~/functions';
 import { Member } from '~/models/member';
 import { Item } from '~/models/item';
 import { Payment } from '~/models/payment';
+import TenkeyContext from '../components/Tenkey';
 
 export type AccountIndexProps = {
 	project: ProjectResource;
@@ -131,6 +132,8 @@ export type AccountFormProps = FormProps<AccountStoreResource> & {
 export function AccountForm(props: AccountFormProps): JSX.Element {
 	const [PaymentPrice, setPaymentPrice] = useState<number>(0);
 
+	const Tenkey = useContext(TenkeyContext);
+
 	function calculatePrice(): void {
 		let price = 0;
 		props.Resource['payments'].forEach((payment: AccountPaymentStoreResource) => {
@@ -141,6 +144,13 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 	}
 	return (
 		<FormWrapper onSubmit={props.onSubmit} success={props.success} setButtonDisabled={props.setButtonDisabled}>
+			<Form.Check
+				type="switch"
+				label="ソフトウェアテンキーの利用"
+				id="tenkeyOnOff"
+				checked={Tenkey.Tenkey}
+				onChange={Tenkey.changeTenkey}
+			/>
 			<InputWrapper label="担当者" required>
 				<SelectMember Resource={props.Resource} changeResource={props.changeResource} projectId={props.projectId} />
 			</InputWrapper>
@@ -318,65 +328,6 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 			</ListGroup.Item>
 		);
 	}
-	function ItemSettingCallback(prop: { item: AccountItemStoreResource; idx: number }): JSX.Element {
-		const [ItemResource, setItemResource] = useState<AccountItemStoreResource>({ ...{}, ...prop.item });
-
-		function onChange(e: ChangeEvent<HTMLInputElement>): void {
-			ItemResource[e.currentTarget.name as keyof AccountItemStoreResource] = Number(e.currentTarget.value) as never;
-			setItemResource({ ...{}, ...ItemResource });
-		}
-		function onBlur(): void {
-			if (!props.changeResource) return;
-			props.Resource['items'][prop.idx] = ItemResource;
-			props.changeResource('items', props.Resource['items']);
-			calculate();
-		}
-		function deleteItem(): void {
-			if (!props.changeResource) return;
-			props.Resource['items'].splice(prop.idx, 1);
-			props.changeResource('items', props.Resource['items']);
-			calculate();
-		}
-		return (
-			<tr>
-				<td>{ItemResource['item']['name']}</td>
-				<td>
-					<InputGroup>
-						<Form.Control
-							type="number"
-							name="price"
-							value={ItemResource['price']}
-							placeholder="金額"
-							onChange={onChange}
-							onBlur={onBlur}
-							required
-							style={{ minWidth: '70px' }}
-						/>
-						<InputGroup.Text>円</InputGroup.Text>
-					</InputGroup>
-				</td>
-				<td>
-					<InputGroup>
-						<Form.Control
-							type="number"
-							name="quantity"
-							value={ItemResource['quantity']}
-							placeholder="個数"
-							min={0}
-							onChange={onChange}
-							required
-						/>
-						<InputGroup.Text>個</InputGroup.Text>
-					</InputGroup>
-				</td>
-				<td>
-					<Button variant="danger" type="button" onClick={deleteItem}>
-						削除
-					</Button>
-				</td>
-			</tr>
-		);
-	}
 	function calculate(): void {
 		let price: number = 0;
 		props.Resource['items'].forEach((item: AccountItemStoreResource): void => {
@@ -406,13 +357,244 @@ function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectI
 					<tbody>
 						{props.Resource.items.map(
 							(item: AccountItemStoreResource, idx: number): JSX.Element => (
-								<ItemSettingCallback key={`${item['item_id']}${idx}`} item={item} idx={idx} />
+								<ItemSettingCallback
+									key={`${item['item_id']}${idx}`}
+									item={item}
+									idx={idx}
+									Resource={props.Resource}
+									changeResource={props.changeResource}
+									calculate={calculate}
+								/>
 							)
 						)}
 					</tbody>
 				</Table>
 			</Col>
 		</>
+	);
+}
+
+function ItemSettingCallback(props: {
+	item: AccountItemStoreResource;
+	idx: number;
+	Resource: AccountStoreResource;
+	changeResource?: (key: string, value: any) => void;
+	calculate: () => void;
+}): JSX.Element {
+	const [ItemResource, setItemResource] = useState<AccountItemStoreResource>({ ...{}, ...props.item });
+	const [Focusing, setFocusing] = useState<'' | 'price' | 'quantity'>('');
+
+	const Tenkey = useContext(TenkeyContext);
+
+	function changeTenkey(e: MouseEvent<HTMLButtonElement>): void {
+		if (Focusing === '') return;
+		let value: string | number = e.currentTarget.value;
+		switch (e.currentTarget.value) {
+			case 'C':
+			case 'c':
+				value = 0;
+				break;
+			case 'BS':
+			case 'bs':
+				value = String(ItemResource[Focusing]);
+				value = value.substring(0, value.length - 1);
+				break;
+			default:
+				if (ItemResource[Focusing]) value = `${ItemResource[Focusing]}${value}`;
+		}
+		ItemResource[Focusing] = Number(value);
+		setItemResource({ ...{}, ...ItemResource });
+	}
+	function onChange(e: ChangeEvent<HTMLInputElement>): void {
+		ItemResource[e.currentTarget.name as keyof AccountItemStoreResource] = Number(e.currentTarget.value) as never;
+		setItemResource({ ...{}, ...ItemResource });
+	}
+	function revokeFocusing(): void {
+		setFocusing('');
+		update();
+	}
+	function onFocus(e: FocusEvent<HTMLInputElement>): void {
+		setFocusing(e.currentTarget.name as 'price' | 'quantity');
+	}
+	function onBlur(): void {
+		update();
+	}
+	function update(): void {
+		if (!props.changeResource) return;
+		props.Resource['items'][props.idx] = ItemResource;
+		props.changeResource('items', props.Resource['items']);
+		props.calculate();
+	}
+	function deleteItem(): void {
+		if (!props.changeResource) return;
+		props.Resource['items'].splice(props.idx, 1);
+		props.changeResource('items', props.Resource['items']);
+		props.calculate();
+	}
+	return (
+		<tr>
+			<td>{ItemResource['item']['name']}</td>
+			<td>
+				<InputGroup>
+					<Form.Control
+						type="number"
+						name="price"
+						value={ItemResource['price'] || 0}
+						placeholder="金額"
+						onChange={onChange}
+						onBlur={onBlur}
+						onFocus={onFocus}
+						required
+						style={{ minWidth: '70px' }}
+						readOnly={Tenkey.Tenkey}
+					/>
+					<InputGroup.Text>円</InputGroup.Text>
+				</InputGroup>
+				{Tenkey.Tenkey && (
+					<TenkeyElement
+						id={`item-${props.idx}-price`}
+						show={Focusing.indexOf('price') > -1}
+						onClick={changeTenkey}
+						onClose={revokeFocusing}
+					></TenkeyElement>
+				)}
+			</td>
+			<td>
+				<InputGroup>
+					<Form.Control
+						type="number"
+						name="quantity"
+						value={ItemResource['quantity']}
+						placeholder="個数"
+						min={0}
+						onFocus={onFocus}
+						onChange={onChange}
+						required
+						readOnly={Tenkey.Tenkey}
+					/>
+					<InputGroup.Text>個</InputGroup.Text>
+				</InputGroup>
+				{Tenkey.Tenkey && (
+					<TenkeyElement
+						id={`item-${props.idx}-quantity`}
+						show={Focusing.indexOf('quantity') > -1}
+						onClick={changeTenkey}
+						onClose={revokeFocusing}
+					></TenkeyElement>
+				)}
+			</td>
+			<td>
+				<Button variant="danger" type="button" onClick={deleteItem}>
+					削除
+				</Button>
+			</td>
+		</tr>
+	);
+}
+
+function TenkeyElement(props: {
+	children?: React.ReactElement;
+	id: string;
+	show: boolean;
+	onClick: MouseEventHandler<HTMLButtonElement>;
+	onClose: () => void;
+}): JSX.Element {
+	function onToggle(): void {}
+	return (
+		<OverlayTrigger
+			placement="bottom"
+			show={props.show}
+			onToggle={onToggle}
+			overlay={
+				<Popover id={props.id}>
+					<Popover.Body>
+						<table>
+							<tbody>
+								<tr>
+									<td style={{ width: '60px' }}>
+										<Button type="button" value={7} onClick={props.onClick} className="w-100 py-3">
+											7
+										</Button>
+									</td>
+									<td style={{ width: '60px' }}>
+										<Button type="button" value={8} onClick={props.onClick} className="w-100 py-3">
+											8
+										</Button>
+									</td>
+									<td style={{ width: '60px' }}>
+										<Button type="button" value={9} onClick={props.onClick} className="w-100 py-3">
+											9
+										</Button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<Button type="button" value={4} onClick={props.onClick} className="w-100 py-3">
+											4
+										</Button>
+									</td>
+									<td>
+										<Button type="button" value={5} onClick={props.onClick} className="w-100 py-3">
+											5
+										</Button>
+									</td>
+									<td>
+										<Button type="button" value={6} onClick={props.onClick} className="w-100 py-3">
+											6
+										</Button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<Button type="button" value={1} onClick={props.onClick} className="w-100 py-3">
+											1
+										</Button>
+									</td>
+									<td>
+										<Button type="button" value={2} onClick={props.onClick} className="w-100 py-3">
+											2
+										</Button>
+									</td>
+									<td>
+										<Button type="button" value={3} onClick={props.onClick} className="w-100 py-3">
+											3
+										</Button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<Button type="button" value={0} onClick={props.onClick} className="w-100 py-3">
+											0
+										</Button>
+									</td>
+									<td>
+										<Button type="button" value={'C'} onClick={props.onClick} className="w-100 py-3">
+											C
+										</Button>
+									</td>
+									<td>
+										<Button type="button" value={'BS'} onClick={props.onClick} className="w-100 py-3">
+											BS
+										</Button>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colSpan={3}>
+										<Button type="button" onClick={props.onClose}>
+											閉じる
+										</Button>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</Popover.Body>
+				</Popover>
+			}
+		>
+			{props.children || <button type="button" className=""></button>}
+		</OverlayTrigger>
 	);
 }
 function SelectMember(props: FormResourceProps<AccountStoreResource> & { projectId: string }): JSX.Element {

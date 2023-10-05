@@ -1527,10 +1527,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@ikepu-tp/react-bootstrap-extender@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-bootstrap-extender/-/react-bootstrap-extender-0.6.0.tgz#59af4bb7e6bcedab50d85229f4c035ce1fa3ca2f"
-  integrity sha512-88X+8KTJkEBeQKJSZleILLhFkTK1nF/aJljSRQZo09ArzQAKhbcd4M9xoc7k8Aopto/MxprpkvSu5/h3g7dNCg==
+"@ikepu-tp/react-bootstrap-extender@^0.9.3":
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-bootstrap-extender/-/react-bootstrap-extender-0.9.3.tgz#d96e9bff03c72ec5c0a48249966d8ff38587887f"
+  integrity sha512-IJP1s1RwE+98LTzCh5y7/RMvxgmi0y9mGHqwtMG01jotSi98AQxBNe4Q4mpsqnRS1tfgv0y9AGQnRCWDXldNFA==
   dependencies:
     "@types/react" "^18.2.22"
     "@types/react-dom" "^18.2.7"
@@ -1540,10 +1540,16 @@
     react-bootstrap "^2.8.0"
     react-dom "^18.2.0"
 
-"@ikepu-tp/react-mvc@^0.8.2":
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-mvc/-/react-mvc-0.8.2.tgz#7b4d2cb62f2dfddd3020053a4bd16bfa129ce0d8"
-  integrity sha512-VP8d15d1bvQyXEosj1tt5IILZ9E1XwArcNliCU5PaKk5Z4DrQJGERCWUlt9aGCIHmvcSZjObCPXzQ0xrahPtAQ==
+"@ikepu-tp/react-mvc@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-mvc/-/react-mvc-0.9.5.tgz#764a26a4bc58d371775ffb42b45d77e737c034b6"
+  integrity sha512-vB2RbPe0hH4ILoDGHYM1CG+kr4xwqZoNTCQvZH5m/auBFJ/X5xQCEc6ma3Kk7HUnPj+R6HbzWw35HHrjB6KqyQ==
+  dependencies:
+    "@types/react" "^18.2.22"
+    "@types/react-dom" "^18.2.7"
+    "@vitejs/plugin-react" "^4.1.0"
+    react "^18.2.0"
+    react-dom "^18.2.0"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
