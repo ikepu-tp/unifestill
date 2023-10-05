@@ -144,13 +144,17 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 	}
 	return (
 		<FormWrapper onSubmit={props.onSubmit} success={props.success} setButtonDisabled={props.setButtonDisabled}>
-			<Form.Check
-				type="switch"
-				label="ソフトウェアテンキーの利用"
-				id="tenkeyOnOff"
-				checked={Tenkey.Tenkey}
-				onChange={Tenkey.changeTenkey}
-			/>
+			<Row className="justify-content-end">
+				<Col xs="auto">
+					<Form.Check
+						type="switch"
+						label="ソフトウェアテンキーの利用"
+						id="tenkeyOnOff"
+						checked={Tenkey.Tenkey}
+						onChange={Tenkey.changeTenkey}
+					/>
+				</Col>
+			</Row>
 			<InputWrapper label="担当者" required>
 				<SelectMember Resource={props.Resource} changeResource={props.changeResource} projectId={props.projectId} />
 			</InputWrapper>
@@ -231,46 +235,6 @@ function SelectPayments(
 		props.Resource['payments'][idx] = { ...{}, ...payment };
 		props.changeResource('payments', props.Resource['payments']);
 	}
-	function ItemSettingCallback(prop: { item: AccountPaymentStoreResource; idx: number }): JSX.Element {
-		const [ItemResource, setItemResource] = useState<AccountPaymentStoreResource>({ ...{}, ...prop.item });
-		function onChange(e: ChangeEvent<HTMLInputElement>): void {
-			ItemResource[e.currentTarget.name as keyof AccountPaymentStoreResource] = Number(e.currentTarget.value) as never;
-			setItemResource({ ...{}, ...ItemResource });
-		}
-		function onBlur(): void {
-			changePayment(ItemResource, prop.idx);
-			props.calculatePrice();
-		}
-		function deletePayment(): void {
-			if (!props.changeResource) return;
-			props.Resource['payments'].splice(prop.idx, 1);
-			props.changeResource('payments', props.Resource['payments']);
-		}
-		return (
-			<tr>
-				<td>{ItemResource['payment']['name']}</td>
-				<td>
-					<InputGroup>
-						<Form.Control
-							type="number"
-							name="price"
-							value={ItemResource['price']}
-							placeholder="金額"
-							onChange={onChange}
-							onBlur={onBlur}
-							required
-						/>
-						<InputGroup.Text>円</InputGroup.Text>
-					</InputGroup>
-				</td>
-				<td>
-					<Button variant="danger" type="button" onClick={deletePayment}>
-						削除
-					</Button>
-				</td>
-			</tr>
-		);
-	}
 	return (
 		<>
 			<Col xs="auto">
@@ -294,13 +258,112 @@ function SelectPayments(
 					<tbody>
 						{props.Resource.payments.map(
 							(item: AccountPaymentStoreResource, idx: number): JSX.Element => (
-								<ItemSettingCallback key={`${item['payment_id']}-${idx}`} item={item} idx={idx} />
+								<PaymentSettingCallback
+									key={`${item['payment_id']}-${idx}`}
+									item={item}
+									idx={idx}
+									Resource={props.Resource}
+									changeResource={props.changeResource}
+									changePayment={changePayment}
+									calculatePrice={props.calculatePrice}
+								/>
 							)
 						)}
 					</tbody>
 				</Table>
 			</Col>
 		</>
+	);
+}
+
+function PaymentSettingCallback(props: {
+	item: AccountPaymentStoreResource;
+	idx: number;
+	Resource: AccountStoreResource;
+	changeResource?: (key: string, value: any) => void;
+	calculatePrice: () => void;
+	changePayment: (payment: AccountPaymentStoreResource, idx: number) => void;
+}): JSX.Element {
+	const [ItemResource, setItemResource] = useState<AccountPaymentStoreResource>({ ...{}, ...props.item });
+	const [Focusing, setFocusing] = useState<'' | 'price'>('');
+
+	const Tenkey = useContext(TenkeyContext);
+
+	function changeTenkey(e: MouseEvent<HTMLButtonElement>): void {
+		if (Focusing === '') return;
+		let value: string | number = e.currentTarget.value;
+		switch (e.currentTarget.value) {
+			case 'C':
+			case 'c':
+				value = 0;
+				break;
+			case 'BS':
+			case 'bs':
+				value = String(ItemResource[Focusing]);
+				value = value.substring(0, value.length - 1);
+				break;
+			default:
+				if (ItemResource[Focusing]) value = `${ItemResource[Focusing]}${value}`;
+		}
+		ItemResource[Focusing] = Number(value);
+		setItemResource({ ...{}, ...ItemResource });
+	}
+	function revokeFocusing(): void {
+		setFocusing('');
+		update();
+	}
+	function onFocus(e: FocusEvent<HTMLInputElement>): void {
+		setFocusing(e.currentTarget.name as 'price');
+	}
+	function onChange(e: ChangeEvent<HTMLInputElement>): void {
+		ItemResource[e.currentTarget.name as keyof AccountPaymentStoreResource] = Number(e.currentTarget.value) as never;
+		setItemResource({ ...{}, ...ItemResource });
+	}
+	function onBlur(): void {
+		update();
+	}
+	function update(): void {
+		props.changePayment(ItemResource, props.idx);
+		props.calculatePrice();
+	}
+	function deletePayment(): void {
+		if (!props.changeResource) return;
+		props.Resource['payments'].splice(props.idx, 1);
+		props.changeResource('payments', props.Resource['payments']);
+	}
+	return (
+		<tr>
+			<td>{ItemResource['payment']['name']}</td>
+			<td>
+				<InputGroup>
+					<Form.Control
+						type="number"
+						name="price"
+						value={ItemResource['price']}
+						placeholder="金額"
+						onChange={onChange}
+						onFocus={onFocus}
+						onBlur={onBlur}
+						required
+						readOnly={Tenkey.Tenkey}
+					/>
+					<InputGroup.Text>円</InputGroup.Text>
+				</InputGroup>
+				{Tenkey.Tenkey && (
+					<TenkeyElement
+						id={`payment-${props.idx}-price`}
+						show={Focusing.indexOf('price') > -1}
+						onClick={changeTenkey}
+						onClose={revokeFocusing}
+					></TenkeyElement>
+				)}
+			</td>
+			<td>
+				<Button variant="danger" type="button" onClick={deletePayment}>
+					削除
+				</Button>
+			</td>
+		</tr>
 	);
 }
 function SelectItems(props: FormResourceProps<AccountStoreResource> & { projectId: string }): JSX.Element {
