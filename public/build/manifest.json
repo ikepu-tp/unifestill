@@ -25,12 +25,12 @@
     "dynamicImports": [
       "node_modules/web-vitals/dist/web-vitals.js"
     ],
-    "file": "assets/index-27c1713f.js",
+    "file": "assets/index-661bdd0b.js",
     "isEntry": true,
     "src": "resources/react/index.tsx"
   },
   "resources/react/progress.tsx": {
-    "file": "assets/progress-42eed056.js",
+    "file": "assets/progress-9ab256d9.js",
     "imports": [
       "resources/react/index.tsx"
     ],

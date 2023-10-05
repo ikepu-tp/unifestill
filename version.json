@@ -1,63 +1,94 @@
 [
-	{
-		"version": "1.0.0",
-		"releaseDate": "2023/09/30",
-		"createdDate": "2023/09/30",
-		"Author": ["ikepu-tp"],
-		"url": [
-			"https://github.com/ikepu-tp/unifestill/tree/release-v1.0.0",
-			"https://github.com/ikepu-tp/unifestill/releases/tag/v1.0.0"
-		],
-		"description": ["First release."],
-		"newFeatures": [
-			"\u30e6\u30fc\u30b6\u30fc\u767b\u9332\uff0c\u30ed\u30b0\u30a4\u30f3",
-			"\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u4f5c\u6210\u30fb\u7ba1\u7406",
-			"\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u30e1\u30f3\u30d0\u30fc\u767b\u9332\u30fb\u7ba1\u7406",
-			"\u652f\u6255\u3044\u65b9\u6cd5\u767b\u9332\u30fb\u7ba1\u7406",
-			"\u5546\u54c1\u30ab\u30c6\u30b4\u30ea\u30fc\u767b\u9332\u30fb\u7ba1\u7406",
-			"\u5546\u54c1\u767b\u9332\u30fb\u7ba1\u7406",
-			"\u4f1a\u8a08\u767b\u9332\u30fb\u95b2\u89a7",
-			"\u30aa\u30fc\u30c0\u30fc\u753b\u9762"
-		],
-		"changedFeatures": null,
-		"deletedFeatures": null,
-		"notice": null,
-		"security": null,
-		"futurePlans": null,
-		"note": [
-			"\u521d\u3081\u306e\u30ea\u30ea\u30fc\u30b9\u3067\u3059\u3002\u3082\u3057\u30d0\u30b0\u304c\u3042\u308c\u3070\u30a4\u30b7\u30e5\u30fc\u304b\u3089\u3054\u5831\u544a\u304f\u3060\u3055\u3044\u3002"
-		]
-	},
-	{
-		"version": "1.0.1",
-		"releaseDate": "2023/10/01",
-		"createdDate": "2023/10/01",
-		"Author": ["ikepu-tp"],
-		"url": null,
-		"description": ["\u5fae\u4fee\u6b63"],
-		"newFeatures": null,
-		"changedFeatures": [
-			"\u30aa\u30fc\u30c0\u30fc\u78ba\u8a8d\u753b\u9762\u306b\u304a\u3044\u3066\uff0c\u5b8c\u4e86\u6e08\u307f\u30de\u30fc\u30af\u306e\u8868\u793a\u304c\u6d88\u3048\u306a\u3044\u554f\u984c\u306b\u5bfe\u5fdc\u3057\u307e\u3057\u305f\u3002"
-		],
-		"deletedFeatures": null,
-		"notice": null,
-		"security": null,
-		"futurePlans": null,
-		"note": null
-	},
-	{
-		"version": "1.1.0",
-		"releaseDate": "2023/10/04",
-		"createdDate": "2023/10/04",
-		"Author": ["ikepu-tp"],
-		"url": null,
-		"description": ["\u6a5f\u80fd\u306e\u4fee\u6b63\u3092\u3057\u307e\u3057\u305f\u3002"],
-		"newFeatures": null,
-		"changedFeatures": null,
-		"deletedFeatures": null,
-		"notice": null,
-		"security": null,
-		"futurePlans": null,
-		"note": null
-	}
+    {
+        "version": "1.0.0",
+        "releaseDate": "2023/09/30",
+        "createdDate": "2023/09/30",
+        "Author": [
+            "ikepu-tp"
+        ],
+        "url": [
+            "https://github.com/ikepu-tp/unifestill/tree/release-v1.0.0",
+            "https://github.com/ikepu-tp/unifestill/releases/tag/v1.0.0"
+        ],
+        "description": [
+            "First release."
+        ],
+        "newFeatures": [
+            "\u30e6\u30fc\u30b6\u30fc\u767b\u9332\uff0c\u30ed\u30b0\u30a4\u30f3",
+            "\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u4f5c\u6210\u30fb\u7ba1\u7406",
+            "\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u30e1\u30f3\u30d0\u30fc\u767b\u9332\u30fb\u7ba1\u7406",
+            "\u652f\u6255\u3044\u65b9\u6cd5\u767b\u9332\u30fb\u7ba1\u7406",
+            "\u5546\u54c1\u30ab\u30c6\u30b4\u30ea\u30fc\u767b\u9332\u30fb\u7ba1\u7406",
+            "\u5546\u54c1\u767b\u9332\u30fb\u7ba1\u7406",
+            "\u4f1a\u8a08\u767b\u9332\u30fb\u95b2\u89a7",
+            "\u30aa\u30fc\u30c0\u30fc\u753b\u9762"
+        ],
+        "changedFeatures": null,
+        "deletedFeatures": null,
+        "notice": null,
+        "security": null,
+        "futurePlans": null,
+        "note": [
+            "\u521d\u3081\u306e\u30ea\u30ea\u30fc\u30b9\u3067\u3059\u3002\u3082\u3057\u30d0\u30b0\u304c\u3042\u308c\u3070\u30a4\u30b7\u30e5\u30fc\u304b\u3089\u3054\u5831\u544a\u304f\u3060\u3055\u3044\u3002"
+        ]
+    },
+    {
+        "version": "1.0.1",
+        "releaseDate": "2023/10/01",
+        "createdDate": "2023/10/01",
+        "Author": [
+            "ikepu-tp"
+        ],
+        "url": null,
+        "description": [
+            "\u5fae\u4fee\u6b63"
+        ],
+        "newFeatures": null,
+        "changedFeatures": [
+            "\u30aa\u30fc\u30c0\u30fc\u78ba\u8a8d\u753b\u9762\u306b\u304a\u3044\u3066\uff0c\u5b8c\u4e86\u6e08\u307f\u30de\u30fc\u30af\u306e\u8868\u793a\u304c\u6d88\u3048\u306a\u3044\u554f\u984c\u306b\u5bfe\u5fdc\u3057\u307e\u3057\u305f\u3002"
+        ],
+        "deletedFeatures": null,
+        "notice": null,
+        "security": null,
+        "futurePlans": null,
+        "note": null
+    },
+    {
+        "version": "1.1.0",
+        "releaseDate": "2023/10/04",
+        "createdDate": "2023/10/04",
+        "Author": [
+            "ikepu-tp"
+        ],
+        "url": null,
+        "description": [
+            "\u6a5f\u80fd\u306e\u4fee\u6b63\u3092\u3057\u307e\u3057\u305f\u3002"
+        ],
+        "newFeatures": null,
+        "changedFeatures": null,
+        "deletedFeatures": null,
+        "notice": null,
+        "security": null,
+        "futurePlans": null,
+        "note": null
+    },
+    {
+        "version": "1.2.0",
+        "releaseDate": "2023/10/05",
+        "createdDate": "2023/10/05",
+        "Author": [
+            "ikepu-tp"
+        ],
+        "url": null,
+        "description": [
+            "\u30bd\u30d5\u30c8\u30a6\u30a7\u30a2\u30c6\u30f3\u30ad\u30fc\u306e\u8ffd\u52a0"
+        ],
+        "newFeatures": null,
+        "changedFeatures": null,
+        "deletedFeatures": null,
+        "notice": null,
+        "security": null,
+        "futurePlans": null,
+        "note": null
+    }
 ]

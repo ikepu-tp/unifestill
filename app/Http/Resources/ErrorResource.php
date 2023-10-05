@@ -32,6 +32,7 @@ class ErrorResource extends JsonResource
             "title" => __($this->title),
             "code" => $this->code,
             "messages" => $this->messages,
+            "message" => $this->messages,
         ];
     }
 }

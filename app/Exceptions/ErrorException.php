@@ -23,6 +23,8 @@ class ErrorException extends Exception
     public function __construct(array|string $messages = [])
     {
         $this->messages = is_string($messages) ? [$messages] : $messages;
+        $this->code = $this->getHttpCode();
+        $this->message = implode("\n", $this->messages);
     }
 
     /**

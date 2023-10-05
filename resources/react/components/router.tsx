@@ -18,63 +18,67 @@ import {
 import { ProjectItemIndexController, ProjectItemShowController, ProjectItemStoreController } from './controllers/item';
 import { AccountIndexController, AccountShowController, AccountStoreController } from './controllers/account';
 import { ProgressIndexController, ProgressShowController, ProgressStoreController } from './controllers/progress';
+import TenkeyContext, { useTenkey } from './components/Tenkey';
 
 export default function Router(): JSX.Element {
+	const tenkey = useTenkey();
 	return (
-		<BrowserRouter basename="/">
-			<Routes>
-				<Route index element={<Navigate to={'/project'} />} />
-				<Route path="project">
-					<Route index element={<ProjectIndexController />} />
-					<Route path=":project">
-						<Route index element={<ProjectShowController />} />
-						<Route path="edit" element={<ProjectStoreController />} />
-						<Route path="member">
-							<Route index element={<ProjectMemberIndexController />} />
-							<Route path=":member">
-								<Route index element={<ProjectMemberShowController />} />
-								<Route path="edit" element={<ProjectMemberStoreController />} />
+		<TenkeyContext.Provider value={tenkey}>
+			<BrowserRouter basename="/">
+				<Routes>
+					<Route index element={<Navigate to={'/project'} />} />
+					<Route path="project">
+						<Route index element={<ProjectIndexController />} />
+						<Route path=":project">
+							<Route index element={<ProjectShowController />} />
+							<Route path="edit" element={<ProjectStoreController />} />
+							<Route path="member">
+								<Route index element={<ProjectMemberIndexController />} />
+								<Route path=":member">
+									<Route index element={<ProjectMemberShowController />} />
+									<Route path="edit" element={<ProjectMemberStoreController />} />
+								</Route>
 							</Route>
-						</Route>
-						<Route path="payment">
-							<Route index element={<ProjectPaymentIndexController />} />
-							<Route path=":payment">
-								<Route index element={<ProjectPaymentShowController />} />
-								<Route path="edit" element={<ProjectPaymentStoreController />} />
+							<Route path="payment">
+								<Route index element={<ProjectPaymentIndexController />} />
+								<Route path=":payment">
+									<Route index element={<ProjectPaymentShowController />} />
+									<Route path="edit" element={<ProjectPaymentStoreController />} />
+								</Route>
 							</Route>
-						</Route>
-						<Route path="category">
-							<Route index element={<ProjectCategoryIndexController />} />
-							<Route path=":category">
-								<Route index element={<ProjectCategoryShowController />} />
-								<Route path="edit" element={<ProjectCategoryStoreController />} />
+							<Route path="category">
+								<Route index element={<ProjectCategoryIndexController />} />
+								<Route path=":category">
+									<Route index element={<ProjectCategoryShowController />} />
+									<Route path="edit" element={<ProjectCategoryStoreController />} />
+								</Route>
 							</Route>
-						</Route>
-						<Route path="item">
-							<Route index element={<ProjectItemIndexController />} />
-							<Route path=":item">
-								<Route index element={<ProjectItemShowController />} />
-								<Route path="edit" element={<ProjectItemStoreController />} />
+							<Route path="item">
+								<Route index element={<ProjectItemIndexController />} />
+								<Route path=":item">
+									<Route index element={<ProjectItemShowController />} />
+									<Route path="edit" element={<ProjectItemStoreController />} />
+								</Route>
 							</Route>
-						</Route>
-						<Route path="account">
-							<Route index element={<AccountIndexController />} />
-							<Route path=":account">
-								<Route index element={<AccountShowController />} />
-								<Route path="edit" element={<AccountStoreController />} />
+							<Route path="account">
+								<Route index element={<AccountIndexController />} />
+								<Route path=":account">
+									<Route index element={<AccountShowController />} />
+									<Route path="edit" element={<AccountStoreController />} />
+								</Route>
 							</Route>
-						</Route>
-						<Route path="progress">
-							<Route index element={<ProgressIndexController />} />
-							<Route path=":progress">
-								<Route index element={<ProgressShowController />} />
-								<Route path="edit" element={<ProgressStoreController />} />
+							<Route path="progress">
+								<Route index element={<ProgressIndexController />} />
+								<Route path=":progress">
+									<Route index element={<ProgressShowController />} />
+									<Route path="edit" element={<ProgressStoreController />} />
+								</Route>
 							</Route>
 						</Route>
 					</Route>
-				</Route>
-				<Route path="*" element={'NOT FOUND'} />
-			</Routes>
-		</BrowserRouter>
+					<Route path="*" element={'NOT FOUND'} />
+				</Routes>
+			</BrowserRouter>
+		</TenkeyContext.Provider>
 	);
 }

@@ -35,8 +35,8 @@
         "web-vitals": "^2.1.4"
     },
     "dependencies": {
-        "@ikepu-tp/react-bootstrap-extender": "^0.6.0",
-        "@ikepu-tp/react-mvc": "^0.8.2",
+        "@ikepu-tp/react-bootstrap-extender": "^0.9.3",
+        "@ikepu-tp/react-mvc": "^0.9.5",
         "bootstrap": "^5.3.1",
         "react-bootstrap": "^2.8.0",
         "react-router-dom": "^6.16.0"
