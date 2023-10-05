@@ -9,6 +9,7 @@ use App\Exceptions\Error\NotFoundException;
 use App\Exceptions\Error\MethodNotAllowedException;
 use App\Exceptions\Error\ValidationErrorException;
 use App\Exceptions\ErrorException as ExceptionsErrorException;
+use App\Http\Resources\ErrorResource;
 use App\Http\Resources\Resource;
 use BadMethodCallException;
 use ErrorException;
@@ -68,7 +69,15 @@ class Handler extends ExceptionHandler
      */
     public function renderWeb($request, Throwable $e)
     {
-        return parent::render($request, $e);
+        $e = $this->convertOriginalError($e);
+        $checkOriginalException = $this->checkOriginalException($e);
+        if (!$checkOriginalException) return parent::render($request, $e);
+        return response()->view("errors.error", ["error" => (new ErrorResource(
+            $checkOriginalException["abstract"],
+            $checkOriginalException["title"],
+            $checkOriginalException["code"],
+            $checkOriginalException["messages"],
+        ))->createArray()]);
     }
 
     /**
