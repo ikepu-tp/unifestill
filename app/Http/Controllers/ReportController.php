@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest as Request;
+use App\Http\Resources\ItemResource;
 use App\Http\Resources\MemberResource;
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\Resource;
+use App\Models\Account_item;
 use App\Models\Account_payment;
+use App\Models\Item;
 use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Project;
@@ -64,6 +67,25 @@ class ReportController extends Controller
                 $account_price = Account_payment::where("payment_id", $payment);
                 $report["payment_sales"][] = [
                     "payment" => (new PaymentResource(Payment::find($payment)))->createArray(),
+                    "count" => (int)$account_cnt,
+                    "price" => (int)$account_price->sum("price"),
+                ];
+            }
+        }
+
+        //商品別
+        if (in_array("item", $sales)) {
+            $account_by_item = clone $account_acounts;
+            $account_items = Account_item::whereIn("account_id", $account_by_item->select('id'));
+            $account_items->select('item_id');
+            $account_items->distinct("item_id");
+            $account_cnt = $account_items->count();
+            $items = array_column($account_items->get()->toArray(), "item_id");
+            $report["item_sales"] = [];
+            foreach ($items as $item) {
+                $account_price = Account_item::where("item_id", $item);
+                $report["item_sales"][] = [
+                    "item" => (new ItemResource(Item::find($item)))->createArray(),
                     "count" => (int)$account_cnt,
                     "price" => (int)$account_price->sum("price"),
                 ];
