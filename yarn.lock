@@ -1527,10 +1527,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@ikepu-tp/react-bootstrap-extender@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-bootstrap-extender/-/react-bootstrap-extender-0.9.3.tgz#d96e9bff03c72ec5c0a48249966d8ff38587887f"
-  integrity sha512-IJP1s1RwE+98LTzCh5y7/RMvxgmi0y9mGHqwtMG01jotSi98AQxBNe4Q4mpsqnRS1tfgv0y9AGQnRCWDXldNFA==
+"@ikepu-tp/react-bootstrap-extender@^0.9.4":
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/@ikepu-tp/react-bootstrap-extender/-/react-bootstrap-extender-0.9.4.tgz#e2b34c682d9457929e64264821b3025176153e3a"
+  integrity sha512-eK9+eFq+0ay4+g1fxT2yVybVSXukMe2hnfaeXvR/ndcrfyPRaH7G8X/YpBEwB86HPXzoLGMzTeL82VIfrXHcgw==
   dependencies:
     "@types/react" "^18.2.22"
     "@types/react-dom" "^18.2.7"
