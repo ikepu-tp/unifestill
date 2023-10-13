@@ -19,6 +19,7 @@ import { ProjectItemIndexController, ProjectItemShowController, ProjectItemStore
 import { AccountIndexController, AccountShowController, AccountStoreController } from './controllers/account';
 import { ProgressIndexController, ProgressShowController, ProgressStoreController } from './controllers/progress';
 import TenkeyContext, { useTenkey } from './components/Tenkey';
+import { ReportIndexController } from './controllers/report';
 
 export default function Router(): JSX.Element {
 	const tenkey = useTenkey();
@@ -66,6 +67,9 @@ export default function Router(): JSX.Element {
 									<Route index element={<AccountShowController />} />
 									<Route path="edit" element={<AccountStoreController />} />
 								</Route>
+							</Route>
+							<Route path="report">
+								<Route index element={<ReportIndexController />} />
 							</Route>
 							<Route path="progress">
 								<Route index element={<ProgressIndexController />} />
