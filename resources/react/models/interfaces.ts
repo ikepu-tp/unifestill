@@ -146,4 +146,7 @@ export type ReportResource = {
 	account_count: number;
 	sum_sales: number;
 	member_sales?: ReportMemberSaleResource[];
+	payment_sales?: ReportPaymentSaleResource[];
+	category_sales?: ReportCategorySaleResource[];
+	item_sales?: ReportItemSaleResource[];
 };
