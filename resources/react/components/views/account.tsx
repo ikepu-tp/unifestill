@@ -17,7 +17,7 @@ import {
 } from '~/models/interfaces';
 import { FormProps, FormResourceProps } from '../components/form';
 import { useNavigate } from 'react-router-dom';
-import React, { ChangeEvent, FocusEvent, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, MouseEvent, MouseEventHandler, useContext, useEffect, useState } from 'react';
 import Anchor from '../components/Anchor';
 import { number_format } from '~/functions';
 import { Member } from '~/models/member';
@@ -134,11 +134,13 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 
 	const Tenkey = useContext(TenkeyContext);
 
+	useEffect(() => {
+		calculatePrice();
+	}, [props.Resource['payments']]);
 	function calculatePrice(): void {
 		let price = 0;
 		props.Resource['payments'].forEach((payment: AccountPaymentStoreResource) => {
 			price += payment['price'];
-			console.log(price, payment);
 		});
 		setPaymentPrice(price);
 	}
