@@ -31,6 +31,7 @@ export const routes = {
 	'progress.index': '/project/{project}/progress',
 	'progress.store': '/project/{project}/progress/{progress}/edit',
 	'progress.show': '/project/{project}/progress/{progress}',
+	'report.index': '/project/{project}/report',
 };
 export type RoutesType = typeof routes;
 export type RouteNameType = 'project.index' | 'project.store' | 'project.show';
