@@ -48,7 +48,7 @@ class ReportController extends Controller
                 $account_price = Account_payment::whereIn("account_id", $account_cnt->select('id'));
                 $report["member_sales"][] = [
                     "member" => (new MemberResource(Member::find($member)))->createArray(),
-                    "count" => (int)$account_cnt->count(),
+                    "count" => (int)$account_price->count(),
                     "price" => (int)$account_price->sum("price"),
                 ];
             }
@@ -60,14 +60,13 @@ class ReportController extends Controller
             $account_payments = Account_payment::whereIn("account_id", $account_by_payment->select('id'));
             $account_payments->select('payment_id');
             $account_payments->distinct("payment_id");
-            $account_cnt = $account_payments->count();
             $payments = array_column($account_payments->get()->toArray(), "payment_id");
             $report["payment_sales"] = [];
             foreach ($payments as $payment) {
                 $account_price = Account_payment::where("payment_id", $payment);
                 $report["payment_sales"][] = [
                     "payment" => (new PaymentResource(Payment::find($payment)))->createArray(),
-                    "count" => (int)$account_cnt,
+                    "count" => (int)$account_price->count(),
                     "price" => (int)$account_price->sum("price"),
                 ];
             }
@@ -79,14 +78,13 @@ class ReportController extends Controller
             $account_items = Account_item::whereIn("account_id", $account_by_item->select('id'));
             $account_items->select('item_id');
             $account_items->distinct("item_id");
-            $account_cnt = $account_items->count();
             $items = array_column($account_items->get()->toArray(), "item_id");
             $report["item_sales"] = [];
             foreach ($items as $item) {
                 $account_price = Account_item::where("item_id", $item);
                 $report["item_sales"][] = [
                     "item" => (new ItemResource(Item::find($item)))->createArray(),
-                    "count" => (int)$account_cnt,
+                    "count" => (int)$account_price->count(),
                     "price" => (int)$account_price->sum("price"),
                 ];
             }

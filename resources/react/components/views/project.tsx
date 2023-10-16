@@ -122,6 +122,14 @@ export function ProjectShowView(props: ProjectShowProps): JSX.Element {
 				>
 					プログレス
 				</Anchor>
+				<Anchor
+					as="button"
+					variant="primary"
+					href={route('report.index', { project: props.resource['projectId'] })}
+					className="me-2"
+				>
+					レポート
+				</Anchor>
 			</div>
 			<div className="text-end">
 				<Anchor
