@@ -120,7 +120,7 @@ export function ProjectShowView(props: ProjectShowProps): JSX.Element {
 					href={route('progress.index', { project: props.resource['projectId'] })}
 					className="me-2"
 				>
-					プログレス
+					オーダー
 				</Anchor>
 				<Anchor
 					as="button"
