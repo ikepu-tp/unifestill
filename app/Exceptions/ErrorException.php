@@ -20,11 +20,12 @@ class ErrorException extends Exception
      */
     public $errorCode = 400000;
 
-    public function __construct(array|string $messages = [])
+    public function __construct(array|string $messages = [], array $errors = null)
     {
-        $this->messages = is_string($messages) ? [$messages] : $messages;
         $this->code = $this->getHttpCode();
+        $this->messages = is_string($messages) ? [$messages] : $messages;
         $this->message = implode("\n", $this->messages);
+        if (!is_null($errors)) $this->messages = $errors;
     }
 
     /**

@@ -8,7 +8,6 @@ use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
 
 class AccountTest extends TestCase
@@ -76,6 +75,14 @@ class AccountTest extends TestCase
         $this->requestAsAssociation();
         $this->response = $this->get(route("account.index", $this->getParameters()));
         $this->assertIndex();
+    }
+    public function test_get_trashed_accounts()
+    {
+        $this->requestAsAssociation();
+        Account::factory()->create(["project_id" => $this->project->id])->delete();
+        $this->response = $this->get(route("account.index", $this->getParameters(["trashed" => true])));
+        $this->assertIndex();
+        $this->assertCount(1, $this->response["payloads"]["items"]);
     }
 
     public function test_get_account()

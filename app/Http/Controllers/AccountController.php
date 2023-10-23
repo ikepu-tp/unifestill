@@ -45,6 +45,8 @@ class AccountController extends Controller
         $order_status = $request->query("order_status");
         if ($order_status) $account = $account->where("order_status", $order_status);
 
+        if (Service::convertQueryToBoolean($request->query("trashed", false))) $account = $account->onlyTrashed();
+
         return Resource::pagination($account, AccountResource::class);
     }
 
