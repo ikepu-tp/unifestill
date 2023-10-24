@@ -56,6 +56,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        //return parent::render($request, $e);
         if ($request->expectsJson()) return $this->renderApi($request, $e);
         return $this->renderWeb($request, $e);
     }
@@ -134,7 +135,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof NotFoundHttpException) return new NotFoundException([$e->getMessage()]);
         if ($e instanceof ModelNotFoundException) return new NotFoundException([$e->getMessage(), "存在しないデータが指定されました"]);
         if ($e instanceof TokenMismatchException) return  new NotMatchCsrf_TokenException([$e->getMessage()]);
-        if ($e instanceof ValidationException) return new ValidationErrorException($e->errors());
+        if ($e instanceof ValidationException) return new ValidationErrorException($e->getMessage(), $e->errors());
         if ($e instanceof BadMethodCallException) return new MethodNotAllowedException([$e->getMessage()]);
         if (
             $e instanceof AuthorizationException ||

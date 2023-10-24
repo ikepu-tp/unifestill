@@ -27,6 +27,13 @@ export function AccountIndexController(): JSX.Element {
 		if (!items || !items.payloads) throw new Error('予期せぬエラーが発生しました');
 		return items.payloads;
 	}
+
+	async function getTrashedItems(params: ParamIndexType): Promise<ResponseIndexType<AccountResource>> {
+		const model = new Account({ project });
+		const items: ResponseType<ResponseIndexType<AccountResource>> = await model.index({ ...params, trashed: true });
+		if (!items || !items.payloads) throw new Error('予期せぬエラーが発生しました');
+		return items.payloads;
+	}
 	async function getProject(): Promise<void> {
 		const model = new Project();
 		model.setResourceId(project);
@@ -49,7 +56,7 @@ export function AccountIndexController(): JSX.Element {
 				},
 			]}
 		>
-			<AccountIndexView getItems={getItems} project={ProjectResource} />
+			<AccountIndexView getItems={getItems} project={ProjectResource} getTrashedItems={getTrashedItems} />
 		</PageWrapper>
 	);
 }
