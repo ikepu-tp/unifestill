@@ -5,3 +5,6 @@
 [type='radio']:checked {
 	background-size: contain;
 }
+.collapse {
+	visibility: visible;
+}

@@ -5,7 +5,7 @@
     "src": "node_modules/web-vitals/dist/web-vitals.js"
   },
   "resources/css/app.css": {
-    "file": "assets/app-9a3c7380.css",
+    "file": "assets/app-611241db.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -25,12 +25,12 @@
     "dynamicImports": [
       "node_modules/web-vitals/dist/web-vitals.js"
     ],
-    "file": "assets/index-661bdd0b.js",
+    "file": "assets/index-b11f7f69.js",
     "isEntry": true,
     "src": "resources/react/index.tsx"
   },
   "resources/react/progress.tsx": {
-    "file": "assets/progress-9ab256d9.js",
+    "file": "assets/progress-e9373604.js",
     "imports": [
       "resources/react/index.tsx"
     ],

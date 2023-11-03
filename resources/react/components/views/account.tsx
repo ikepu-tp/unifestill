@@ -1,12 +1,21 @@
 import { ListView, Popup } from '@ikepu-tp/react-bootstrap-extender';
 import { FormWrapper, InputWrapper } from '@ikepu-tp/react-bootstrap-extender/Form';
-import { ListGroup, Form, Button, Table, InputGroup, Row, Col, Popover, OverlayTrigger } from 'react-bootstrap';
+import {
+	ListGroup,
+	Form,
+	Button,
+	Table,
+	InputGroup,
+	Row,
+	Col,
+	Popover,
+	OverlayTrigger,
+	Accordion,
+} from 'react-bootstrap';
 import { ParamIndexType, ResponseIndexType, ResponseType } from '~/functions/fetch';
 import route from '~/functions/route';
 import {
-	AccountItemResource,
 	AccountItemStoreResource,
-	AccountPaymentResource,
 	AccountPaymentStoreResource,
 	AccountResource,
 	AccountStoreResource,
@@ -17,17 +26,18 @@ import {
 } from '~/models/interfaces';
 import { FormProps, FormResourceProps } from '../components/form';
 import { useNavigate } from 'react-router-dom';
-import React, { ChangeEvent, FocusEvent, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, MouseEvent, MouseEventHandler, useContext, useEffect, useState } from 'react';
 import Anchor from '../components/Anchor';
-import { number_format } from '~/functions';
 import { Member } from '~/models/member';
 import { Item } from '~/models/item';
 import { Payment } from '~/models/payment';
 import TenkeyContext from '../components/Tenkey';
+import AccountDetail from '../components/AccountDetail';
 
 export type AccountIndexProps = {
 	project: ProjectResource;
 	getItems: (params: ParamIndexType) => Promise<ResponseIndexType<AccountResource>>;
+	getTrashedItems: (params: ParamIndexType) => Promise<ResponseIndexType<AccountResource>>;
 };
 export function AccountIndexView(props: AccountIndexProps): JSX.Element {
 	const navigate = useNavigate();
@@ -57,7 +67,36 @@ export function AccountIndexView(props: AccountIndexProps): JSX.Element {
 				)}
 				itemWrapper={ListGroup}
 			/>
+			<Accordion>
+				<Accordion.Item eventKey="trashed">
+					<Accordion.Header>削除済み会計</Accordion.Header>
+					<Accordion.Body>
+						<ListView
+							getItems={props.getTrashedItems}
+							itemCallback={(item: AccountResource): JSX.Element => (
+								<TrashedAccountItem key={item['accountId']} account={item} />
+							)}
+							itemWrapper={ListGroup}
+						/>
+					</Accordion.Body>
+				</Accordion.Item>
+			</Accordion>
 		</>
+	);
+}
+function TrashedAccountItem(props: { account: AccountResource }): JSX.Element {
+	const [Show, setShow] = useState<boolean>(false);
+
+	function changeShow(): void {
+		setShow(!Show);
+	}
+	return (
+		<ListGroup.Item action onClick={changeShow}>
+			{props.account['accountId']}
+			<Popup show={Show} onHide={changeShow} header={props.account['accountId']}>
+				<AccountDetail resource={props.account} />
+			</Popup>
+		</ListGroup.Item>
 	);
 }
 
@@ -69,56 +108,7 @@ export type AccountShowProps = {
 export function AccountShowView(props: AccountShowProps): JSX.Element {
 	return (
 		<>
-			<Table striped hover responsive>
-				<tbody>
-					<tr>
-						<th>会計ID</th>
-						<td>{props.resource['accountId']}</td>
-					</tr>
-					<tr>
-						<th>担当者</th>
-						<td>{props.resource['member']['name']}</td>
-					</tr>
-					<tr>
-						<th>支払</th>
-						<td>
-							<ul>
-								{props.resource['payments'].map(
-									(payment: AccountPaymentResource): JSX.Element => (
-										<li key={payment['accountPaymentId']}>
-											{number_format(payment['price'])}円（{payment['payment']['name']}）
-										</li>
-									)
-								)}
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<th>購入内容</th>
-						<td>
-							<ul>
-								{props.resource['items'].map(
-									(item: AccountItemResource): JSX.Element => (
-										<li key={item['accountItemId']}>
-											{item['item']['name']}：{number_format(item['price'])}円＊{number_format(item['quantity'])}
-											<ul>
-												{item['children'].map(
-													(item: AccountItemResource): JSX.Element => (
-														<li key={item['accountItemId']}>
-															{item['item']['name']}：{number_format(item['price'])}円＊
-															{number_format(item['quantity'])}
-														</li>
-													)
-												)}
-											</ul>
-										</li>
-									)
-								)}
-							</ul>
-						</td>
-					</tr>
-				</tbody>
-			</Table>
+			<AccountDetail resource={props.resource} />
 			<Button variant={'danger'} type="button" onClick={props.deleteAccount}>
 				削除
 			</Button>
@@ -134,11 +124,13 @@ export function AccountForm(props: AccountFormProps): JSX.Element {
 
 	const Tenkey = useContext(TenkeyContext);
 
+	useEffect(() => {
+		calculatePrice();
+	}, [props.Resource['payments']]);
 	function calculatePrice(): void {
 		let price = 0;
 		props.Resource['payments'].forEach((payment: AccountPaymentStoreResource) => {
 			price += payment['price'];
-			console.log(price, payment);
 		});
 		setPaymentPrice(price);
 	}
