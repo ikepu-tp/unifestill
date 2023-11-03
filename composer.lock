@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f63c6ece586df8c57a8a2e165aad721f",
+    "content-hash": "af873aa1da7e0bba019a038863925545",
     "packages": [
         {
             "name": "brick/math",
@@ -1217,16 +1217,16 @@
         },
         {
             "name": "ikepu-tp/laravel-versioning",
-            "version": "v1.0.1",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ikepu-tp/laravel-versioning.git",
-                "reference": "ebf87bb8cc553bf97480b5671ef1f824a846665e"
+                "reference": "365a5b9970ec987e76a6c03ded548c7f2214281f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ikepu-tp/laravel-versioning/zipball/ebf87bb8cc553bf97480b5671ef1f824a846665e",
-                "reference": "ebf87bb8cc553bf97480b5671ef1f824a846665e",
+                "url": "https://api.github.com/repos/ikepu-tp/laravel-versioning/zipball/365a5b9970ec987e76a6c03ded548c7f2214281f",
+                "reference": "365a5b9970ec987e76a6c03ded548c7f2214281f",
                 "shasum": ""
             },
             "require": {
@@ -1264,7 +1264,7 @@
                 "issues": "https://github.com/ikepu-tp/laravel-versioning/issues",
                 "source": "https://github.com/ikepu-tp/laravel-versioning"
             },
-            "time": "2023-09-24T15:10:21+00:00"
+            "time": "2023-11-03T07:27:09+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
