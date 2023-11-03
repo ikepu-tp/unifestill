@@ -70,7 +70,6 @@ class Handler extends ExceptionHandler
      */
     public function renderWeb($request, Throwable $e)
     {
-        $e = $this->convertOriginalError($e);
         $checkOriginalException = $this->checkOriginalException($e);
         if (!$checkOriginalException) return parent::render($request, $e);
         return response()->view("errors.error", ["error" => (new ErrorResource(
@@ -114,7 +113,6 @@ class Handler extends ExceptionHandler
      */
     public function checkOriginalException(Throwable $e): array|false
     {
-        $e = $this->convertOriginalError($e);
         if ($e instanceof ExceptionsErrorException) return $e->getError();
 
         return false;
