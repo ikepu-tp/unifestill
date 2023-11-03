@@ -35,4 +35,5 @@ Route::middleware(['auth:sanctum,associations', 'verified'])->prefix("v1")->grou
     });
     Route::apiResource("project", ProjectController::class)->names("project");
 });
+Route::get("v1/project/{project}/account", [AccountController::class, "index"])->name("account.index")->scopeBindings();
 Route::put("v1/progress/{progress}", [ProgressController::class, "update"])->name("progress.guest.update");
