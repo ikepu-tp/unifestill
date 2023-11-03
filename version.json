@@ -107,5 +107,22 @@
         "security": null,
         "futurePlans": null,
         "note": null
+    },
+    {
+        "version": "1.2.2",
+        "releaseDate": "2023/11/03",
+        "createdDate": "2023/11/03",
+        "Author": [
+            "ikepu-tp"
+        ],
+        "url": null,
+        "description": null,
+        "newFeatures": null,
+        "changedFeatures": null,
+        "deletedFeatures": null,
+        "notice": null,
+        "security": null,
+        "futurePlans": null,
+        "note": null
     }
 ]
