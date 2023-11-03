@@ -50,7 +50,7 @@ class AccountController extends Controller
         return Resource::pagination($account, AccountResource::class);
     }
 
-    public function indexSSE(Request $request, mixed $account)
+    public function indexSSE(AccountRequest $request, mixed $account)
     {
         //check progress
         $progress = Progress::where('progressId', $request->query("progress", ""))->first();

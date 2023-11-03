@@ -27,7 +27,7 @@ trait Project
                 $this->project = ModelsProject::where('projectId', $this->project)->first();
             if (!$this->project)
                 throw new NotExistRecordException("存在しないプロジェクトです");
-            if ($this->project->association_id !== $this->user('associations')->id)
+            if ($this->user("associations") && $this->project->association_id !== $this->user('associations')->id)
                 throw new UnauthorizedException("アクセスできないプロジェクトです");
         }
         return $this->project;
